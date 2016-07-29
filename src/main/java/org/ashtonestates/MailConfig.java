@@ -13,6 +13,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 public class MailConfig {
 
+	// TODO : replace with info from Hosting provider
+
 	@Bean(name = "mailSender")
 	public JavaMailSenderImpl mailSender() {
 		final JavaMailSenderImpl sender = new JavaMailSenderImpl();
@@ -29,7 +31,7 @@ public class MailConfig {
 	@Bean(name = "templateMessage")
 	public SimpleMailMessage templateMessage() {
 		final SimpleMailMessage template = new SimpleMailMessage();
-		template.setFrom("bill.hunt@comcast.net");
+		template.setFrom("william.L.hunt@gmail.com");
 		return template;
 	}
 
