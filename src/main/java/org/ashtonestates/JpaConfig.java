@@ -9,9 +9,8 @@ import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.dialect.MySQL5InnoDBDialect;
-import org.hibernate.ejb.HibernatePersistence;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -56,25 +55,7 @@ public class JpaConfig {
 	 */
 	@Bean
 	protected DataSource getDataSource() {
-		if (Boolean.getBoolean(System.getProperty("DEV"))) {
-			return getHsqlDataSource();
-		} else {
-			return getMysqlDataSource();
-		}
-	}
-
-	/**
-	 * Gets the hsql data source.
-	 *
-	 * @return the hsql data source
-	 */
-	private DataSource getHsqlDataSource() {
-		final DriverManagerDataSource ds = new DriverManagerDataSource();
-		ds.setDriverClassName(org.hsqldb.jdbcDriver.class.getName());
-		ds.setUrl("jdbc:hsqldb:mem:ashton");
-		ds.setUsername("sa");
-		ds.setPassword("");
-		return ds;
+		return getMysqlDataSource();
 	}
 
 	private DataSource getMysqlDataSource() {
@@ -92,11 +73,7 @@ public class JpaConfig {
 	 * @return the hibernate dialect
 	 */
 	protected String getHibernateDialect() {
-		if (Boolean.getBoolean(System.getProperty("DEV"))) {
-			return HSQLDialect.class.getName();
-		} else {
-			return MySQL5InnoDBDialect.class.getName();
-		}
+		return MySQL5InnoDBDialect.class.getName();
 	}
 
 	/**
@@ -109,10 +86,10 @@ public class JpaConfig {
 	 * @return the local container entity manager factory bean
 	 */
 	protected LocalContainerEntityManagerFactoryBean createEntityManagerFactoryBean(final DataSource dataSource, final String dialectClassName) {
-		final Map<String, String> properties = new HashMap<String, String>();
+		final Map<String, String> properties = new HashMap<>();
 		properties.put(org.hibernate.cfg.Environment.DIALECT, dialectClassName);
 		properties.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
-		properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "update");
+		properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create");
 
 		final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 
@@ -120,7 +97,7 @@ public class JpaConfig {
 
 		em.setDataSource(dataSource);
 		em.setPackagesToScan(new String[] { "org.ashtonestates.user.model" });
-		em.setPersistenceProvider(new HibernatePersistence());
+		em.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		em.setJpaPropertyMap(properties);
 		em.setJpaVendorAdapter(jpaVendorAdapter);
 

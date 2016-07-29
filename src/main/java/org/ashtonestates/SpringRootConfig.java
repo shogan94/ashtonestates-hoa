@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan
-@Import({ SpringWebConfig.class, TestJpaConfig.class, MailConfig.class })
+@Import({ SpringWebConfig.class, JpaConfig.class, MailConfig.class })
 public class SpringRootConfig {
 }
