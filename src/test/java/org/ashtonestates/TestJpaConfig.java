@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -19,12 +20,20 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@ComponentScan("org.ashtonestates.user.model")
 @EnableJpaRepositories(basePackages = { "org.ashtonestates.user.repository" })
 @EnableTransactionManagement
 public class TestJpaConfig {
+
+	@Bean(name = "passwordEncoder")
+	public BCryptPasswordEncoder passwordEncoder() {
+		System.out.println("*************** creating passwordEncoder");
+		return new BCryptPasswordEncoder();
+	}
 
 	/**
 	 * Entity manager factory.

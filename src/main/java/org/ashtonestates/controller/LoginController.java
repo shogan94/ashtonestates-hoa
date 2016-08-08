@@ -5,15 +5,18 @@ package org.ashtonestates.controller;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.AshtonStatus;
 import org.ashtonestates.user.model.LoginForm;
 import org.ashtonestates.user.model.RegisterForm;
-import org.ashtonestates.user.model.Role;
+import org.ashtonestates.user.model.RoleType;
+import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
+import org.ashtonestates.user.repository.RoleRepository;
 import org.ashtonestates.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
@@ -35,7 +41,10 @@ public class LoginController {
 	private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
-	UserRepository repository;
+	UserRepository userRepo;
+
+	@Autowired
+	RoleRepository roleRepo;
 
 	@Autowired
 	SimpleMailMessage templateMessage;
@@ -57,13 +66,13 @@ public class LoginController {
 			model.addAttribute("errorMessage", result.getAllErrors().toString());
 			nextPage = "login";
 		} else {
-			final User residentUser = repository.findByEmail(form.getEmail());
+			final User residentUser = userRepo.findByEmail(form.getEmail());
 			if (residentUser == null) {
 				model.addAttribute("errorMessage", "Email not found, please register");
 				nextPage = "users/register";
 			} else {
 				if (checkPassword(residentUser, form.getPassword())) {
-					if (residentUser.getStatus() == AshtonStatus.PENDING) {
+					if (residentUser.getState() == State.PENDING) {
 						model.addAttribute("firstname", residentUser.getFirstName());
 						model.addAttribute("lastname", residentUser.getLastName());
 						nextPage = "users/pendingApproval";
@@ -94,7 +103,7 @@ public class LoginController {
 			model.addAttribute("errorMessage", result.getAllErrors().toString());
 			nextPage = "users/register";
 		} else {
-			final User residentUser = repository.findByEmail(form.getEmail());
+			final User residentUser = userRepo.findByEmail(form.getEmail());
 			if (residentUser != null) {
 				model.addAttribute("errorMessage", "Email already registered, please login");
 				nextPage = "login";
@@ -109,10 +118,10 @@ public class LoginController {
 					resident.setFirstName(form.getFirstName());
 					resident.setLastName(form.getLastName());
 					resident.setPassword(form.getPassword());
-					resident.setRole(Role.ROLE_USER);
-					resident.setStatus(AshtonStatus.PENDING);
-					resident.setStreetAddress(form.getAddress());
-					repository.save(resident);
+					resident.setRole(roleRepo.findByType(RoleType.USER));
+					resident.setState(State.PENDING);
+					resident.setAddress(form.getAddress());
+					userRepo.save(resident);
 
 					sendRegisterEmail(resident);
 
@@ -147,9 +156,12 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(final HttpSession session, final Model model) {
-		session.removeAttribute("residentUser");
-		return "home";
+	public String logoutPage(final HttpServletRequest request, final HttpServletResponse response) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		return "redirect:/login?logout";
 	}
 
 	@RequestMapping(value = "/forgotPwd", method = RequestMethod.GET)

@@ -1,13 +1,13 @@
 package org.ashtonestates.controller;
 
-import org.ashtonestates.user.model.AshtonStatus;
 import org.ashtonestates.user.model.Role;
+import org.ashtonestates.user.model.RoleType;
+import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
+import org.ashtonestates.user.repository.RoleRepository;
 import org.ashtonestates.user.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,25 +15,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BackdoorController {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Autowired
 	UserRepository userRepo;
 
-	@RequestMapping(value = "/admin/addUser/{firstname}/{lastname}/{password}/{email}/{address}", method = RequestMethod.GET)
-	public void addUser(@PathVariable final String firstname, @PathVariable final String lastname, @PathVariable final String password, @PathVariable final String email,
-			@PathVariable final String address) {
-		LOGGER.info("adding {}/{}/{}/{}/{}", firstname, lastname, password, email, address);
+	@Autowired
+	RoleRepository roleRepo;
+
+	@RequestMapping(value = "/backdoor/init", method = RequestMethod.GET)
+	public void backdoor() {
+
+		userRepo.deleteAll();
+		roleRepo.deleteAll();
+
+		roleRepo.save(new Role(RoleType.USER));
+		final Role adminRole = roleRepo.save(new Role(RoleType.ADMIN));
+
 		final User user = new User();
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setStreetAddress(address);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setRole(Role.ROLE_ADMIN);
-		user.setStatus(AshtonStatus.APPROVED);
+		user.setFirstName("william");
+		user.setLastName("hunt");
+		user.setAddress("1416 bradford ln");
+		user.setEmail("william.l.hunt@gmail.com");
+		user.setPassword("password1");
+		user.setRole(adminRole);
+		user.setState(State.APPROVED);
 
 		userRepo.save(user);
+
 	}
 
 }

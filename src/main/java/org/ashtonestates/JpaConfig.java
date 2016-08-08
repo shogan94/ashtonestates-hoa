@@ -19,12 +19,18 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "org.ashtonestates.user.repository" })
 @EnableTransactionManagement
 public class JpaConfig {
+
+	@Bean(name = "passwordEncoder")
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	/**
 	 * Entity manager factory.
@@ -61,7 +67,7 @@ public class JpaConfig {
 	private DataSource getMysqlDataSource() {
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
-		ds.setUrl("jdbc:mysql://localhost:3306/ashton");
+		ds.setUrl("jdbc:mysql://localhost:3306/ashton?useSSL=false");
 		ds.setUsername("ashton");
 		ds.setPassword("Ashton3states!");
 		return ds;
@@ -89,7 +95,7 @@ public class JpaConfig {
 		final Map<String, String> properties = new HashMap<>();
 		properties.put(org.hibernate.cfg.Environment.DIALECT, dialectClassName);
 		properties.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
-		properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create");
+		properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "update");
 
 		final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 

@@ -9,9 +9,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.AshtonStatus;
-import org.ashtonestates.user.model.Role;
+import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
+import org.ashtonestates.user.repository.RoleRepository;
 import org.ashtonestates.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +36,9 @@ public class AdminController {
 	UserRepository userRepo;
 
 	@Autowired
+	RoleRepository roleRepo;
+
+	@Autowired
 	SimpleMailMessage templateMessage;
 
 	@Autowired
@@ -43,15 +48,10 @@ public class AdminController {
 	public String admin(final HttpSession session, final Model model) {
 		String nextPage;
 
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null || residentUser.getRole() == Role.ROLE_USER) {
-			model.addAttribute("errorMessage", "You must login as an admin to approve registrations");
-			nextPage = "login";
-		} else {
-			final Long count = userRepo.countByStatus(AshtonStatus.PENDING);
-			model.addAttribute("numberPending", count);
-			nextPage = "admin/adminhome";
-		}
+		final Long count = userRepo.countByState(State.PENDING);
+		model.addAttribute("numberPending", count);
+		nextPage = "admin/adminhome";
+
 		return nextPage;
 	}
 
@@ -59,15 +59,10 @@ public class AdminController {
 	public String approvePending(final HttpSession session, final Model model) {
 		String nextPage;
 
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null || residentUser.getRole() == Role.ROLE_USER) {
-			model.addAttribute("errorMessage", "You must login as an admin to approve registrations");
-			nextPage = "login";
-		} else {
-			final List<User> pendingUsers = userRepo.findByStatus(AshtonStatus.PENDING);
-			model.addAttribute("pendingUsers", pendingUsers);
-			nextPage = "admin/approvePending";
-		}
+		final List<User> pendingUsers = userRepo.findByState(State.PENDING);
+		model.addAttribute("pendingUsers", pendingUsers);
+		nextPage = "admin/approvePending";
+
 		return nextPage;
 	}
 
@@ -75,15 +70,10 @@ public class AdminController {
 	public String editUsers(final HttpSession session, final Model model) {
 		String nextPage;
 
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null || residentUser.getRole() == Role.ROLE_USER) {
-			model.addAttribute("errorMessage", "You must login as an admin to edit users");
-			nextPage = "login";
-		} else {
-			final List<User> users = userRepo.findByStatus(AshtonStatus.APPROVED);
-			model.addAttribute("users", users);
-			nextPage = "admin/editUsers";
-		}
+		final List<User> users = userRepo.findByState(State.APPROVED);
+		model.addAttribute("users", users);
+		nextPage = "admin/editUsers";
+
 		return nextPage;
 	}
 
@@ -92,24 +82,21 @@ public class AdminController {
 		LOGGER.info("approve {}", userId);
 
 		String nextPage;
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null || residentUser.getRole() == Role.ROLE_USER) {
-			model.addAttribute("errorMessage", "You must login as an admin to approve registrations");
-			nextPage = "login";
-		} else {
-			final String approver = String.format("%s %s", residentUser.getFirstName(), residentUser.getLastName());
-			final User user = userRepo.findOne(Long.parseLong(userId));
-			user.setStatus(AshtonStatus.APPROVED);
-			user.setApprovedBy(approver);
 
-			userRepo.save(user);
+		final String approver = getPrincipal();
 
-			sendApprovedMessage(user);
+		final User user = userRepo.findOne(Long.parseLong(userId));
+		user.setState(State.APPROVED);
+		user.setApprovedBy(approver);
 
-			final List<User> pendingUsers = userRepo.findByStatus(AshtonStatus.PENDING);
-			model.addAttribute("pendingUsers", pendingUsers);
-			nextPage = "admin/approvePending";
-		}
+		userRepo.save(user);
+
+		sendApprovedMessage(user);
+
+		final List<User> pendingUsers = userRepo.findByState(State.PENDING);
+		model.addAttribute("pendingUsers", pendingUsers);
+		nextPage = "admin/approvePending";
+
 		return nextPage;
 	}
 
@@ -118,21 +105,32 @@ public class AdminController {
 		LOGGER.info("reject {}", userId);
 
 		String nextPage;
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null || residentUser.getRole() == Role.ROLE_USER) {
-			model.addAttribute("errorMessage", "You must login as an admin to reject registrations");
-			nextPage = "login";
-		} else {
-			final User user = userRepo.findOne(Long.parseLong(userId));
-			userRepo.delete(Long.parseLong(userId));
-			sendRejectMessage(user);
 
-			final List<User> pendingUsers = userRepo.findByStatus(AshtonStatus.PENDING);
-			model.addAttribute("pendingUsers", pendingUsers);
-			nextPage = "admin/approvePending";
-		}
+		final User user = userRepo.findOne(Long.parseLong(userId));
+		userRepo.delete(Long.parseLong(userId));
+		sendRejectMessage(user);
+
+		final List<User> pendingUsers = userRepo.findByState(State.PENDING);
+		model.addAttribute("pendingUsers", pendingUsers);
+		nextPage = "admin/approvePending";
 
 		return nextPage;
+	}
+
+	private String getPrincipal() {
+		String userName = StringUtils.EMPTY;
+
+		final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			final String email = ((UserDetails) principal).getUsername();
+			final User user = userRepo.findByEmail(email);
+			userName = String.format("%s %s", user.getFirstName(), user.getLastName());
+		} else {
+			userName = principal.toString();
+		}
+
+		return userName;
 	}
 
 	private void sendRejectMessage(final User user) {

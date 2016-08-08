@@ -7,7 +7,7 @@
 <c:url value="/residents" var="residents" />
 <c:url value="/register" var="register" />
 <c:url value="/forgotPwd" var="forgotPwd" />
-<c:url value="/processLogin" var="processLogin" />
+<c:url value="/login" var="processLogin" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
@@ -25,6 +25,7 @@
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
+
 </head>
 <body>
 	<div class="container">
@@ -44,7 +45,23 @@
 								<div class="content">
 									<h2>Residents Login</h2>
 
-									<div class="marginbottom20 bg-danger">${errorMessage}</div>
+									<div class="marginbottom20 bg-danger">
+										<c:if test="${param.error != null}">
+											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'Bad credentials'}">
+												<p>Username/Password entered is incorrect.</p>
+											</c:if>
+											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'User is disabled'}">
+												<% response.sendRedirect("/faq"); %>
+											</c:if>
+											<p>
+												<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+											</p>
+										</c:if>
+										<c:if test="${param.logout != null}">
+											<p>You have been logged out.</p>
+										</c:if>
+									</div>
+
 									<form:form method="post" action="${processLogin}" modelAttribute="loginForm">
 
 										<div class="form-group">
@@ -57,15 +74,9 @@
 											</span>
 										</div>
 
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
 										<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
-										<%-- <div>
-											<p>- or -</p>
-										</div>
-										<div>
-											<a href="javascript:alert('Coming Soon!');"> <img class="img-responsive img-facebook" src="${resources}/images/facebook.png" alt="login with facebook" />
-											</a> <a href="javascript:alert('Coming Soon!');"> <img class="img-responsive img-google" src="${resources}/images/google.png" alt="login with google" />
-											</a>
-										</div> --%>
 									</form:form>
 									<div class="margintop20">
 										Not yet a member ? <a href="${register}">Register Now</a>
