@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -23,7 +26,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	@NotEmpty
 	@Column(name = "EMAIL", unique = true, nullable = false)
@@ -55,10 +58,6 @@ public class User {
 	@ManyToOne
 	private Role role;
 
-	// @ManyToMany(fetch = FetchType.EAGER)
-	// @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
-	// private Set<Role> roles = new HashSet<>();
-
 	public User() {
 	}
 
@@ -71,11 +70,11 @@ public class User {
 		state = inState;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(final int val) {
+	public void setId(final long val) {
 		id = val;
 	}
 
@@ -100,7 +99,7 @@ public class User {
 	}
 
 	public void setFirstName(final String val) {
-		firstName = val;
+		firstName = StringUtils.capitalize(val);
 	}
 
 	public String getLastName() {
@@ -108,7 +107,7 @@ public class User {
 	}
 
 	public void setLastName(final String val) {
-		lastName = val;
+		lastName = StringUtils.capitalize(val);
 	}
 
 	public State getState() {
@@ -127,20 +126,12 @@ public class User {
 		role = val;
 	}
 
-	// public Set<Role> getRoles() {
-	// return roles;
-	// }
-	//
-	// public void setRoles(final Set<Role> obj) {
-	// roles = obj;
-	// }
-
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(final String val) {
-		address = val;
+		address = WordUtils.capitalizeFully(val);
 	}
 
 	public String getApprovedBy() {
@@ -148,16 +139,17 @@ public class User {
 	}
 
 	public void setApprovedBy(final String val) {
-		approvedBy = val;
+		approvedBy = StringUtils.capitalize(val);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		return result;
 	}
 
@@ -169,11 +161,15 @@ public class User {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof User)) {
+		if (getClass() != obj.getClass()) {
 			return false;
 		}
 		final User other = (User) obj;
-		if (id != other.id) {
+		if (address == null) {
+			if (other.address != null) {
+				return false;
+			}
+		} else if (!address.equals(other.address)) {
 			return false;
 		}
 		if (email == null) {
@@ -183,21 +179,26 @@ public class User {
 		} else if (!email.equals(other.email)) {
 			return false;
 		}
-		if (address == null) {
-			if (other.address != null) {
+		if (firstName == null) {
+			if (other.firstName != null) {
 				return false;
 			}
-		} else if (!address.equals(other.address)) {
+		} else if (!firstName.equals(other.firstName)) {
 			return false;
 		}
-
+		if (lastName == null) {
+			if (other.lastName != null) {
+				return false;
+			}
+		} else if (!lastName.equals(other.lastName)) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", state=" + state + ", role=" + role
-				+ "]";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 	public boolean isTownhouseUser() {

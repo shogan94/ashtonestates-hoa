@@ -9,25 +9,28 @@ import javax.servlet.http.HttpSession;
 
 import org.ashtonestates.user.model.UpcomingEvents;
 import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.UpcomingEventsRepository;
 import org.ashtonestates.utils.AshtonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 
-	@Autowired
-	UpcomingEventsRepository eventsRepo;
+	private static Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
 	/**
 	 * Selects the home page and populates the model with a message
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(final Model model) {
+		LOGGER.info("getting logged in user");
+		final User user = getLoggedInUser();
+		LOGGER.info("adding user: {}", user);
+		model.addAttribute("residentUser", user);
 		return "home";
 	}
 
@@ -46,14 +49,14 @@ public class HomeController {
 		return "upcomingEvents";
 	}
 
+	@RequestMapping(value = "/pendingApproval", method = RequestMethod.GET)
+	public String pendingApproval(final Model model) {
+		return "users/pendingApproval";
+	}
+
 	@RequestMapping(value = "/publicDocs", method = RequestMethod.GET)
 	public String showPublicDocs(final HttpSession session, final Model model) {
 		String nextPage;
-
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser != null) {
-			model.addAttribute("residentUser", residentUser);
-		}
 
 		model.addAttribute("typeofdocs", "Public");
 		model.addAttribute("townhomeTypePath", "townhome-public-docs");

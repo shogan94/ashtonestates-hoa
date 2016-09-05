@@ -11,16 +11,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.RoleRepository;
-import org.ashtonestates.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,15 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class AdminController {
+public class AdminController extends BaseController {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
-
-	@Autowired
-	UserRepository userRepo;
-
-	@Autowired
-	RoleRepository roleRepo;
 
 	@Autowired
 	SimpleMailMessage templateMessage;
@@ -115,22 +105,6 @@ public class AdminController {
 		nextPage = "admin/approvePending";
 
 		return nextPage;
-	}
-
-	private String getPrincipal() {
-		String userName = StringUtils.EMPTY;
-
-		final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		if (principal instanceof UserDetails) {
-			final String email = ((UserDetails) principal).getUsername();
-			final User user = userRepo.findByEmail(email);
-			userName = String.format("%s %s", user.getFirstName(), user.getLastName());
-		} else {
-			userName = principal.toString();
-		}
-
-		return userName;
 	}
 
 	private void sendRejectMessage(final User user) {

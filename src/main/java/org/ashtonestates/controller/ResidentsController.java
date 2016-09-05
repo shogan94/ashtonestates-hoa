@@ -9,63 +9,33 @@ import javax.servlet.http.HttpSession;
 
 import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.UserRepository;
 import org.ashtonestates.utils.AshtonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ResidentsController {
-
-	@Autowired
-	UserRepository userRepo;
+public class ResidentsController extends BaseController {
 
 	@RequestMapping(value = "/residents", method = RequestMethod.GET)
 	public String residents(final HttpSession session, final Model model) {
-		String nextPage;
-
-		nextPage = "residents/residents";
-
-		// final User residentUser = (User) session.getAttribute("residentUser");
-		// if (residentUser == null) {
-		// nextPage = "login";
-		// } else {
-		// if (residentUser.getState() == State.PENDING) {
-		// session.removeAttribute("residentUser");
-		// model.addAttribute("firstname", residentUser.getFirstName());
-		// model.addAttribute("lastname", residentUser.getLastName());
-		// nextPage = "users/pendingApproval";
-		// } else {
-		// model.addAttribute("residentUser", residentUser);
-		// nextPage = "residents/residents";
-		// }
-		// }
-
-		return nextPage;
-
+		return "residents/residents";
 	}
 
 	@RequestMapping(value = "/directory", method = RequestMethod.GET)
 	public String showDirectory(final HttpSession session, final Model model) {
-		String nextPage;
+		String nextPage = "";
 
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null) {
-			nextPage = "login";
+		final User residentUser = getLoggedInUser();
+
+		if (residentUser.getState() == State.PENDING) {
+			model.addAttribute("firstname", residentUser.getFirstName());
+			model.addAttribute("lastname", residentUser.getLastName());
+			nextPage = "users/pendingApproval";
 		} else {
-			if (residentUser.getState() == State.PENDING) {
-				session.removeAttribute("residentUser");
-				model.addAttribute("firstname", residentUser.getFirstName());
-				model.addAttribute("lastname", residentUser.getLastName());
-				nextPage = "users/pendingApproval";
-			} else {
-				model.addAttribute("residentUser", residentUser);
-				model.addAttribute("users", getAllUsers());
-				nextPage = "residents/directory";
-			}
+			model.addAttribute("users", getAllUsers());
+			nextPage = "residents/directory";
 		}
 		return nextPage;
 	}
@@ -77,33 +47,26 @@ public class ResidentsController {
 
 	@RequestMapping(value = "/resident-documents", method = RequestMethod.GET)
 	public String showDocuments(final HttpSession session, final Model model) {
-		String nextPage;
+		String nextPage = "";
 
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null) {
-			nextPage = "login";
+		final User residentUser = getLoggedInUser();
+
+		if (residentUser.getState() == State.PENDING) {
+			model.addAttribute("firstname", residentUser.getFirstName());
+			model.addAttribute("lastname", residentUser.getLastName());
+			nextPage = "users/pendingApproval";
 		} else {
-			if (residentUser.getState() == State.PENDING) {
-				session.removeAttribute("residentUser");
-				model.addAttribute("firstname", residentUser.getFirstName());
-				model.addAttribute("lastname", residentUser.getLastName());
-				nextPage = "users/pendingApproval";
+			model.addAttribute("typeofdocs", "Resident");
+			if (residentUser.isTownhouseUser()) {
+				model.addAttribute("typePath", "townhome-resident-docs");
+				model.addAttribute("files", AshtonUtils.getFileListing(session, "/townhome-resident-docs"));
 			} else {
-				model.addAttribute("residentUser", residentUser);
-
-				model.addAttribute("typeofdocs", "Resident");
-				if (residentUser.isTownhouseUser()) {
-					model.addAttribute("typePath", "townhome-resident-docs");
-					model.addAttribute("files", AshtonUtils.getFileListing(session, "/townhome-resident-docs"));
-				} else {
-					model.addAttribute("typePath", "home-resident-docs");
-					model.addAttribute("files", AshtonUtils.getFileListing(session, "/home-resident-docs"));
-				}
-
-				nextPage = "documents";
+				model.addAttribute("typePath", "home-resident-docs");
+				model.addAttribute("files", AshtonUtils.getFileListing(session, "/home-resident-docs"));
 			}
+
+			nextPage = "documents";
 		}
 		return nextPage;
 	}
-
 }

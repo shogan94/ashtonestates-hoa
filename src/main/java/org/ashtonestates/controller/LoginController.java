@@ -11,13 +11,10 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.LoginForm;
 import org.ashtonestates.user.model.RegisterForm;
 import org.ashtonestates.user.model.RoleType;
 import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.RoleRepository;
-import org.ashtonestates.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +26,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.DigestUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-
-	@Autowired
-	UserRepository userRepo;
-
-	@Autowired
-	RoleRepository roleRepo;
 
 	@Autowired
 	SimpleMailMessage templateMessage;
@@ -53,45 +43,21 @@ public class LoginController {
 	JavaMailSenderImpl mailSender;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(final HttpSession session, final Model model) {
-		session.removeAttribute("residentUser");
+	public String login(final Model model) {
 		return "login";
 	}
 
-	@RequestMapping(value = "/processLogin", method = RequestMethod.POST)
-	public String processLogin(@Valid @ModelAttribute("loginForm") final LoginForm form, final HttpSession session, final BindingResult result, final Model model) {
-		String nextPage;
-
-		if (result.hasErrors()) {
-			model.addAttribute("errorMessage", result.getAllErrors().toString());
-			nextPage = "login";
-		} else {
-			final User residentUser = userRepo.findByEmail(form.getEmail());
-			if (residentUser == null) {
-				model.addAttribute("errorMessage", "Email not found, please register");
-				nextPage = "users/register";
-			} else {
-				if (checkPassword(residentUser, form.getPassword())) {
-					if (residentUser.getState() == State.PENDING) {
-						model.addAttribute("firstname", residentUser.getFirstName());
-						model.addAttribute("lastname", residentUser.getLastName());
-						nextPage = "users/pendingApproval";
-					} else {
-						session.setAttribute("residentUser", residentUser);
-						nextPage = "residents/residents";
-					}
-				} else {
-					model.addAttribute("errorMessage", "Invalid username/password");
-					nextPage = "login";
-				}
-			}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logoutPage(final HttpServletRequest request, final HttpServletResponse response) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return nextPage;
+		return "redirect:/login?logout";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(final HttpSession session, final Model model) {
-		session.removeAttribute("residentUser");
 		return "users/register";
 	}
 
@@ -155,22 +121,8 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logoutPage(final HttpServletRequest request, final HttpServletResponse response) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-		return "redirect:/login?logout";
-	}
-
 	@RequestMapping(value = "/forgotPwd", method = RequestMethod.GET)
 	public String forgotPwd(final HttpSession session, final Model model) {
 		return "users/forgotPwd";
 	}
-
-	private boolean checkPassword(final User residentUser, final String password) {
-		return residentUser.getPassword().equals(DigestUtils.md5DigestAsHex(password.getBytes()));
-	}
-
 }

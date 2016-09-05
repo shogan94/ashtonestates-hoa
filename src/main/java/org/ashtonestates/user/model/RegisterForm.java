@@ -3,6 +3,9 @@
  */
 package org.ashtonestates.user.model;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
+
 public class RegisterForm {
 	private String email;
 	private String password;
@@ -23,39 +26,39 @@ public class RegisterForm {
 		return password;
 	}
 
-	public void setPassword(final String password) {
-		this.password = password;
+	public void setPassword(final String val) {
+		password = val;
 	}
 
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 
-	public void setConfirmPassword(final String confirmPassword) {
-		this.confirmPassword = confirmPassword;
+	public void setConfirmPassword(final String val) {
+		confirmPassword = val;
 	}
 
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(final String firstName) {
-		this.firstName = firstName;
+	public void setFirstName(final String val) {
+		firstName = StringUtils.capitalize(val);
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(final String lastName) {
-		this.lastName = lastName;
+	public void setLastName(final String val) {
+		lastName = StringUtils.capitalize(val);
 	}
 
 	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(final String address) {
-		this.address = address;
+	public void setAddress(final String val) {
+		address = WordUtils.capitalizeFully(val);
 	}
 }

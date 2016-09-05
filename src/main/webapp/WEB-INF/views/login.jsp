@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
@@ -7,7 +8,7 @@
 <c:url value="/residents" var="residents" />
 <c:url value="/register" var="register" />
 <c:url value="/forgotPwd" var="forgotPwd" />
-<c:url value="/login" var="processLogin" />
+<c:url value="/login" var="login" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
@@ -51,18 +52,20 @@
 												<p>Username/Password entered is incorrect.</p>
 											</c:if>
 											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'User is disabled'}">
-												<% response.sendRedirect("/faq"); %>
+												<c:redirect url="/pendingApproval" />
 											</c:if>
 											<p>
 												<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
 											</p>
 										</c:if>
+									</div>
+									<div class="marginbottom20 bg-success">
 										<c:if test="${param.logout != null}">
 											<p>You have been logged out.</p>
 										</c:if>
 									</div>
 
-									<form:form method="post" action="${processLogin}" modelAttribute="loginForm">
+									<form:form method="post" action="${login}" modelAttribute="loginForm">
 
 										<div class="form-group">
 											<input type="email" name="email" required class="form-control" placeholder="Email address" autofocus />
@@ -79,7 +82,7 @@
 										<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
 									</form:form>
 									<div class="margintop20">
-										Not yet a member ? <a href="${register}">Register Now</a>
+										Not yet an Ashton member ? <a href="${register}">Register Now</a>
 									</div>
 								</div>
 							</div>
@@ -106,13 +109,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -132,9 +135,8 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 
 	<script>
 		$(document).ready(function() {

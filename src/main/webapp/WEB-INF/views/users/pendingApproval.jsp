@@ -37,13 +37,16 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="content">
-									<h3>Approval Pending for ${firstname} ${lastname}</h3>
+									<h3>Approval Pending</h3>
 
 									<p>Your Ashton Estates website information has been submitted and awaiting approval.</p>
 
 									<p>
 										If you have a question or want to check on your pending status, <span style="color: #333333;"><strong><a style="color: #333333;"
 												title="Contact an Ashton Estates webmaster" href="#">contact the Ashton Estates webmaster.</a></strong></span>.
+									</p>
+									<p>
+										Please include your email address and street address when questioning your approval status.
 									</p>
 								</div>
 							</div>
@@ -96,9 +99,8 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 
 	<script>
 		$(document).ready(function() {

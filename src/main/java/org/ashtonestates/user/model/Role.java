@@ -15,17 +15,17 @@ import javax.persistence.Table;
 public class Role {
 
 	@Id
-	private int id;
+	private long id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "TYPE", unique = true, nullable = false)
 	private RoleType type = RoleType.USER;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(final int id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -50,7 +50,6 @@ public class Role {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -67,9 +66,6 @@ public class Role {
 			return false;
 		}
 		final Role other = (Role) obj;
-		if (id != other.id) {
-			return false;
-		}
 		if (type == null) {
 			if (other.type != null) {
 				return false;

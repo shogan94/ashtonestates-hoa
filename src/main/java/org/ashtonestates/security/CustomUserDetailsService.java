@@ -30,16 +30,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
 		final User user = userRepo.findByEmail(email);
 
-		LOGGER.info("User : {}", user);
 		if (user == null) {
-			LOGGER.info("User not found");
 			throw new UsernameNotFoundException("User email not found");
 		}
 
 		final org.springframework.security.core.userdetails.User securityUser = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
 				user.getState().equals(State.APPROVED), true, true, true, getGrantedAuthorities(user));
-
-		LOGGER.info("Security User : {}", securityUser);
 
 		return securityUser;
 	}

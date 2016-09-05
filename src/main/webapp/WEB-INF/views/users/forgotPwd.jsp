@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
@@ -63,13 +64,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -89,9 +90,8 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 
 	<script>
 		$(document).ready(function() {

@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
 <c:url value="/logout" var="logout" />
+<c:url value="/login" var="login" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
@@ -34,15 +36,9 @@
 
 		});
 
-		var ashtonCoords = [ new google.maps.LatLng(39.584507, -79.979610),
-				new google.maps.LatLng(39.586128, -79.980297),
-				new google.maps.LatLng(39.586178, -79.982936),
-				new google.maps.LatLng(39.586343, -79.984331),
-				new google.maps.LatLng(39.585020, -79.984696),
-				new google.maps.LatLng(39.584855, -79.987013),
-				new google.maps.LatLng(39.583581, -79.989631),
-				new google.maps.LatLng(39.582556, -79.989653),
-				new google.maps.LatLng(39.581564, -79.988151),
+		var ashtonCoords = [ new google.maps.LatLng(39.584507, -79.979610), new google.maps.LatLng(39.586128, -79.980297), new google.maps.LatLng(39.586178, -79.982936),
+				new google.maps.LatLng(39.586343, -79.984331), new google.maps.LatLng(39.585020, -79.984696), new google.maps.LatLng(39.584855, -79.987013),
+				new google.maps.LatLng(39.583581, -79.989631), new google.maps.LatLng(39.582556, -79.989653), new google.maps.LatLng(39.581564, -79.988151),
 				new google.maps.LatLng(39.581150, -79.985533) ];
 
 		var ashton = new google.maps.Polygon({
@@ -74,6 +70,11 @@
 									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
 									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
 								</h4>
+							</div>
+						</c:if>
+						<c:if test="${residentUser == null}">
+							<div class="btn-group btn-group-sm pull-right">
+								<button id="loginButton" class="btn btn-xs btn-logout">Login</button>
 							</div>
 						</c:if>
 					</h1>
@@ -199,13 +200,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -225,15 +226,19 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 
 	<script>
 		$(document).ready(function() {
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
 			});
+			
+			$("#loginButton").click(function() {
+				window.location.href = "${login}"
+			});
+
 		});
 	</script>
 
