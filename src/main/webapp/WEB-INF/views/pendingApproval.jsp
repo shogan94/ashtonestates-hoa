@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
@@ -9,13 +8,14 @@
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Forgot Password</title>
+<title>Ashton Estates - Approval Pending</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
@@ -38,7 +38,15 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="content">
-									<h3>Forgot Password</h3>
+									<h3>Approval Pending</h3>
+
+									<p>Your Ashton Estates website information has been submitted and awaiting approval.</p>
+
+									<p>
+										If you have a question or want to check on your pending status, <span style="color: #333333;"><strong><a style="color: #333333;"
+												title="Contact an Ashton Estates webmaster" href="#">contact the Ashton Estates webmaster.</a></strong></span>.
+									</p>
+									<p>Please include your email address and street address when questioning your approval status.</p>
 								</div>
 							</div>
 						</div>
@@ -64,13 +72,6 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<sec:authorize access="hasRole('ADMIN')">
-							<div class="sidebar admin">
-								<h4>
-									<a href="${admin}">Administrator</a>
-								</h4>
-							</div>
-						</sec:authorize>
 					</div>
 				</div>
 			</div>

@@ -2,6 +2,8 @@ package org.ashtonestates.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ashtonestates.user.model.User;
+import org.ashtonestates.user.repository.DocumentsRepository;
+import org.ashtonestates.user.repository.ResetRequestRepository;
 import org.ashtonestates.user.repository.RoleRepository;
 import org.ashtonestates.user.repository.UpcomingEventsRepository;
 import org.ashtonestates.user.repository.UserRepository;
@@ -21,6 +23,12 @@ public class BaseController {
 
 	@Autowired
 	UpcomingEventsRepository eventsRepo;
+
+	@Autowired
+	DocumentsRepository docRepo;
+
+	@Autowired
+	ResetRequestRepository resetRepo;
 
 	protected String getPrincipal() {
 		String userName = StringUtils.EMPTY;

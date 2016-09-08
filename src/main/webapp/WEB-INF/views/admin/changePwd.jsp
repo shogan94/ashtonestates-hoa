@@ -1,17 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
-<c:url value="/logout" var="logout" />
+<c:url value="/admin/processChangePwd" var="processChangePwd" />
+<c:url value="/admin/editUsers" var="cancel" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
-<c:url value="/admin/approvePending" var="approvePending" />
-<c:url value="/admin/editUsers" var="editUsers" />
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +18,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Administrator tools</title>
+<title>Ashton Estates - Change Pwd</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
@@ -34,33 +33,44 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
-						<c:if test="${residentUser != null}">
-							<div class="btn-group btn-group-sm pull-right">
-								<h4>
-									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
-									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
-								</h4>
-							</div>
-						</c:if>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
 				<div class="row margintop20">
 					<div class="col-md-10">
 						<div class="row">
-							<div class="content">
-								<table class="table margintop20">
-									<tr>
-										<td class="col-md-6"><button class="btn btn-block btn-admin" onClick="editusers();">Edit Users</button></td>
-										<td class="col-md-6"><button class="btn btn-block btn-admin" onClick="editdocs();">Add/Edit Documents</button></td>
-									</tr>
-									<tr>
-										<td class="col-md-6"><button class="btn btn-block btn-admin" onClick="approvepending();">Accept/Reject Registrations (${numberPending} pending)</button></td>
-										<td class="col-md-6"><button class="btn btn-block btn-admin" onClick="editevents();">Edit Upcoming Events</button></td>
-									</tr>
-								</table>
+							<div class="col-md-12">
+								<div class="content">
+									<h2>
+										Change password for:
+										<c:out value="${userFN} ${userLN}" />
+									</h2>
+
+									<div class="marginbottom20 bg-danger">${errorMessage}</div>
+									<form:form method="post" action="${processChangePwd}" modelAttribute="changePwdForm">
+										<div class="form-group">
+											<input type="hidden" name="userId" value="${userId}" />
+										</div>
+
+										<div class="form-group">
+											<input type="password" name="password" required class="form-control" placeholder="Password" />
+										</div>
+										<div class="form-group">
+											<input type="password" name="confirmPassword" required class="form-control" placeholder="Confirm Password" />
+										</div>
+
+										<button type="submit" name="go" class="btn btn-primary loginBtn">Change Pwd</button>
+										<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
+									</form:form>
+								</div>
 							</div>
-					</div>
+						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="sidebar">
@@ -119,23 +129,11 @@
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
 			});
+			
+			$("#cancelButton").click(function() {
+				window.location.href = "${cancel}"
+			});
 		});
-
-		function editusers() {
-			window.location.href = "${editUsers}";
-		};
-
-		function editdocs() {
-			window.location.href = "${editDocs}";
-		};
-
-		function approvepending() {
-			window.location.href = "${approvePending}";
-		};
-
-		function editevents() {
-			window.location.href = "${editEvents}";
-		};
 	</script>
 </body>
 </html>

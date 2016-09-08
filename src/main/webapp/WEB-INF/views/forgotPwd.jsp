@@ -1,18 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
-<c:url value="/register" var="register" />
-<c:url value="/forgotPwd" var="forgotPwd" />
-<c:url value="/login" var="login" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
-
+<c:url value="/processForgotPwd" var="requestReset" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,13 +17,12 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Login</title>
+<title>Ashton Estates - Forgot Password</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
-
 </head>
 <body>
 	<div class="container">
@@ -44,47 +40,19 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="content">
-									<h2>Residents Login</h2>
-
-									<div class="marginbottom20 bg-danger">
-										<c:if test="${param.error != null}">
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'Bad credentials'}">
-												<p>Username/Password entered is incorrect.</p>
-											</c:if>
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'User is disabled'}">
-												<c:redirect url="/pendingApproval" />
-											</c:if>
-											<p>
-												<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-											</p>
-										</c:if>
-									</div>
-									<div class="marginbottom20 bg-success">
-										<c:if test="${param.logout != null}">
-											<p>You have been logged out.</p>
-										</c:if>
-									</div>
+									<h3>Forgot Password</h3>
 									
 									<div class="marginbottom20 bg-danger">${errorMessage}</div>
-
-									<form:form method="post" action="${login}" modelAttribute="loginForm">
+									
+									<form:form method="post" action="${requestReset}">
 
 										<div class="form-group">
 											<input type="email" name="email" required class="form-control" placeholder="Email address" />
 										</div>
 
-										<div class="input-group">
-											<input type="password" name="password" required class="form-control" placeholder="Password" /> <span class="input-group-btn">
-												<button class="btn btn-default" type="button" id="forgotBtn" data-toggle="tooltip" data-placement="top" title="Forgot password ?"><span class="glyphicon glyphicon-question-sign text-danger" aria-hidden="true"></span></button>
-											</span>
-										</div>
-										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-										<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
+										<button type="submit" name="go" class="btn btn-primary loginBtn">Request Password</button>
+										<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
 									</form:form>
-									<div class="margintop20">
-										Not yet an Ashton member ? <a href="${register}">Register Now</a>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -142,10 +110,9 @@
 	<script>
 		$(document).ready(function() {
 			$('#tooltip1').tooltip();
-			$('#forgotBtn').tooltip();
-
-			$("#forgotBtn").click(function() {
-				window.location.href = "${forgotPwd}"
+			
+			$("#cancelButton").click(function() {
+				window.location.href = "${home}"
 			});
 		});
 	</script>

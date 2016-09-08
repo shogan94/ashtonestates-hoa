@@ -10,11 +10,11 @@
 	</appender>
 
 	<logger name="org.hibernate" additivity="false">
-		<level value="info" />
+		<level value="off" />
 		<appender-ref ref="console" />
 	</logger>
 	<logger name="org.springframework.security" additivity="false">
-		<level value="debug" />
+		<level value="off" />
 		<appender-ref ref="console" />
 	</logger>
 	<logger name="org.springframework" additivity="false">

@@ -1,15 +1,14 @@
 /*
  *
  */
-package org.ashtonestates.user.model;
+package org.ashtonestates.user.model.forms;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-public class RegisterForm {
+public class ResidentInfoForm {
+	private Long userId;
 	private String email;
-	private String password;
-	private String confirmPassword;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -20,22 +19,6 @@ public class RegisterForm {
 
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String val) {
-		password = val;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(final String val) {
-		confirmPassword = val;
 	}
 
 	public String getFirstName() {
@@ -60,5 +43,13 @@ public class RegisterForm {
 
 	public void setAddress(final String val) {
 		address = WordUtils.capitalizeFully(val);
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(final Long userId) {
+		this.userId = userId;
 	}
 }

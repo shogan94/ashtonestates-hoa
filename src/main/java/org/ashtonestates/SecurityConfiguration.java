@@ -44,16 +44,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/", "/faq", "/upcomingEvents", "/publicDocs", "/register", "/security/initData").permitAll()
+		.antMatchers("/", "/faq", "/upcomingEvents", "/publicDocs", "/register", "/forgotPwd", "/pendingApproval", "/security/**").permitAll()
 		.antMatchers("/admin/**").access("hasRole('ADMIN')")
-		.antMatchers("/residents/**", "/resident-documents", "/directory").access("hasRole('ADMIN') or hasRole('USER')")
+		.antMatchers("/residents/**").access("hasRole('ADMIN') or hasRole('USER')")
 		.and()
 			.formLogin()
 			.loginPage("/login")
 			.usernameParameter("email")
 			.passwordParameter("password")
 		.and()
-			.csrf()
+			.csrf().ignoringAntMatchers("/admin/upload**")
 		.and()
 			.exceptionHandling()
 			.accessDeniedPage("/accessdenied");

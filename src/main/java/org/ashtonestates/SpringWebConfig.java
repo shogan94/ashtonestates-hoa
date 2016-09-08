@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -51,5 +52,12 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addFormatters(final FormatterRegistry registry) {
 		registry.addConverter(roleConverter);
+	}
+
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		final CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("UTF-8");
+		return resolver;
 	}
 }

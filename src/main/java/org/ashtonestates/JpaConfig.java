@@ -94,7 +94,7 @@ public class JpaConfig {
 	protected LocalContainerEntityManagerFactoryBean createEntityManagerFactoryBean(final DataSource dataSource, final String dialectClassName) {
 		final Map<String, String> properties = new HashMap<>();
 		properties.put(org.hibernate.cfg.Environment.DIALECT, dialectClassName);
-		properties.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
+		properties.put(org.hibernate.cfg.Environment.SHOW_SQL, "false");
 		properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "update");
 
 		final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();

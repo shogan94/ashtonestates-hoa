@@ -5,11 +5,13 @@
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
-<c:url value="/admin/approve/" var="approve" />
-<c:url value="/admin/reject/" var="reject" />
+<c:url value="/logout" var="logout" />
+<c:url value="/login" var="login" />
+<c:url value="/directory" var="directory" />
+<c:url value="/documents" var="documents" />
+<c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
-<c:url value="/logout" var="logout" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +19,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Approve Pending</title>
+<title>Ashton Estates - ${typeofdocs} Documents</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
@@ -31,8 +33,7 @@
 			<div class="col-md-12">
 				<div class="page-header">
 					<h1>
-						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
-							Morgantown residential community</small>
+						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates
 						<div class="btn-group btn-group-sm pull-right">
 							<h4>
 								Hello ${loggedInUserName}
@@ -45,38 +46,54 @@
 				<div class="row margintop20">
 					<div class="col-md-10">
 						<div class="row">
-							<div class="col-md-12">
-								<div class="content">
-									<h3>Approve Pending Users (${pendingUsers.size()})</h3>
-									<table id="uTable" class="table table-bordered table-hover">
-										<thead>
+							<div class="content">
+								<table id="hTable" class="table table-hover">
+									<caption>Homes Resident Documents</caption>
+									<thead>
+										<tr>
+											<th></th>
+											<th>File</th>
+											<th>UploadedDate</th>
+											<th>Size</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${homeFiles}" var="doc">
 											<tr>
-												<th></th>
-												<th>First name</th>
-												<th>Last name</th>
-												<th>Address</th>
-											</tr>
-										</thead>
-										<c:forEach items="${pendingUsers}" var="user">
-											<tr>
-												<td>
-													<div class="btn-group">
-														<button class="btn btn-success btn-xs" onclick="approveUser(${user.getId()});"  id="approveTooltip" data-toggle="tooltip" data-placement="top" title="Approve">
-															<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-														</button>
-														&nbsp;
-														<button class="btn btn-danger btn-xs" onclick="rejectUser(${user.getId()});"  id="rejectTooltip" data-toggle="tooltip" data-placement="top" title="Reject">
-															<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-														</button>
-													</div>
-												</td>
-												<td>${user.getFirstName()}</td>
-												<td>${user.getLastName()}</td>
-												<td>${user.getAddress()}</td>
+												<td><a href="${doc.path}" target="_blank" class="btn btn-logout" role="button">View</a></td>
+												<td><c:out value="${doc.name}" /></td>
+												<td><c:out value="${doc.uploadedDate}" /></td>
+												<td><c:out value="${doc.size}" /></td>
 											</tr>
 										</c:forEach>
-									</table>
-								</div>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<br/>
+						<div class="row">
+							<div class="content">
+								<table id="tTable" class="table table-hover">
+									<caption>Townhome Resident Documents</caption>
+									<thead>
+										<tr>
+											<th></th>
+											<th>File</th>
+											<th>UploadedDate</th>
+											<th>Size</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${townhomeFiles}" var="doc">
+											<tr>
+												<td><a href="${doc.path}" target="_blank" class="btn btn-logout" role="button">View</a></td>
+												<td><c:out value="${doc.name}" /></td>
+												<td><c:out value="${doc.uploadedDate}" /></td>
+												<td><c:out value="${doc.size}" /></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -93,7 +110,7 @@
 						</div>
 						<div class="sidebar">
 							<h4>
-								<a href="${faq}">Public Documents</a>
+								<a href="${publicDocs}">Public Documents</a>
 							</h4>
 						</div>
 						<div class="sidebar">
@@ -133,32 +150,40 @@
 
 	<script>
 		$(document).ready(function() {
-			$('[data-toggle="tooltip"]').tooltip(); 
-			
+			$('#tooltip1').tooltip();
+
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
 			});
-			
-			$('#uTable').DataTable({
+
+			$("#loginButton").click(function() {
+				window.location.href = "${login}"
+			});
+
+			$('#hTable').DataTable({
 				"paging" : false,
 				"ordering" : true,
 				"info" : false,
 				"searching" : false,
-				"order" : [ [ 2, "asc" ] ],
-				"columnDefs": [ {
-			      "targets"  : 0,
-			      "orderable": false,
-			    }]
+				"order" : [ [ 1, "asc" ] ],
+				"columnDefs" : [ {
+					"targets" : 0,
+					"orderable" : false,
+				} ]
+			});
+
+			$('#tTable').DataTable({
+				"paging" : false,
+				"ordering" : true,
+				"info" : false,
+				"searching" : false,
+				"order" : [ [ 1, "asc" ] ],
+				"columnDefs" : [ {
+					"targets" : 0,
+					"orderable" : false,
+				} ]
 			});
 		});
-		
-		function approveUser(id){
-			window.location.href = "${approve}"+id;
-		};
-		
-		function rejectUser(id){
-			window.location.href = "${reject}"+id;
-		};
 	</script>
 </body>
 </html>

@@ -6,13 +6,11 @@
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
-<c:url value="/register" var="register" />
-<c:url value="/forgotPwd" var="forgotPwd" />
-<c:url value="/login" var="login" />
+<c:url value="/residents/processChangePwd" var="processChangePwd" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
-
+<c:url value="/logout" var="logout" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,13 +18,12 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Login</title>
+<title>Ashton Estates - Change Pwd</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
-
 </head>
 <body>
 	<div class="container">
@@ -36,6 +33,12 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
@@ -44,48 +47,30 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="content">
-									<h2>Residents Login</h2>
+									<h2>Change password for: ${loggedInUserName}</h2>
 
-									<div class="marginbottom20 bg-danger">
-										<c:if test="${param.error != null}">
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'Bad credentials'}">
-												<p>Username/Password entered is incorrect.</p>
-											</c:if>
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'User is disabled'}">
-												<c:redirect url="/pendingApproval" />
-											</c:if>
-											<p>
-												<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-											</p>
-										</c:if>
-									</div>
-									<div class="marginbottom20 bg-success">
-										<c:if test="${param.logout != null}">
-											<p>You have been logged out.</p>
-										</c:if>
-									</div>
-									
 									<div class="marginbottom20 bg-danger">${errorMessage}</div>
-
-									<form:form method="post" action="${login}" modelAttribute="loginForm">
+									<form:form method="post" action="${processChangePwd}" modelAttribute="changePwdForm">
+										<div class="form-group">
+											<input type="hidden" name="userId" value="${userId}" />
+										</div>
 
 										<div class="form-group">
-											<input type="email" name="email" required class="form-control" placeholder="Email address" />
+											<input type="password" name="password" required class="form-control" placeholder="Password" />
+										</div>
+										<div class="form-group">
+											<input type="password" name="confirmPassword" required class="form-control" placeholder="Confirm Password" />
 										</div>
 
-										<div class="input-group">
-											<input type="password" name="password" required class="form-control" placeholder="Password" /> <span class="input-group-btn">
-												<button class="btn btn-default" type="button" id="forgotBtn" data-toggle="tooltip" data-placement="top" title="Forgot password ?"><span class="glyphicon glyphicon-question-sign text-danger" aria-hidden="true"></span></button>
-											</span>
-										</div>
-										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-										<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
+										<button type="submit" name="go" class="btn btn-primary loginBtn">Change Pwd</button>
+										<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
 									</form:form>
-									<div class="margintop20">
-										Not yet an Ashton member ? <a href="${register}">Register Now</a>
-									</div>
 								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-info">Please note that you will need to re-login after you change your password.</div>
 							</div>
 						</div>
 					</div>
@@ -142,10 +127,13 @@
 	<script>
 		$(document).ready(function() {
 			$('#tooltip1').tooltip();
-			$('#forgotBtn').tooltip();
 
-			$("#forgotBtn").click(function() {
-				window.location.href = "${forgotPwd}"
+			$("#logoutButton").click(function() {
+				window.location.href = "${logout}"
+			});
+			
+			$("#cancelButton").click(function() {
+				window.location.href = "${residents}"
 			});
 		});
 	</script>

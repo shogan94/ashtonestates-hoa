@@ -12,6 +12,10 @@
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
+<c:url value="/admin/uploadPublicHome" var="uploadPublicHome" />
+<c:url value="/admin/uploadResidentHome" var="uploadResidentHome" />
+<c:url value="/admin/deleteHomeDoc/" var="deleteDoc" />
+<c:url value="/admin/editHomeDocs/" var="editHomeDocs" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,13 +23,14 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - ${typeofdocs} Documents</title>
+<title>Ashton Estates - Home Documents</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
 <link href="${resources}/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="${resources}/css/dropzone.min.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="container">
@@ -34,19 +39,12 @@
 				<div class="page-header">
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates
-						<sec:authorize access="isAuthenticated()">
-							<div class="btn-group btn-group-sm pull-right">
-								<h4>
-									Hello ${loggedInUserName}
-									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
-								</h4>
-							</div>
-						</sec:authorize>
-						<sec:authorize access="isAnonymous()">
-							<div class="btn-group btn-group-sm pull-right">
-								<button id="loginButton" class="btn btn-xs btn-logout">Login</button>
-							</div>
-						</sec:authorize>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
@@ -65,10 +63,15 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${homeFiles}" var="doc">
+										<c:forEach items="${homePublicFiles}" var="doc">
 											<tr>
-												<c:url value="${doc.path}" var="doc.path" />
-												<td><a href="${doc.path}" target="_blank" class="btn btn-logout" role="button">View</a></td>
+												<td>
+													<div class="btn-group">
+														<button class="btn btn-danger btn-xs" onclick="deleteDoc(${doc.id})">
+															<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+														</button>
+													</div>
+												</td>
 												<td><c:out value="${doc.name}" /></td>
 												<td><c:out value="${doc.uploadedDate}" /></td>
 												<td><c:out value="${doc.size}" /></td>
@@ -76,13 +79,14 @@
 										</c:forEach>
 									</tbody>
 								</table>
+								<form action="${uploadPublicHome}" class="dropzone" id="publicHomeDrop"></form>
 							</div>
 						</div>
-						<br/>
+						<br />
 						<div class="row">
 							<div class="content">
 								<table id="tTable" class="table table-hover">
-									<caption>Townhome Public Documents</caption>
+									<caption>Homes Resident Documents</caption>
 									<thead>
 										<tr>
 											<th></th>
@@ -92,10 +96,15 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${townhomeFiles}" var="doc">
+										<c:forEach items="${homeResidentFiles}" var="doc">
 											<tr>
-												<c:url value="${doc.path}" var="doc.path" />
-												<td><a href="${doc.path}" target="_blank" class="btn btn-logout" role="button">View</a></td>
+												<td>
+													<div class="btn-group">
+														<button class="btn btn-danger btn-xs" onclick="deleteDoc(${doc.id})">
+															<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+														</button>
+													</div>
+												</td>
 												<td><c:out value="${doc.name}" /></td>
 												<td><c:out value="${doc.uploadedDate}" /></td>
 												<td><c:out value="${doc.size}" /></td>
@@ -103,6 +112,7 @@
 										</c:forEach>
 									</tbody>
 								</table>
+								<form action="${uploadResidentHome}" class="dropzone" id="residentHomeDrop"></form>
 							</div>
 						</div>
 					</div>
@@ -156,15 +166,49 @@
 	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
 	<script src="${resources}/js/jquery.dataTables.min.js"></script>
+	<script src="${resources}/js/dropzone.min.js"></script>
 
 	<script>
+		var publicErrorUpload = false;
+		var residentErrorUpload = false;
+
+		Dropzone.options.publicHomeDrop = {
+			init : function() {
+				this.on('queuecomplete', function() {
+					if (!publicErrorUpload) {
+						window.location.href = "${editHomeDocs}"
+					} else {
+						publicErrorUpload = true;
+					}
+				});
+				this.on('error', function(msg) {
+					publicErrorUpload = true;
+				});
+			}
+		};
+
+		Dropzone.options.residentHomeDrop = {
+			init : function() {
+				this.on('queuecomplete', function() {
+					if (!residentErrorUpload) {
+						window.location.href = "${editHomeDocs}"
+					} else {
+						residentErrorUpload = true;
+					}
+				});
+				this.on('error', function(msg) {
+					residentErrorUpload = true;
+				});
+			}
+		};
+
 		$(document).ready(function() {
 			$('#tooltip1').tooltip();
 
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
 			});
-			
+
 			$("#loginButton").click(function() {
 				window.location.href = "${login}"
 			});
@@ -193,6 +237,10 @@
 				} ]
 			});
 		});
+		
+		function deleteDoc(id) {
+			window.location.href = "${deleteDoc}" + id;
+		};
 	</script>
 </body>
 </html>

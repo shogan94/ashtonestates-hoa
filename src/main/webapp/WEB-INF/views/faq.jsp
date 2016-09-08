@@ -33,19 +33,19 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
-						<c:if test="${residentUser != null}">
+						<sec:authorize access="isAuthenticated()">
 							<div class="btn-group btn-group-sm pull-right">
 								<h4>
-									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
+									Hello ${loggedInUserName}
 									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
 								</h4>
 							</div>
-						</c:if>
-						<c:if test="${residentUser == null}">
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
 							<div class="btn-group btn-group-sm pull-right">
 								<button id="loginButton" class="btn btn-xs btn-logout">Login</button>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</h1>
 				</div>
 
@@ -166,6 +166,11 @@
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
 			});
+			
+			$("#loginButton").click(function() {
+				window.location.href = "${login}"
+			});
+
 		});
 	</script>
 </body>

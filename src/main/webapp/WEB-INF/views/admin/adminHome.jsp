@@ -1,17 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
-<c:url value="/register" var="register" />
-<c:url value="/forgotPwd" var="forgotPwd" />
-<c:url value="/login" var="login" />
+<c:url value="/logout" var="logout" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
+<c:url value="/admin/approvePending" var="approvePending" />
+<c:url value="/admin/editUsers" var="editUsers" />
+<c:url value="/admin/editEvents" var="editEvents" />
+<c:url value="/admin/editDocs" var="editDocs" />
 
 
 <!DOCTYPE html>
@@ -20,13 +21,12 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Login</title>
+<title>Ashton Estates - Administrator tools</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
-
 </head>
 <body>
 	<div class="container">
@@ -36,56 +36,29 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
 				<div class="row margintop20">
 					<div class="col-md-10">
 						<div class="row">
-							<div class="col-md-12">
-								<div class="content">
-									<h2>Residents Login</h2>
-
-									<div class="marginbottom20 bg-danger">
-										<c:if test="${param.error != null}">
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'Bad credentials'}">
-												<p>Username/Password entered is incorrect.</p>
-											</c:if>
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'User is disabled'}">
-												<c:redirect url="/pendingApproval" />
-											</c:if>
-											<p>
-												<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-											</p>
-										</c:if>
-									</div>
-									<div class="marginbottom20 bg-success">
-										<c:if test="${param.logout != null}">
-											<p>You have been logged out.</p>
-										</c:if>
-									</div>
-									
-									<div class="marginbottom20 bg-danger">${errorMessage}</div>
-
-									<form:form method="post" action="${login}" modelAttribute="loginForm">
-
-										<div class="form-group">
-											<input type="email" name="email" required class="form-control" placeholder="Email address" />
-										</div>
-
-										<div class="input-group">
-											<input type="password" name="password" required class="form-control" placeholder="Password" /> <span class="input-group-btn">
-												<button class="btn btn-default" type="button" id="forgotBtn" data-toggle="tooltip" data-placement="top" title="Forgot password ?"><span class="glyphicon glyphicon-question-sign text-danger" aria-hidden="true"></span></button>
-											</span>
-										</div>
-										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-										<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
-									</form:form>
-									<div class="margintop20">
-										Not yet an Ashton member ? <a href="${register}">Register Now</a>
-									</div>
-								</div>
+							<div class="content">
+								<table class="table margintop20">
+									<tr>
+										<td class="col-md-6"><button class="btn btn-block btn-lg btn-admin" onClick="editusers();">Edit Users</button></td>
+										<td class="col-md-6"><button class="btn btn-block btn-lg btn-admin" onClick="editdocs();">Add/Edit Documents</button></td>
+									</tr>
+									<tr>
+										<td class="col-md-6"><button class="btn btn-block btn-lg btn-admin" onClick="approvepending();">Accept/Reject Registrations (${numberPending} pending)</button></td>
+										<td class="col-md-6"><button class="btn btn-block btn-lg btn-admin" onClick="editevents();">Edit Upcoming Events</button></td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -142,12 +115,27 @@
 	<script>
 		$(document).ready(function() {
 			$('#tooltip1').tooltip();
-			$('#forgotBtn').tooltip();
 
-			$("#forgotBtn").click(function() {
-				window.location.href = "${forgotPwd}"
+			$("#logoutButton").click(function() {
+				window.location.href = "${logout}"
 			});
 		});
+
+		function editusers() {
+			window.location.href = "${editUsers}";
+		};
+
+		function editdocs() {
+			window.location.href = "${editDocs}";
+		};
+
+		function approvepending() {
+			window.location.href = "${approvePending}";
+		};
+
+		function editevents() {
+			window.location.href = "${editEvents}";
+		};
 	</script>
 </body>
 </html>

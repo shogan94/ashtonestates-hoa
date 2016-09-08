@@ -4,7 +4,6 @@
 package org.ashtonestates.user.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,21 +22,21 @@ public class UpcomingEvents implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "title", length = 100, nullable = false)
+	@Column(name = "title", nullable = false)
 	private String title;
 
 	@Column(name = "eventDate", nullable = false)
-	private Long eventDate;
+	private String eventDate;
 
-	@Column(name = "description", length = 255, nullable = false)
+	@Column(name = "description", nullable = false)
 	private String description;
 
 	public UpcomingEvents() {
 	}
 
-	public UpcomingEvents(final String title, final Date eventDate, final String description) {
+	public UpcomingEvents(final String title, final String eventDate, final String description) {
 		setTitle(title);
-		setEventDate(eventDate.getTime());
+		setEventDate(eventDate);
 		setDescription(description);
 	}
 
@@ -57,11 +56,11 @@ public class UpcomingEvents implements Serializable {
 		this.title = title;
 	}
 
-	public Long getEventDate() {
+	public String getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(final Long eventDate) {
+	public void setEventDate(final String eventDate) {
 		this.eventDate = eventDate;
 	}
 
@@ -71,10 +70,6 @@ public class UpcomingEvents implements Serializable {
 
 	public void setDescription(final String description) {
 		this.description = description;
-	}
-
-	public String formattedDate() {
-		return new Date(getEventDate()).toString();
 	}
 
 	@Override

@@ -33,7 +33,7 @@
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates
 						<div class="btn-group btn-group-sm pull-right">
 							<h4>
-								Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
+								Hello ${loggedInUserName}
 								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
 							</h4>
 						</div>

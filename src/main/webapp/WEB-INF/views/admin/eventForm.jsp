@@ -1,18 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
-<c:url value="/register" var="register" />
-<c:url value="/forgotPwd" var="forgotPwd" />
-<c:url value="/login" var="login" />
-<c:url value="/publicDocs" var="publicDocs" />
+<c:url value="/admin/editEvents/" var="editEvents" />
+<c:url value="/admin/changePwd/" var="changePwd" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
-
+<c:url value="/logout" var="logout" />
+<c:url value="/admin/processEvent" var="processEvent" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,13 +19,14 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Login</title>
+<title>Ashton Estates - Add/Edit Events</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${resources}/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
-
+<link href="${resources}/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="container">
@@ -36,6 +36,12 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
@@ -44,47 +50,27 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="content">
-									<h2>Residents Login</h2>
-
-									<div class="marginbottom20 bg-danger">
-										<c:if test="${param.error != null}">
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'Bad credentials'}">
-												<p>Username/Password entered is incorrect.</p>
-											</c:if>
-											<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'User is disabled'}">
-												<c:redirect url="/pendingApproval" />
-											</c:if>
-											<p>
-												<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-											</p>
-										</c:if>
-									</div>
-									<div class="marginbottom20 bg-success">
-										<c:if test="${param.logout != null}">
-											<p>You have been logged out.</p>
-										</c:if>
-									</div>
-									
 									<div class="marginbottom20 bg-danger">${errorMessage}</div>
-
-									<form:form method="post" action="${login}" modelAttribute="loginForm">
-
-										<div class="form-group">
-											<input type="email" name="email" required class="form-control" placeholder="Email address" />
-										</div>
-
-										<div class="input-group">
-											<input type="password" name="password" required class="form-control" placeholder="Password" /> <span class="input-group-btn">
-												<button class="btn btn-default" type="button" id="forgotBtn" data-toggle="tooltip" data-placement="top" title="Forgot password ?"><span class="glyphicon glyphicon-question-sign text-danger" aria-hidden="true"></span></button>
-											</span>
-										</div>
-										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-										<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
+									<form:form method="post" action="${processEvent}" modelAttribute="eventForm">
+										<fieldset>
+											<legend>Upcoming Event</legend>
+											<div class="form-group">
+												<input type="text" name="title" id="title" required class="form-control" placeholder="Title" autofocus value="${modifyEvent.title}" />
+											</div>
+											<div class="form-group">
+												<div class='input-group date' id='datetimepicker1'>
+													<input type="text" name="eventDate" id="eventDate" class="form-control" placeholder="Event Date/Time" value="${modifyEvent.eventDate}" /> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
+													</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<textarea name="description" id="description" required class="form-control" rows="3" placeholder="Description">${modifyEvent.description}</textarea>
+											</div>
+											<input id="id" name="id" type="hidden" value="${modifyEvent.id}">
+											<button type="submit" name="go" class="btn btn-success">Submit</button>
+											<button id="cancelButton" class="btn btn-alert">Cancel</button>
+										</fieldset>
 									</form:form>
-									<div class="margintop20">
-										Not yet an Ashton member ? <a href="${register}">Register Now</a>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -102,7 +88,7 @@
 						</div>
 						<div class="sidebar">
 							<h4>
-								<a href="${publicDocs}">Public Documents</a>
+								<a href="${faq}">Public Documents</a>
 							</h4>
 						</div>
 						<div class="sidebar">
@@ -138,14 +124,34 @@
 
 	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
+	<script src="${resources}/js/moment.js"></script>
+	<script src="${resources}/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="${resources}/js/jquery.dataTables.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
+			$('#datetimepicker1').datetimepicker();
+			 
 			$('#tooltip1').tooltip();
-			$('#forgotBtn').tooltip();
 
-			$("#forgotBtn").click(function() {
-				window.location.href = "${forgotPwd}"
+			$("#logoutButton").click(function() {
+				window.location.href = "${logout}"
+			});
+
+			$("#cancelButton").click(function() {
+				window.location.href = "${editEvents}"
+			});
+
+			$('#uTable').DataTable({
+				"paging" : false,
+				"ordering" : true,
+				"info" : false,
+				"searching" : false,
+				"order" : [ [ 2, "asc" ] ],
+				"columnDefs" : [ {
+					"targets" : 0,
+					"orderable" : false,
+				} ]
 			});
 		});
 	</script>

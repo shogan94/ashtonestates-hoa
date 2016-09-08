@@ -6,13 +6,12 @@
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
 <c:url value="/logout" var="logout" />
-<c:url value="/login" var="login" />
-<c:url value="/directory" var="directory" />
-<c:url value="/resident-documents" var="residentDocuments" />
 <c:url value="/publicDocs" var="publicDocs" />
-<c:url value="/admin" var="admin" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
+<c:url value="/admin/editHomeDocs" var="editHomeDocs" />
+<c:url value="/admin/editTownhomeDocs" var="editTownhomeDocs" />
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +19,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Residents Only</title>
+<title>Ashton Estates - Administrator tools</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
@@ -33,10 +32,11 @@
 			<div class="col-md-12">
 				<div class="page-header">
 					<h1>
-						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates
+						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
+							Morgantown residential community</small>
 						<div class="btn-group btn-group-sm pull-right">
 							<h4>
-								Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
+								Hello ${loggedInUserName}
 								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
 							</h4>
 						</div>
@@ -46,17 +46,13 @@
 				<div class="row margintop20">
 					<div class="col-md-10">
 						<div class="row">
-							<div class="col-md-6 text-center center-block">
-								<div class="publicInfo">
-									<h2>Resident Documents</h2>
-									<a href="${residentDocuments}"> <img class="img-responsive image-center" src="${resources}/images/resident-documents.png" alt="resident documents" /></a>
-								</div>
-							</div>
-							<div class="col-md-6 text-center center-block">
-								<div class="publicInfo">
-									<h2>Resident Directory</h2>
-									<a href="${directory}"> <img class="img-responsive image-center" src="${resources}/images/resident-directory.png" alt="resident documents" /></a>
-								</div>
+							<div class="content">
+								<table class="table margintop20">
+									<tr>
+										<td class="col-md-6"><button class="btn btn-block btn-lg btn-admin" onClick="editHomeDocs();">Add/Edit Home Documents</button></td>
+										<td class="col-md-6"><button class="btn btn-block btn-lg btn-admin" onClick="editTownhomeDocs();">Add/Edit Townhome Documents</button></td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -118,6 +114,14 @@
 				window.location.href = "${logout}"
 			});
 		});
+
+		function editHomeDocs() {
+			window.location.href = "${editHomeDocs}";
+		};
+
+		function editTownhomeDocs() {
+			window.location.href = "${editTownhomeDocs}";
+		};
 	</script>
 </body>
 </html>
