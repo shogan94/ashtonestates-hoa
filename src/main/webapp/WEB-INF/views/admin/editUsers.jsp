@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
@@ -33,14 +34,12 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
-						<c:if test="${residentUser != null}">
-							<div class="btn-group btn-group-sm pull-right">
-								<h4>
-									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
-									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
-								</h4>
-							</div>
-						</c:if>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
@@ -66,25 +65,25 @@
 											<tr>
 												<td>
 													<div class="btn-group">
-														<button class="btn btn-success btn-xs" onclick="editUser(${user.getId()})">
+														<button class="btn btn-success btn-xs" onclick="editUser(${user.getId()})" id="editTooltip" data-toggle="tooltip" data-placement="top" title="Edit User">
 															<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 														</button>
 														&nbsp;
-														<button class="btn btn-danger btn-xs" onclick="removeUser(${user.getId()})">
+														<button class="btn btn-danger btn-xs" onclick="removeUser(${user.getId()})" id="deleteTooltip" data-toggle="tooltip" data-placement="top" title="Delete User">
 															<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 														</button>
 														&nbsp;
-														<button class="btn btn-warning btn-xs" onclick="changePwd(${user.getId()})">
+														<button class="btn btn-warning btn-xs" onclick="changePwd(${user.getId()})" id="pwdTooltip" data-toggle="tooltip" data-placement="top" title="Change User Pwd">
 															<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 														</button>
 													</div>
 												</td>
 												<td>${user.getFirstName()}</td>
 												<td>${user.getLastName()}</td>
-												<td>${user.getStreetAddress()}</td>
+												<td>${user.getAddress()}</td>
 												<td>${user.getEmail()}</td>
 												<td>${user.getApprovedBy()}</td>
-												<td>${user.getRole()}</td>
+												<td>${user.getRole().getType()}</td>
 											</tr>
 										</c:forEach>
 									</table>
@@ -113,13 +112,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -139,14 +138,13 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 	<script src="${resources}/js/jquery.dataTables.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
-			$('#tooltip1').tooltip();
+			$('[data-toggle="tooltip"]').tooltip(); 
 
 			$("#logoutButton").click(function() {
 			window.location.href = "${logout}"
@@ -165,7 +163,6 @@
 			});
 		});
 		
-
 		function editUser(id) {
 			window.location.href = "${editUser}" + id;
 		};

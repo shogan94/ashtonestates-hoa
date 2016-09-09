@@ -3,92 +3,79 @@
  */
 package org.ashtonestates.user.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.DigestUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.text.WordUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "user_accounts")
-public class User implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@EntityListeners(DatabaseListener.class)
+public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-	@Column(name = "firstname", length = 100, nullable = false)
-	private String firstName;
-
-	@Column(name = "lastname", length = 100, nullable = false)
-	private String lastName;
-
-	@Column(name = "email", length = 100, nullable = false, unique = true)
+	@NotEmpty
+	@Column(name = "EMAIL", unique = true, nullable = false)
 	private String email;
 
-	@Column(name = "password", length = 255, nullable = false)
+	@NotEmpty
+	@Column(name = "PASSWORD", nullable = false)
 	private String password;
 
-	@Column(name = "streetAddress", length = 100, nullable = false)
-	private String streetAddress;
+	@NotEmpty
+	@Column(name = "FIRSTNAME", nullable = false)
+	private String firstName;
+
+	@NotEmpty
+	@Column(name = "LASTNAME", nullable = false)
+	private String lastName;
+
+	@NotEmpty
+	@Column(name = "ADDRESS", nullable = false)
+	private String address;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status", length = 20, nullable = false)
-	private AshtonStatus status;
+	@Column(name = "STATE", nullable = false)
+	private State state = State.PENDING;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "role", length = 20, nullable = false)
-	private Role role;
-
-	@Column(name = "approvedBy", length = 200)
+	@Column(name = "APPROVED_BY")
 	private String approvedBy;
+
+	@ManyToOne
+	private Role role;
 
 	public User() {
 	}
 
-	public User(final String inFirstName, final String inLastName, final String inPassword, final String inStreet, final String inEmail, final Role inRole,
-			final AshtonStatus inStatus) {
-		setFirstName(inFirstName);
-		setLastName(inLastName);
-		setPassword(inPassword);
-		setStreetAddress(inStreet);
-		setEmail(inEmail);
-		setRole(inRole);
-		setStatus(inStatus);
+	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final State inState) {
+		firstName = inFirstname;
+		lastName = inLastname;
+		password = inPwd;
+		address = inAddress;
+		email = inEmail;
+		state = inState;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(final Long val) {
+	public void setId(final long val) {
 		id = val;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(final String val) {
-		firstName = val;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(final String val) {
-		lastName = val;
 	}
 
 	public String getEmail() {
@@ -104,68 +91,65 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(final String val) {
-		password = DigestUtils.md5DigestAsHex(val.getBytes());
+		password = val;
 	}
 
-	public String getStreetAddress() {
-		return streetAddress;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setStreetAddress(final String val) {
-		streetAddress = val;
+	public void setFirstName(final String val) {
+		firstName = StringUtils.capitalize(val);
 	}
 
-	public AshtonStatus getStatus() {
-		return status;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setStatus(final AshtonStatus status) {
-		this.status = status;
+	public void setLastName(final String val) {
+		lastName = StringUtils.capitalize(val);
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(final State val) {
+		state = val;
 	}
 
 	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(final Role role) {
-		this.role = role;
+	public void setRole(final Role val) {
+		role = val;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(final String val) {
+		address = WordUtils.capitalizeFully(val);
 	}
 
 	public String getApprovedBy() {
 		return approvedBy;
 	}
 
-	public void setApprovedBy(final String approvedBy) {
-		this.approvedBy = approvedBy;
-	}
-
-	public boolean isAdmin() {
-		return role == Role.ROLE_ADMIN;
-	}
-
-	public boolean isTownhouse() {
-		return StringUtils.containsIgnoreCase(streetAddress, "ashton place") || StringUtils.containsIgnoreCase(streetAddress, "ashton pl")
-				|| StringUtils.containsIgnoreCase(streetAddress, "ashton p") || StringUtils.containsIgnoreCase(streetAddress, "ashtonp");
-	}
-
-	@Override
-	public String toString() {
-		return String.format("AshtonResident [id=%s, firstName=%s, lastName=%s, email=%s, password=%s, streetAddress=%s, status=%s, role=%s]", id, firstName, lastName, email,
-				password, streetAddress, status, getRole());
+	public void setApprovedBy(final String val) {
+		approvedBy = StringUtils.capitalize(val);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.toLowerCase().hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.toLowerCase().hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.toLowerCase().hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((streetAddress == null) ? 0 : streetAddress.toLowerCase().hashCode());
-		result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		return result;
 	}
 
@@ -181,60 +165,44 @@ public class User implements Serializable {
 			return false;
 		}
 		final User other = (User) obj;
+		if (address == null) {
+			if (other.address != null) {
+				return false;
+			}
+		} else if (!address.equals(other.address)) {
+			return false;
+		}
 		if (email == null) {
 			if (other.email != null) {
 				return false;
 			}
-		} else if (!email.equalsIgnoreCase(other.email)) {
+		} else if (!email.equals(other.email)) {
 			return false;
 		}
 		if (firstName == null) {
 			if (other.firstName != null) {
 				return false;
 			}
-		} else if (!firstName.equalsIgnoreCase(other.firstName)) {
-			return false;
-		}
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
+		} else if (!firstName.equals(other.firstName)) {
 			return false;
 		}
 		if (lastName == null) {
 			if (other.lastName != null) {
 				return false;
 			}
-		} else if (!lastName.equalsIgnoreCase(other.lastName)) {
+		} else if (!lastName.equals(other.lastName)) {
 			return false;
 		}
-		if (password == null) {
-			if (other.password != null) {
-				return false;
-			}
-		} else if (!password.equals(other.password)) {
-			return false;
-		}
-		if (status != other.status) {
-			return false;
-		}
-		if (streetAddress == null) {
-			if (other.streetAddress != null) {
-				return false;
-			}
-		} else if (!streetAddress.equalsIgnoreCase(other.streetAddress)) {
-			return false;
-		}
-		if (getRole() == null) {
-			if (other.getRole() != null) {
-				return false;
-			}
-		} else if (!getRole().equals(other.getRole())) {
-			return false;
-		}
-
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public boolean isTownhouseUser() {
+		return false;
 	}
 
 }

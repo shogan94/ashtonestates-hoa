@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.ashtonestates.user.model;
+package org.ashtonestates.user.model.forms;
 
 public class LoginForm {
 	private String email;

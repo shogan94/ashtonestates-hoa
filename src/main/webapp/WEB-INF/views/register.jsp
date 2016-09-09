@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
+<c:url value="/processRegistration" var="processRegistration" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
@@ -14,7 +16,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Forgot Password</title>
+<title>Ashton Estates - Registration</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
@@ -37,7 +39,33 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="content">
-									<h3>Forgot Password</h3>
+									<h2>Residents Registration</h2>
+
+									<div class="marginbottom20 bg-danger">${errorMessage}</div>
+									<form:form method="post" action="${processRegistration}" modelAttribute="registerForm">
+
+										<div class="form-group">
+											<input type="email" name="email" required class="form-control" placeholder="Email" value="${registerForm.email}" />
+										</div>
+										<div class="form-group">
+											<input type="password" name="password" required class="form-control" placeholder="Password" />
+										</div>
+										<div class="form-group">
+											<input type="password" name="confirmPassword" required class="form-control" placeholder="Confirm Password" />
+										</div>
+										<div class="form-group">
+											<input type="text" name="firstName" required class="form-control" placeholder="First name" value="${registerForm.firstName}" />
+										</div>
+										<div class="form-group">
+											<input type="text" name="lastName" required class="form-control" placeholder="Last name" value="${registerForm.lastName}" />
+										</div>
+										<div class="form-group">
+											<input type="text" name="address" required class="form-control" placeholder="Street Address" value="${registerForm.address}" />
+										</div>
+
+										<button type="submit" name="go" class="btn btn-primary loginBtn">Submit Registration</button>
+										<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
+									</form:form>
 								</div>
 							</div>
 						</div>
@@ -63,13 +91,6 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
-							<div class="sidebar admin">
-								<h4>
-									<a href="${admin}">Administrator</a>
-								</h4>
-							</div>
-						</c:if>
 					</div>
 				</div>
 			</div>
@@ -89,13 +110,16 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 
 	<script>
 		$(document).ready(function() {
 			$('#tooltip1').tooltip();
+			
+			$("#cancelButton").click(function() {
+				window.location.href = "${home}"
+			});
 		});
 	</script>
 </body>

@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
 <c:url value="/logout" var="logout" />
+<c:url value="/login" var="login" />
 <c:url value="/directory" var="directory" />
 <c:url value="/documents" var="documents" />
 <c:url value="/publicDocs" var="publicDocs" />
@@ -32,14 +34,19 @@
 				<div class="page-header">
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates
-						<c:if test="${residentUser != null}">
+						<sec:authorize access="isAuthenticated()">
 							<div class="btn-group btn-group-sm pull-right">
 								<h4>
-									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
+									Hello ${loggedInUserName}
 									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<div class="btn-group btn-group-sm pull-right">
+								<button id="loginButton" class="btn btn-xs btn-logout">Login</button>
+							</div>
+						</sec:authorize>
 					</h1>
 				</div>
 
@@ -48,28 +55,30 @@
 						<div class="row">
 							<div class="content">
 								<table id="hTable" class="table table-hover">
-									<caption>Home Public Documents</caption>
+									<caption>Homes Public Documents</caption>
 									<thead>
 										<tr>
 											<th></th>
 											<th>File</th>
-											<th>Date</th>
+											<th>UploadedDate</th>
 											<th>Size</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${homeFiles}" var="doc">
 											<tr>
-												<td><a href="${homeTypePath}/${doc.file}" target="_blank" class="btn btn-logout" role="button">View</a></td>
+												<c:url value="${doc.path}" var="doc.path" />
+												<td><a href="${doc.path}" target="_blank" class="btn btn-logout" role="button">View</a></td>
 												<td><c:out value="${doc.name}" /></td>
-												<td><c:out value="${doc.lastModified}" /></td>
-												<td><c:out value="${doc.length}" /></td>
+												<td><c:out value="${doc.uploadedDate}" /></td>
+												<td><c:out value="${doc.size}" /></td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						<br/>
 						<div class="row">
 							<div class="content">
 								<table id="tTable" class="table table-hover">
@@ -78,17 +87,18 @@
 										<tr>
 											<th></th>
 											<th>File</th>
-											<th>Date</th>
+											<th>UploadedDate</th>
 											<th>Size</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${townhomeFiles}" var="doc">
 											<tr>
-												<td><a href="${townhomeTypePath}/${doc.file}" target="_blank" class="btn btn-logout" role="button">View</a></td>
+												<c:url value="${doc.path}" var="doc.path" />
+												<td><a href="${doc.path}" target="_blank" class="btn btn-logout" role="button">View</a></td>
 												<td><c:out value="${doc.name}" /></td>
-												<td><c:out value="${doc.lastModified}" /></td>
-												<td><c:out value="${doc.length}" /></td>
+												<td><c:out value="${doc.uploadedDate}" /></td>
+												<td><c:out value="${doc.size}" /></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -117,13 +127,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -143,9 +153,8 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 	<script src="${resources}/js/jquery.dataTables.min.js"></script>
 
 	<script>
@@ -154,6 +163,10 @@
 
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
+			});
+			
+			$("#loginButton").click(function() {
+				window.location.href = "${login}"
 			});
 
 			$('#hTable').DataTable({

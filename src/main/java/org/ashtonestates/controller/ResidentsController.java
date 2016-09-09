@@ -5,101 +5,109 @@ package org.ashtonestates.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
-import org.ashtonestates.user.model.AshtonStatus;
+import org.apache.commons.lang3.StringUtils;
+import org.ashtonestates.user.model.DocumentType;
+import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.UserRepository;
-import org.ashtonestates.utils.AshtonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.ashtonestates.user.model.forms.ChangePwdForm;
+import org.ashtonestates.user.model.forms.ResidentInfoForm;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class ResidentsController {
+public class ResidentsController extends BaseController {
 
-	@Autowired
-	UserRepository userRepo;
-
-	@RequestMapping(value = "/residents", method = RequestMethod.GET)
-	public String residents(final HttpSession session, final Model model) {
-		String nextPage;
-
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null) {
-			nextPage = "login";
-		} else {
-			if (residentUser.getStatus() == AshtonStatus.PENDING) {
-				session.removeAttribute("residentUser");
-				model.addAttribute("firstname", residentUser.getFirstName());
-				model.addAttribute("lastname", residentUser.getLastName());
-				nextPage = "users/pendingApproval";
-			} else {
-				model.addAttribute("residentUser", residentUser);
-				nextPage = "residents/residents";
-			}
-		}
-		return nextPage;
+	@GetMapping("/residents/changePwd")
+	public String residentsChangePwd(final ModelMap model) {
+		return "residents/changePwd";
 	}
 
-	@RequestMapping(value = "/directory", method = RequestMethod.GET)
-	public String showDirectory(final HttpSession session, final Model model) {
-		String nextPage;
-
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null) {
-			nextPage = "login";
+	@PostMapping("/residents/processChangePwd")
+	public String residentProcessChangePwd(@Valid @ModelAttribute("changePwdForm") final ChangePwdForm form, final BindingResult result, final ModelMap model) {
+		if (result.hasErrors()) {
+			model.addAttribute("errorMessage", result.getAllErrors().toString());
+			return residentsChangePwd(model);
 		} else {
-			if (residentUser.getStatus() == AshtonStatus.PENDING) {
-				session.removeAttribute("residentUser");
-				model.addAttribute("firstname", residentUser.getFirstName());
-				model.addAttribute("lastname", residentUser.getLastName());
-				nextPage = "users/pendingApproval";
+			final User residentUser = getLoggedInUser();
+			if (!StringUtils.equals(form.getPassword(), form.getConfirmPassword())) {
+				model.addAttribute("errorMessage", "Password and Confirm Password not equal");
+				return residentsChangePwd(model);
 			} else {
-				model.addAttribute("residentUser", residentUser);
-				model.addAttribute("users", getAllUsers());
-				nextPage = "residents/directory";
+				residentUser.setPassword(form.getPassword());
+				userRepo.save(residentUser);
 			}
 		}
-		return nextPage;
+
+		return "redirect:/logout";
+	}
+
+	@GetMapping("/residents/updateInfo")
+	public String residentsUpdateInfo(final ModelMap model) {
+		final User residentUser = getLoggedInUser();
+
+		final ResidentInfoForm form = new ResidentInfoForm();
+		form.setAddress(residentUser.getAddress());
+		form.setEmail(residentUser.getEmail());
+		form.setFirstName(residentUser.getFirstName());
+		form.setLastName(residentUser.getLastName());
+
+		model.addAttribute("residentInfoForm", form);
+		return "residents/updateInfo";
+	}
+
+	@PostMapping("/residents/processUpdateInfo")
+	public String residentProcessUpdateInfo(@Valid @ModelAttribute("residentInfoForm") final ResidentInfoForm form, final BindingResult result, final ModelMap model) {
+		if (result.hasErrors()) {
+			model.addAttribute("errorMessage", result.getAllErrors().toString());
+			return residentsUpdateInfo(model);
+		} else {
+			final User residentUser = getLoggedInUser();
+			final User existing = userRepo.findByEmail(form.getEmail());
+			if (residentUser.getEmail().equals(form.getEmail()) || existing == null) {
+				residentUser.setEmail(form.getEmail());
+				residentUser.setAddress(form.getAddress());
+				residentUser.setFirstName(form.getFirstName());
+				residentUser.setLastName(form.getLastName());
+				userRepo.save(residentUser);
+			} else {
+				model.addAttribute("errorMessage", "This email already exists in the system");
+				return residentsUpdateInfo(model);
+			}
+		}
+
+		return residents(model);
+	}
+
+	@GetMapping("/residents")
+	public String residents(final ModelMap model) {
+		return "residents/residentsHome";
+	}
+
+	@GetMapping("/residents/directory")
+	public String showDirectory(final ModelMap model) {
+		model.addAttribute("users", getAllUsers());
+		return "residents/residentsDirectory";
+	}
+
+	@GetMapping("/residents/documents")
+	public String showDocuments(final ModelMap model) {
+		model.addAttribute("typeofdocs", "Resident");
+		model.addAttribute("townhomeTypePath", "townhome-resident-docs");
+		model.addAttribute("townhomeFiles", docRepo.findByDocumentType(DocumentType.RESIDENT_TOWNHOME));
+		model.addAttribute("homeTypePath", "home-resident-docs");
+		model.addAttribute("homeFiles", docRepo.findByDocumentType(DocumentType.RESIDENT_HOMES));
+
+		return "residents/residentDocuments";
 	}
 
 	private List<User> getAllUsers() {
-		final List<User> users = userRepo.findByStatus(AshtonStatus.APPROVED);
+		final List<User> users = userRepo.findByState(State.APPROVED);
 		return users;
 	}
-
-	@RequestMapping(value = "/resident-documents", method = RequestMethod.GET)
-	public String showDocuments(final HttpSession session, final Model model) {
-		String nextPage;
-
-		final User residentUser = (User) session.getAttribute("residentUser");
-		if (residentUser == null) {
-			nextPage = "login";
-		} else {
-			if (residentUser.getStatus() == AshtonStatus.PENDING) {
-				session.removeAttribute("residentUser");
-				model.addAttribute("firstname", residentUser.getFirstName());
-				model.addAttribute("lastname", residentUser.getLastName());
-				nextPage = "users/pendingApproval";
-			} else {
-				model.addAttribute("residentUser", residentUser);
-
-				model.addAttribute("typeofdocs", "Resident");
-				if (residentUser.isTownhouse()) {
-					model.addAttribute("typePath", "townhome-resident-docs");
-					model.addAttribute("files", AshtonUtils.getFileListing(session, "/townhome-resident-docs"));
-				} else {
-					model.addAttribute("typePath", "home-resident-docs");
-					model.addAttribute("files", AshtonUtils.getFileListing(session, "/home-resident-docs"));
-				}
-
-				nextPage = "documents";
-			}
-		}
-		return nextPage;
-	}
-
 }

@@ -1,14 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
 <c:url value="/logout" var="logout" />
-<c:url value="/directory" var="directory" />
-<c:url value="/resident-documents" var="residentDocuments" />
 <c:url value="/publicDocs" var="publicDocs" />
-<c:url value="/admin" var="admin" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
 
@@ -18,12 +16,13 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ashton Estates - Residents Only</title>
+<title>Ashton Estates - Resident Directory</title>
 <meta name="description" content="Ashton Estates" />
 <meta name="author" content="William Hunt" />
 <link href="${resources}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${resources}/css/font-awesome.min.css" rel="stylesheet">
 <link href="${resources}/css/style.css" rel="stylesheet" />
+<link href="${resources}/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="container">
@@ -32,32 +31,38 @@
 				<div class="page-header">
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates
-						<c:if test="${residentUser != null}">
-							<div class="btn-group btn-group-sm pull-right">
-								<h4>
-									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
-									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
-								</h4>
-							</div>
-						</c:if>
+						<div class="btn-group btn-group-sm pull-right">
+							<h4>
+								Hello ${loggedInUserName}
+								<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
+							</h4>
+						</div>
 					</h1>
 				</div>
 
 				<div class="row margintop20">
 					<div class="col-md-10">
 						<div class="row">
-							<div class="col-md-6 text-center center-block">
-								<div class="publicInfo">
-									<h2>Resident Documents</h2>
-									<a href="${residentDocuments}"> <img class="img-responsive image-center" src="${resources}/images/resident-documents.png" alt="resident documents" /></a>
-								</div>
-							</div>
-							<div class="col-md-6 text-center center-block">
-								<div class="publicInfo">
-									<h2>Resident Directory</h2>
-									<a href="${directory}"> <img class="img-responsive image-center" src="${resources}/images/resident-directory.png" alt="resident documents" /></a>
-								</div>
-							</div>
+							<table id="uTable" class="table table-hover">
+								<thead>
+									<tr>
+										<th>FirstName</th>
+										<th>LastName</th>
+										<th>Street</th>
+										<th>Email</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${users}" var="u">
+										<tr>
+											<td><c:out value="${u.firstName}" /></td>
+											<td><c:out value="${u.lastName}" /></td>
+											<td><c:out value="${u.address}" /></td>
+											<td><a href="mailto:${u.email}" class="btn btn-email" role="button"><c:out value="${u.email}" /></a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -81,13 +86,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -107,12 +112,21 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
+	<script src="${resources}/js/jquery.dataTables.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
+
+			$('#uTable').DataTable({
+				"paging" : false,
+				"ordering" : true,
+				"info" : false,
+				"searching" : false,
+				"order" : [ [ 1, "asc" ] ]
+			});
+
 			$('#tooltip1').tooltip();
 
 			$("#logoutButton").click(function() {

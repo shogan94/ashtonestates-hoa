@@ -4,7 +4,6 @@
 package org.ashtonestates.user.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,21 +22,21 @@ public class UpcomingEvents implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "title", length = 100, nullable = false)
+	@Column(name = "title", nullable = false)
 	private String title;
 
 	@Column(name = "eventDate", nullable = false)
-	private Long eventDate;
+	private String eventDate;
 
-	@Column(name = "description", length = 255, nullable = false)
+	@Column(name = "description", nullable = false)
 	private String description;
 
 	public UpcomingEvents() {
 	}
 
-	public UpcomingEvents(final String title, final Date eventDate, final String description) {
+	public UpcomingEvents(final String title, final String eventDate, final String description) {
 		setTitle(title);
-		setEventDate(eventDate.getTime());
+		setEventDate(eventDate);
 		setDescription(description);
 	}
 
@@ -57,11 +56,11 @@ public class UpcomingEvents implements Serializable {
 		this.title = title;
 	}
 
-	public Long getEventDate() {
+	public String getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(final Long eventDate) {
+	public void setEventDate(final String eventDate) {
 		this.eventDate = eventDate;
 	}
 
@@ -73,17 +72,12 @@ public class UpcomingEvents implements Serializable {
 		this.description = description;
 	}
 
-	public String formattedDate() {
-		return new Date(getEventDate()).toString();
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -112,13 +106,6 @@ public class UpcomingEvents implements Serializable {
 				return false;
 			}
 		} else if (!eventDate.equals(other.eventDate)) {
-			return false;
-		}
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
 			return false;
 		}
 		if (title == null) {

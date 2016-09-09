@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <c:url value="/resources" var="resources" />
 <c:url value="/" var="home" />
 <c:url value="/faq" var="faq" />
 <c:url value="/residents" var="residents" />
 <c:url value="/logout" var="logout" />
+<c:url value="/login" var="login" />
 <c:url value="/publicDocs" var="publicDocs" />
 <c:url value="/upcomingEvents" var="upcomingEvents" />
 <c:url value="/admin" var="admin" />
@@ -31,14 +33,19 @@
 					<h1>
 						<a href="${home}"><i class="fa fa-home" id="tooltip1" data-toggle="tooltip" data-placement="top" title="Return to Homepage"></i></a>Ashton Estates <small> -- a
 							Morgantown residential community</small>
-						<c:if test="${residentUser != null}">
+						<sec:authorize access="isAuthenticated()">
 							<div class="btn-group btn-group-sm pull-right">
 								<h4>
-									Hello ${residentUser.getFirstName()} ${residentUser.getLastName()}
+									Hello ${loggedInUserName}
 									<button id="logoutButton" class="btn btn-xs btn-logout">Logout</button>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<div class="btn-group btn-group-sm pull-right">
+								<button id="loginButton" class="btn btn-xs btn-logout">Login</button>
+							</div>
+						</sec:authorize>
 					</h1>
 				</div>
 
@@ -123,13 +130,13 @@
 								<a href="${upcomingEvents}">Upcoming Events</a>
 							</h4>
 						</div>
-						<c:if test="${residentUser.isAdmin()}">
+						<sec:authorize access="hasRole('ADMIN')">
 							<div class="sidebar admin">
 								<h4>
 									<a href="${admin}">Administrator</a>
 								</h4>
 							</div>
-						</c:if>
+						</sec:authorize>
 					</div>
 				</div>
 			</div>
@@ -149,9 +156,8 @@
 
 	</div>
 
-	<script src="${resources}/js/jquery.min.js"></script>
+	<script src="${resources}/js/jquery-3.1.0.min.js"></script>
 	<script src="${resources}/js/bootstrap.min.js"></script>
-	<script src="${resources}/js/scripts.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -160,6 +166,11 @@
 			$("#logoutButton").click(function() {
 				window.location.href = "${logout}"
 			});
+			
+			$("#loginButton").click(function() {
+				window.location.href = "${login}"
+			});
+
 		});
 	</script>
 </body>

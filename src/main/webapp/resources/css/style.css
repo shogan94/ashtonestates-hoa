@@ -121,6 +121,10 @@ body {
 	margin-left: auto;
 }
 
+.resident-image {
+	height: 150px;
+}
+
 #map-canvas {
 	height: 250px;
 	border-radius: 5px;
