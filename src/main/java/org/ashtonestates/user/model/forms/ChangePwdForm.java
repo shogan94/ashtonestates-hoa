@@ -3,32 +3,17 @@
  */
 package org.ashtonestates.user.model.forms;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ChangePwdForm {
+	@Getter
+	@Setter
 	private Long userId;
+	@Getter
+	@Setter
 	private String password;
+	@Getter
+	@Setter
 	private String confirmPassword;
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(final Long val) {
-		userId = val;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String val) {
-		password = val;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(final String val) {
-		confirmPassword = val;
-	}
 }

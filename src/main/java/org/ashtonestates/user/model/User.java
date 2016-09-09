@@ -15,51 +15,70 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user_accounts")
 @EntityListeners(DatabaseListener.class)
+@ToString
+@EqualsAndHashCode(exclude = "id")
+@NoArgsConstructor
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Getter
+	@Setter
 	private long id;
 
 	@NotEmpty
 	@Column(name = "EMAIL", unique = true, nullable = false)
+	@Getter
+	@Setter
 	private String email;
 
 	@NotEmpty
 	@Column(name = "PASSWORD", nullable = false)
+	@Getter
+	@Setter
 	private String password;
 
 	@NotEmpty
 	@Column(name = "FIRSTNAME", nullable = false)
+	@Getter
 	private String firstName;
 
 	@NotEmpty
 	@Column(name = "LASTNAME", nullable = false)
+	@Getter
 	private String lastName;
 
 	@NotEmpty
 	@Column(name = "ADDRESS", nullable = false)
+	@Getter
 	private String address;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "STATE", nullable = false)
+	@Getter
+	@Setter
 	private State state = State.PENDING;
 
 	@Column(name = "APPROVED_BY")
+	@Getter
 	private String approvedBy;
 
 	@ManyToOne
+	@Getter
+	@Setter
 	private Role role;
-
-	public User() {
-	}
 
 	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final State inState) {
 		firstName = inFirstname;
@@ -70,139 +89,19 @@ public class User {
 		state = inState;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(final long val) {
-		id = val;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(final String val) {
-		email = val;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String val) {
-		password = val;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
 	public void setFirstName(final String val) {
 		firstName = StringUtils.capitalize(val);
-	}
-
-	public String getLastName() {
-		return lastName;
 	}
 
 	public void setLastName(final String val) {
 		lastName = StringUtils.capitalize(val);
 	}
 
-	public State getState() {
-		return state;
-	}
-
-	public void setState(final State val) {
-		state = val;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(final Role val) {
-		role = val;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
 	public void setAddress(final String val) {
 		address = WordUtils.capitalizeFully(val);
-	}
-
-	public String getApprovedBy() {
-		return approvedBy;
 	}
 
 	public void setApprovedBy(final String val) {
 		approvedBy = StringUtils.capitalize(val);
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final User other = (User) obj;
-		if (address == null) {
-			if (other.address != null) {
-				return false;
-			}
-		} else if (!address.equals(other.address)) {
-			return false;
-		}
-		if (email == null) {
-			if (other.email != null) {
-				return false;
-			}
-		} else if (!email.equals(other.email)) {
-			return false;
-		}
-		if (firstName == null) {
-			if (other.firstName != null) {
-				return false;
-			}
-		} else if (!firstName.equals(other.firstName)) {
-			return false;
-		}
-		if (lastName == null) {
-			if (other.lastName != null) {
-				return false;
-			}
-		} else if (!lastName.equals(other.lastName)) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public boolean isTownhouseUser() {
-		return false;
-	}
-
 }

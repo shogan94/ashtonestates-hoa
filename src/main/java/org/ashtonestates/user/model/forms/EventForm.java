@@ -3,41 +3,25 @@
  */
 package org.ashtonestates.user.model.forms;
 
+import org.apache.commons.lang3.text.WordUtils;
+
+import lombok.Getter;
+import lombok.Setter;
+
 public class EventForm {
+	@Getter
+	@Setter
 	private String id;
+	@Getter
 	private String title;
+	@Getter
+	@Setter
 	private String eventDate;
+	@Getter
+	@Setter
 	private String description;
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(final String title) {
-		this.title = title;
-	}
-
-	public String getEventDate() {
-		return eventDate;
-	}
-
-	public void setEventDate(final String eventDate) {
-		this.eventDate = eventDate;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
+	public void setTitle(final String val) {
+		title = WordUtils.capitalizeFully(val);
 	}
 }

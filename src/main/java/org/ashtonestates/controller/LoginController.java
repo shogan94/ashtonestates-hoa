@@ -20,8 +20,6 @@ import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
 import org.ashtonestates.user.model.forms.ChangePwdForm;
 import org.ashtonestates.user.model.forms.RegisterForm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -38,10 +36,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-public class LoginController extends BaseController {
+import lombok.extern.slf4j.Slf4j;
 
-	private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+@Controller
+@Slf4j
+public class LoginController extends BaseController {
 
 	@Autowired
 	SimpleMailMessage templateMessage;
@@ -106,7 +105,7 @@ public class LoginController extends BaseController {
 			try {
 				expires = DateUtils.parseDate(req.getExpires(), "yyyy-MM-dd HH:mm:ss");
 			} catch (final ParseException e) {
-				LOGGER.info("Parse date error: {}", e.getMessage());
+				log.info("Parse date error: {}", e.getMessage());
 			}
 
 			if (now.after(expires)) {
@@ -163,7 +162,7 @@ public class LoginController extends BaseController {
 				model.addAttribute("errorMessage", "Email already registered, please login");
 			} else {
 				if (!StringUtils.equals(form.getPassword(), form.getConfirmPassword())) {
-					LOGGER.info("password not equal: {} != {}", form.getPassword(), form.getConfirmPassword());
+					log.info("password not equal: {} != {}", form.getPassword(), form.getConfirmPassword());
 					model.addAttribute("errorMessage", "Password and Confirm Password not equal");
 					return register(model);
 				} else {
@@ -206,7 +205,7 @@ public class LoginController extends BaseController {
 		try {
 			mailSender.send(msg);
 		} catch (final MailException ex) {
-			LOGGER.info(ex.getMessage());
+			log.info(ex.getMessage());
 		}
 	}
 
@@ -224,7 +223,7 @@ public class LoginController extends BaseController {
 		try {
 			mailSender.send(msg);
 		} catch (final MailException ex) {
-			LOGGER.info(ex.getMessage());
+			log.info(ex.getMessage());
 		}
 	}
 

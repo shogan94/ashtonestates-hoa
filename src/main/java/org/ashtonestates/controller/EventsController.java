@@ -10,8 +10,6 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.ashtonestates.user.model.UpcomingEvents;
 import org.ashtonestates.user.model.forms.EventForm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,9 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class EventsController extends BaseController {
-
-	@SuppressWarnings("unused")
-	private static Logger LOGGER = LoggerFactory.getLogger(EventsController.class);
 
 	@GetMapping("/admin/editEvents")
 	public String editEvents(final ModelMap model) {

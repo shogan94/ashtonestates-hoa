@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class DatabaseListener {
 
 	static private BCryptPasswordEncoder passwordEncoder;
@@ -21,7 +24,7 @@ public class DatabaseListener {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("******* Initializing passwordEncoder for Listener [" + passwordEncoder + "]");
+		log.debug("******* Initializing passwordEncoder for Listener [{}]", passwordEncoder);
 	}
 
 	@PrePersist

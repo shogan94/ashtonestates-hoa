@@ -16,18 +16,17 @@ import org.ashtonestates.user.model.Role;
 import org.ashtonestates.user.model.RoleType;
 import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller
-public class SecurityController extends BaseController {
+import lombok.extern.slf4j.Slf4j;
 
-	private static Logger LOGGER = LoggerFactory.getLogger(SecurityController.class);
+@Controller
+@Slf4j
+public class SecurityController extends BaseController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -68,22 +67,22 @@ public class SecurityController extends BaseController {
 	public String initDocs(final HttpSession session) throws IOException {
 		docRepo.deleteAll();
 
-		LOGGER.info("***** home public docs");
+		log.info("***** home public docs");
 		File directory = new File("c:/Temp/ashton-documents/home-public-docs");
 		Collection<File> files = FileUtils.listFiles(directory, FileFilterUtils.makeFileOnly(null), null);
 		files.forEach(f -> addFile(f, DocumentType.PUBLIC_HOMES));
 
-		LOGGER.info("***** home resident docs");
+		log.info("***** home resident docs");
 		directory = new File("c:/Temp/ashton-documents/home-resident-docs");
 		files = FileUtils.listFiles(directory, FileFilterUtils.makeFileOnly(null), null);
 		files.forEach(f -> addFile(f, DocumentType.RESIDENT_HOMES));
 
-		LOGGER.info("***** townhome public docs");
+		log.info("***** townhome public docs");
 		directory = new File("c:/Temp/ashton-documents/townhome-public-docs");
 		files = FileUtils.listFiles(directory, FileFilterUtils.makeFileOnly(null), null);
 		files.forEach(f -> addFile(f, DocumentType.PUBLIC_TOWNHOME));
 
-		LOGGER.info("***** townhome resident docs");
+		log.info("***** townhome resident docs");
 		directory = new File("c:/Temp/ashton-documents/townhome-resident-docs");
 		files = FileUtils.listFiles(directory, FileFilterUtils.makeFileOnly(null), null);
 		files.forEach(f -> addFile(f, DocumentType.RESIDENT_TOWNHOME));

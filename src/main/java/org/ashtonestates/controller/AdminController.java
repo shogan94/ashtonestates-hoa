@@ -17,8 +17,6 @@ import org.ashtonestates.user.model.State;
 import org.ashtonestates.user.model.User;
 import org.ashtonestates.user.model.forms.ChangePwdForm;
 import org.ashtonestates.user.model.forms.ResidentInfoForm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -31,10 +29,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
-public class AdminController extends BaseController {
+import lombok.extern.slf4j.Slf4j;
 
-	private static Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
+@Controller
+@Slf4j
+public class AdminController extends BaseController {
 
 	@Autowired
 	SimpleMailMessage templateMessage;
@@ -213,7 +212,7 @@ public class AdminController extends BaseController {
 		try {
 			mailSender.send(msg);
 		} catch (final MailException ex) {
-			LOGGER.info(ex.getMessage());
+			log.info(ex.getMessage());
 		}
 	}
 
@@ -230,7 +229,7 @@ public class AdminController extends BaseController {
 		try {
 			mailSender.send(msg);
 		} catch (final MailException ex) {
-			LOGGER.info(ex.getMessage());
+			log.info(ex.getMessage());
 		}
 	}
 
@@ -248,7 +247,7 @@ public class AdminController extends BaseController {
 		try {
 			mailSender.send(msg);
 		} catch (final MailException ex) {
-			LOGGER.info(ex.getMessage());
+			log.info(ex.getMessage());
 		}
 	}
 
