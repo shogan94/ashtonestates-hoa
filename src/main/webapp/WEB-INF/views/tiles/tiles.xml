@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Base Definition -->
+	<definition name="base-definition" template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head" value="" />
+		<put-attribute name="header" value="/WEB-INF/views/tiles/template/header.jsp" />
+		<put-attribute name="preBody" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/tiles/template/sidebar.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/template/footer.jsp" />
+		<put-attribute name="bodyScripts" value="" />
+	</definition>
+
+	<!-- Login -->
+	<definition name="login" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Login" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/loginScripts.jsp" />
+	</definition>
+
+	<!-- Home Page -->
+	<definition name="home" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates - Morgantown, WV" />
+		<put-attribute name="head" value="/WEB-INF/views/pages/homeHead.jsp" />
+		<put-attribute name="preBody" value="/WEB-INF/views/pages/homePreBody.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
+	</definition>
+
+	<!-- FAQ -->
+	<definition name="faq" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates FAQ" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/faq.jsp" />
+	</definition>
+	
+	<!-- upcomingEvents -->
+	<definition name="upcomingEvents" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Upcoming Events" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/upcomingEvents.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/upcomingEventsScripts.jsp" />
+	</definition>
+	
+	<!-- pendingApproval -->
+	<definition name="pendingApproval" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates pendingApproval" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/pendingApproval.jsp" />
+	</definition>
+	
+	<!-- publicDocs -->
+	<definition name="publicDocuments" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Public Documents" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/publicDocuments.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/publicDocumentsScripts.jsp" />
+	</definition>
+	
+	<!-- residentsHome -->
+	<definition name="residentsHome" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Residents" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentsHome.jsp" />
+	</definition>
+	
+	<!-- residentsDirectory -->
+	<definition name="residentsDirectory" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Resident Directory" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentsDirectory.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/residentsDirectoryScripts.jsp" />
+	</definition>
+	
+	<!-- residentsDocuments -->
+	<definition name="residentsDocuments" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Resident Documents" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentsDocuments.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/residentsDocumentsScripts.jsp" />
+	</definition>
+	
+	<!-- residentsUpdateInfo -->
+	<definition name="residentsUpdateInfo" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Resident Update Info" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/updateInfo.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/updateInfoScripts.jsp" />
+	</definition>
+	
+	<!-- residentsChangePwd -->
+	<definition name="residentsChangePwd" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Resident Change Password" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/changePwd.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/changePwdScripts.jsp" />
+	</definition>
+	
+	<!-- adminHome -->
+	<definition name="adminHome" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Administration" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/adminHome.jsp" />
+	</definition>
+	
+	<!-- adminEditDocs -->
+	<definition name="adminEditDocs" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit Documents" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editDocs.jsp" />
+	</definition>
+	
+	<!-- adminEditHomeDocs -->
+	<definition name="adminEditHomeDocs" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit Home Documents" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editHomeDocs.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editHomeDocsScripts.jsp" />
+	</definition>
+
+</tiles-definitions>

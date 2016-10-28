@@ -25,7 +25,7 @@ public class ResidentsController extends BaseController {
 
 	@GetMapping("/residents/changePwd")
 	public String residentsChangePwd(final ModelMap model) {
-		return "residents/changePwd";
+		return "residentsChangePwd";
 	}
 
 	@PostMapping("/residents/processChangePwd")
@@ -58,7 +58,7 @@ public class ResidentsController extends BaseController {
 		form.setLastName(residentUser.getLastName());
 
 		model.addAttribute("residentInfoForm", form);
-		return "residents/updateInfo";
+		return "residentsUpdateInfo";
 	}
 
 	@PostMapping("/residents/processUpdateInfo")
@@ -81,18 +81,18 @@ public class ResidentsController extends BaseController {
 			}
 		}
 
-		return residents(model);
+		return residents();
 	}
 
 	@GetMapping("/residents")
-	public String residents(final ModelMap model) {
-		return "residents/residentsHome";
+	public String residents() {
+		return "residentsHome";
 	}
 
 	@GetMapping("/residents/directory")
 	public String showDirectory(final ModelMap model) {
 		model.addAttribute("users", getAllUsers());
-		return "residents/residentsDirectory";
+		return "residentsDirectory";
 	}
 
 	@GetMapping("/residents/documents")
@@ -103,7 +103,7 @@ public class ResidentsController extends BaseController {
 		model.addAttribute("homeTypePath", "home-resident-docs");
 		model.addAttribute("homeFiles", docRepo.findByDocumentType(DocumentType.RESIDENT_HOMES));
 
-		return "residents/residentDocuments";
+		return "residentsDocuments";
 	}
 
 	private List<User> getAllUsers() {

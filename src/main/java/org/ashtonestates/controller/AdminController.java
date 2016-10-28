@@ -38,19 +38,19 @@ public class AdminController extends BaseController {
 	public String admin(final ModelMap model) {
 		final Long count = userRepo.countByState(State.PENDING);
 		model.addAttribute("numberPending", count);
-		return "admin/adminHome";
+		return "adminHome";
 	}
 
 	@GetMapping("/admin/editDocs")
-	public String editDocs(final ModelMap model) {
-		return "admin/editDocs";
+	public String editDocs() {
+		return "adminEditDocs";
 	}
 
 	@GetMapping("/admin/editHomeDocs")
 	public String editHomeDocs(final ModelMap model) {
 		model.addAttribute("homePublicFiles", docRepo.findByDocumentType(DocumentType.PUBLIC_HOMES));
 		model.addAttribute("homeResidentFiles", docRepo.findByDocumentType(DocumentType.RESIDENT_HOMES));
-		return "admin/editHomeDocs";
+		return "adminEditHomeDocs";
 	}
 
 	@GetMapping("/admin/deleteHomeDoc/{id}")
