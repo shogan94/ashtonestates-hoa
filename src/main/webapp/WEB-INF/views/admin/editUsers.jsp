@@ -83,7 +83,7 @@
 												<td>${user.getAddress()}</td>
 												<td>${user.getEmail()}</td>
 												<td>${user.getApprovedBy()}</td>
-												<td>${user.getRole().getType()}</td>
+												<td>${user.getRole()}</td>
 											</tr>
 										</c:forEach>
 									</table>

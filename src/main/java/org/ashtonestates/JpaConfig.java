@@ -23,7 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = { "org.ashtonestates.user.repository" })
+@EnableJpaRepositories(basePackages = { "org.ashtonestates.repository" })
 @EnableTransactionManagement
 public class JpaConfig {
 
@@ -67,6 +67,7 @@ public class JpaConfig {
 	private DataSource getMysqlDataSource() {
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
+		// ds.setUrl("jdbc:mysql://localhost:3306/ashtones_hoa?useSSL=false");
 		ds.setUrl("jdbc:mysql://ashtonestates.org:3306/ashtones_hoa?useSSL=false");
 		ds.setUsername("ashtones_hoaUser");
 		ds.setPassword("Ashton3states!");
@@ -102,7 +103,7 @@ public class JpaConfig {
 		final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 
 		em.setDataSource(dataSource);
-		em.setPackagesToScan(new String[] { "org.ashtonestates.user.model" });
+		em.setPackagesToScan(new String[] { "org.ashtonestates.model" });
 		em.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		em.setJpaPropertyMap(properties);
 		em.setJpaVendorAdapter(jpaVendorAdapter);

@@ -116,6 +116,23 @@ body {
 	padding-bottom: 10px;
 }
 
+.contactInfo {
+	background: #a5a35a;
+	border-radius: 5px;
+	box-shadow: 0 0 0 1px darkgrey;
+	margin: 5px;
+	padding-bottom: 10px;
+}
+
+.contactInfo a {
+	color: white;
+}
+
+.contactInfo a:hover {
+	opacity: .7;
+}
+
+
 .image-center {
 	margin-right: auto;
 	margin-left: auto;

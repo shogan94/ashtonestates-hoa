@@ -74,6 +74,58 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-12 text-center center-block">
+								<div class="publicInfo">
+									<h2>Contact Information</h2>
+									<div class="row">
+										<div class="col-md-6 text-center center-block">
+											<div class="contactInfo">
+												<h3>Master Association Board</h3>
+												<ul class="list-group">
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>President - Jeff D.</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>VicePresident - Michael Kief</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Secretary - Brenda Hawkins</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-6 text-center center-block">
+											<div class="contactInfo">
+												<h3>Home Owners Board Members</h3>
+												<ul class="list-group">
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Jeff D.</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Betty Jurick</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Michael Kief</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Dave Marino</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>John Vidovich</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6 text-center center-block">
+											<div class="contactInfo">
+												<h3>Townhome Owners Board Members</h3>
+												<ul class="list-group">
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Alex Guy</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Brenda Hawkins</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Stephanie Mazzei</li>
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>DeAnna Snyder</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-6 text-center center-block">
+											<div class="contactInfo">
+												<h3>Building Committee Chair</h3>
+												<ul class="list-group">
+													<li class="list-group-item"><span class="badge"><a href="mailto:pres@ashtonestates.org"><span class="glyphicon glyphicon-envelope"></span></a></span>Jackie Marino</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="sidebar">
