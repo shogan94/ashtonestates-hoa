@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.ashtonestates.user.model.DocumentType;
-import org.ashtonestates.user.model.UpcomingEvents;
+import org.ashtonestates.model.DocumentType;
+import org.ashtonestates.model.UpcomingEvents;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;

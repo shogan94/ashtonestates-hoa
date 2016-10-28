@@ -1,13 +1,13 @@
 /*
  *
  */
-package org.ashtonestates.user.repository;
+package org.ashtonestates.repository;
 
 import java.util.List;
 
-import org.ashtonestates.user.model.Role;
-import org.ashtonestates.user.model.State;
-import org.ashtonestates.user.model.User;
+import org.ashtonestates.model.Role;
+import org.ashtonestates.model.State;
+import org.ashtonestates.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

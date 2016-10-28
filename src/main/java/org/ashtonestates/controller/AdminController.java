@@ -11,16 +11,15 @@ import javax.validation.Valid;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.DocumentType;
-import org.ashtonestates.user.model.Documents;
-import org.ashtonestates.user.model.State;
-import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.model.forms.ChangePwdForm;
-import org.ashtonestates.user.model.forms.ResidentInfoForm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.ashtonestates.model.DocumentType;
+import org.ashtonestates.model.Documents;
+import org.ashtonestates.model.State;
+import org.ashtonestates.model.User;
+import org.ashtonestates.model.forms.ChangePwdForm;
+import org.ashtonestates.model.forms.ResidentInfoForm;
+import org.ashtonestates.security.AshtonEmail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,12 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class AdminController extends BaseController {
-
-	@Autowired
-	SimpleMailMessage templateMessage;
-
-	@Autowired
-	JavaMailSenderImpl mailSender;
 
 	@GetMapping("/admin")
 	public String admin(final ModelMap model) {
@@ -95,7 +88,11 @@ public class AdminController extends BaseController {
 		user.setApprovedBy(approver);
 		userRepo.save(user);
 
-		sendApprovedMessage(user);
+		try {
+			sendApprovedMessage(user);
+		} catch (final EmailException e) {
+			log.error("Unable to send approve email: {}", e.getMessage());
+		}
 		return approvePending(model);
 	}
 
@@ -103,7 +100,12 @@ public class AdminController extends BaseController {
 	public String reject(@PathVariable final String userId, final ModelMap model) {
 		final User user = userRepo.findOne(Long.parseLong(userId));
 		userRepo.delete(Long.parseLong(userId));
-		sendRejectMessage(user);
+
+		try {
+			sendRejectMessage(user);
+		} catch (final EmailException e) {
+			log.error("Unable to send reject email: {}", e.getMessage());
+		}
 
 		return approvePending(model);
 	}
@@ -191,7 +193,11 @@ public class AdminController extends BaseController {
 					residentUser.setPassword(form.getPassword());
 					userRepo.save(residentUser);
 
-					sendChangePwdMessage(residentUser, form.getPassword());
+					try {
+						sendChangePwdMessage(residentUser, form.getPassword());
+					} catch (final EmailException e) {
+						log.error("Unable to send change pwd email: {}", e.getMessage());
+					}
 				}
 			}
 		}
@@ -199,56 +205,44 @@ public class AdminController extends BaseController {
 		return editUsers(model);
 	}
 
-	private void sendRejectMessage(final User user) {
-		final SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
-		msg.setTo(user.getEmail());
-		msg.setSubject("Ashton Estates WebSite Registration Status");
-
+	private void sendRejectMessage(final User user) throws EmailException {
 		final String message = String.format(
 				"Dear %s %s, \n\nYour registering on the Ashton Estates web site has been rejected by an admin.\nPlease re-register or contact a board member for assistance.\n\n"
 						+ "Thank you,\nAshton Estates Webmaster\n%s",
 				StringUtils.capitalize(user.getFirstName()), StringUtils.capitalize(user.getLastName()), new Date().toString());
-		msg.setText(message);
-		try {
-			mailSender.send(msg);
-		} catch (final MailException ex) {
-			log.info(ex.getMessage());
-		}
+
+		final Email email = AshtonEmail.getInstance().getSimpleEmail();
+		email.addTo(user.getEmail());
+		email.setSubject("Ashton Estates WebSite Registration Status");
+		email.setMsg(message);
+		email.send();
 	}
 
-	private void sendApprovedMessage(final User user) {
-		final SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
-		msg.setTo(user.getEmail());
-		msg.setSubject("Ashton Estates WebSite Registration Status");
-
+	private void sendApprovedMessage(final User user) throws EmailException {
 		final String message = String.format(
 				"Dear %s %s, \n\nYour registering on the Ashton Estates web site has been approved by an admin.\nYou may now access the 'Residents' section of the website.\n\n"
 						+ "Thank you,\nAshton Estates Webmaster\n%s",
 				StringUtils.capitalize(user.getFirstName()), StringUtils.capitalize(user.getLastName()), new Date().toString());
-		msg.setText(message);
-		try {
-			mailSender.send(msg);
-		} catch (final MailException ex) {
-			log.info(ex.getMessage());
-		}
+
+		final Email email = AshtonEmail.getInstance().getSimpleEmail();
+		email.addTo(user.getEmail());
+		email.setSubject("Ashton Estates WebSite Registration Status");
+		email.setMsg(message);
+		email.send();
 	}
 
-	private void sendChangePwdMessage(final User user, final String pwd) {
-		final SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
-		msg.setTo(user.getEmail());
-		msg.setSubject("Ashton Estates WebSite Password");
-
+	private void sendChangePwdMessage(final User user, final String pwd) throws EmailException {
 		final String message = String.format(
 				"Dear %s %s, \n\nYour password on the Ashton Estates web site has been changed by an admin.\nYou should login with the following information.\n"
 						+ "Email: %s\nPassword: %s\n\n" + "After you login, you can access the 'Residents' section and click on 'Change Password' to change it.\n\n"
 						+ "Thank you,\nAshton Estates Webmaster\n\n%s",
 				StringUtils.capitalize(user.getFirstName()), StringUtils.capitalize(user.getLastName()), user.getEmail(), pwd, new Date().toString());
-		msg.setText(message);
-		try {
-			mailSender.send(msg);
-		} catch (final MailException ex) {
-			log.info(ex.getMessage());
-		}
+
+		final Email email = AshtonEmail.getInstance().getSimpleEmail();
+		email.addTo(user.getEmail());
+		email.setSubject("Ashton Estates WebSite Password");
+		email.setMsg(message);
+		email.send();
 	}
 
 	private void deleteDoc(final String id) {

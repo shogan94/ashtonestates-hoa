@@ -1,12 +1,11 @@
 package org.ashtonestates.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.DocumentsRepository;
-import org.ashtonestates.user.repository.ResetRequestRepository;
-import org.ashtonestates.user.repository.RoleRepository;
-import org.ashtonestates.user.repository.UpcomingEventsRepository;
-import org.ashtonestates.user.repository.UserRepository;
+import org.ashtonestates.model.User;
+import org.ashtonestates.repository.DocumentsRepository;
+import org.ashtonestates.repository.ResetRequestRepository;
+import org.ashtonestates.repository.UpcomingEventsRepository;
+import org.ashtonestates.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +16,6 @@ public class BaseController {
 
 	@Autowired
 	UserRepository userRepo;
-
-	@Autowired
-	RoleRepository roleRepo;
 
 	@Autowired
 	UpcomingEventsRepository eventsRepo;

@@ -14,16 +14,15 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.ashtonestates.user.model.ResetRequest;
-import org.ashtonestates.user.model.RoleType;
-import org.ashtonestates.user.model.State;
-import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.model.forms.ChangePwdForm;
-import org.ashtonestates.user.model.forms.RegisterForm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.ashtonestates.model.ResetRequest;
+import org.ashtonestates.model.Role;
+import org.ashtonestates.model.State;
+import org.ashtonestates.model.User;
+import org.ashtonestates.model.forms.ChangePwdForm;
+import org.ashtonestates.model.forms.RegisterForm;
+import org.ashtonestates.security.AshtonEmail;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -41,12 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class LoginController extends BaseController {
-
-	@Autowired
-	SimpleMailMessage templateMessage;
-
-	@Autowired
-	JavaMailSenderImpl mailSender;
 
 	@GetMapping("/login")
 	public String login(final ModelMap model) {
@@ -87,7 +80,11 @@ public class LoginController extends BaseController {
 			existing.setExpires(sdf.format(expires));
 			resetRepo.save(existing);
 
-			sendForgotPwdEmail(existing);
+			try {
+				sendForgotPwdEmail(existing);
+			} catch (final EmailException e) {
+				log.error("Unable to send forgot pwd email: {}", e.getMessage());
+			}
 		}
 
 		return "forgotPwdComplete";
@@ -171,12 +168,16 @@ public class LoginController extends BaseController {
 					resident.setFirstName(form.getFirstName());
 					resident.setLastName(form.getLastName());
 					resident.setPassword(form.getPassword());
-					resident.setRole(roleRepo.findByType(RoleType.USER));
+					resident.setRole(Role.USER);
 					resident.setState(State.PENDING);
 					resident.setAddress(form.getAddress());
 					userRepo.save(resident);
 
-					sendRegisterEmail(resident);
+					try {
+						sendRegisterEmail(resident);
+					} catch (final EmailException e) {
+						log.error("Unable to send register email: {}", e.getMessage());
+					}
 
 					model.addAttribute("errorMessage", "Registration submitted, please check your email for additional information.");
 				}
@@ -190,41 +191,33 @@ public class LoginController extends BaseController {
 		return RandomStringUtils.randomAlphanumeric(10);
 	}
 
-	private void sendForgotPwdEmail(final ResetRequest request) {
-		final SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
-		msg.setTo(request.getUser().getEmail());
-		msg.setSubject("Ashton Estates Website Password Reset");
-
+	private void sendForgotPwdEmail(final ResetRequest request) throws EmailException {
 		final String message = String.format(
 				"Dear %s, \n\nYou recently requested to reset your password for your Ashton Estates Website account. Click the link below to reset it.\n\n"
 						+ "http://localhost:8080/ashtonestates/reset/%s\n\n"
 						+ "If you did not request a password reset, please ignore this email or reply to let us know. This password reset is only valid for the next 30 minutes.\n\n"
 						+ "Thank you,\nAshton Estates Webmaster\n%s",
 				StringUtils.capitalize(request.getUser().getFirstName()), request.getRequestId(), request.getRequestId(), new Date().toString());
-		msg.setText(message);
-		try {
-			mailSender.send(msg);
-		} catch (final MailException ex) {
-			log.info(ex.getMessage());
-		}
+
+		final Email email = AshtonEmail.getInstance().getSimpleEmail();
+		email.addTo(request.getUser().getEmail());
+		email.setSubject("Ashton Estates Website Password Reset");
+		email.setMsg(message);
+		email.send();
 	}
 
-	private void sendRegisterEmail(final User resident) {
-		final SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
-		msg.setTo(resident.getEmail());
-		msg.setSubject("Ashton Estates Website Registration Submitted");
-
+	private void sendRegisterEmail(final User resident) throws EmailException {
 		final String message = String.format(
 				"Dear %s %s, \n\nThank you for registering on the Ashton Estates web site.\nYour registration is pending approval by an admin.\n"
 						+ "You will receive another email when your registration has been approved.\n"
 						+ "If you have not received approval within 3 days, please contact a board member for assistance.\n\n" + "Thank you,\nAshton Estates Webmaster\n%s",
 				StringUtils.capitalize(resident.getFirstName()), StringUtils.capitalize(resident.getLastName()), new Date().toString());
-		msg.setText(message);
-		try {
-			mailSender.send(msg);
-		} catch (final MailException ex) {
-			log.info(ex.getMessage());
-		}
+
+		final Email email = AshtonEmail.getInstance().getSimpleEmail();
+		email.addTo(resident.getEmail());
+		email.setSubject("Ashton Estates Website Registration Submitted");
+		email.setMsg(message);
+		email.send();
 	}
 
 }

@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.ashtonestates.user.model.forms;
+package org.ashtonestates.model.forms;
 
 import lombok.Getter;
 import lombok.Setter;

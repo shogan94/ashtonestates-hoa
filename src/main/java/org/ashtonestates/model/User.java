@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.ashtonestates.user.model;
+package org.ashtonestates.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
@@ -75,7 +74,8 @@ public class User {
 	@Getter
 	private String approvedBy;
 
-	@ManyToOne
+	@Enumerated(EnumType.STRING)
+	@Column(name = "ROLE", nullable = false)
 	@Getter
 	@Setter
 	private Role role;
@@ -87,6 +87,11 @@ public class User {
 		address = inAddress;
 		email = inEmail;
 		state = inState;
+	}
+
+	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final State inState, final Role inRole) {
+		this(inFirstname, inLastname, inPwd, inAddress, inEmail, inState);
+		role = inRole;
 	}
 
 	public void setFirstName(final String val) {

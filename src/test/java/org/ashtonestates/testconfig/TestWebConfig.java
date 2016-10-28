@@ -1,7 +1,9 @@
 /*
- *
+ * TestWebConfig.java
+ * Copyright (c) 2016, clearAvenue, LLC. jbsadatabase
+ * All rights reserved.
  */
-package org.ashtonestates;
+package org.ashtonestates.testconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,10 +17,13 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+/**
+ * The Class TestWebConfig.
+ */
 @Configuration
-@ComponentScan
+@ComponentScan({ "org.ashtonestates.testconfig", "org.ashtonestates.security" })
 @EnableWebMvc
-public class SpringWebConfig extends WebMvcConfigurerAdapter {
+public class TestWebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public ViewResolver getViewResolver() {

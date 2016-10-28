@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.ashtonestates.user.model.DocumentType;
-import org.ashtonestates.user.model.Documents;
+import org.ashtonestates.model.DocumentType;
+import org.ashtonestates.model.Documents;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +31,7 @@ public class UploadController extends BaseController {
 	private static final String RESIDENT_TOWNHOME_DIRECTORY = "c:/Temp/ashton-documents/townhome-resident-docs";
 
 	@PostMapping(value = "/admin/uploadPublicHome", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> uploadPublicHome(final HttpServletRequest request, @RequestParam final CommonsMultipartFile file) {
+	public ResponseEntity<String> uploadPublicHome(@RequestParam final CommonsMultipartFile file) {
 
 		if (file != null) {
 			final File uploadedFile = new File(String.format("%s/%s", PUBLIC_HOME_DIRECTORY, file.getOriginalFilename()));
@@ -65,7 +63,7 @@ public class UploadController extends BaseController {
 	}
 
 	@PostMapping(value = "/admin/uploadResidentHome", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> uploadResidentHome(final HttpServletRequest request, @RequestParam final CommonsMultipartFile file) {
+	public ResponseEntity<String> uploadResidentHome(@RequestParam final CommonsMultipartFile file) {
 		if (file != null) {
 			final String originalFilename = file.getOriginalFilename();
 			final Documents samename = docRepo.findByName(originalFilename);
@@ -96,7 +94,7 @@ public class UploadController extends BaseController {
 	}
 
 	@PostMapping(value = "/admin/uploadPublicTownhome", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> uploadPublicTownhome(final HttpServletRequest request, @RequestParam final CommonsMultipartFile file) {
+	public ResponseEntity<String> uploadPublicTownhome(@RequestParam final CommonsMultipartFile file) {
 
 		if (file != null) {
 			final String originalFilename = file.getOriginalFilename();
@@ -128,7 +126,7 @@ public class UploadController extends BaseController {
 	}
 
 	@PostMapping(value = "/admin/uploadResidentTownhome", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> uploadResidentTownhome(final HttpServletRequest request, @RequestParam final CommonsMultipartFile file) {
+	public ResponseEntity<String> uploadResidentTownhome(@RequestParam final CommonsMultipartFile file) {
 		if (file != null) {
 			final String originalFilename = file.getOriginalFilename();
 			final Documents samename = docRepo.findByName(originalFilename);

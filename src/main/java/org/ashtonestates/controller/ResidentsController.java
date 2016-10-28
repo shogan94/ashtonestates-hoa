@@ -8,11 +8,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.DocumentType;
-import org.ashtonestates.user.model.State;
-import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.model.forms.ChangePwdForm;
-import org.ashtonestates.user.model.forms.ResidentInfoForm;
+import org.ashtonestates.model.DocumentType;
+import org.ashtonestates.model.State;
+import org.ashtonestates.model.User;
+import org.ashtonestates.model.forms.ChangePwdForm;
+import org.ashtonestates.model.forms.ResidentInfoForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;

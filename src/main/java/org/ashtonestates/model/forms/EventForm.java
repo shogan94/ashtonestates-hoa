@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.ashtonestates.user.model.forms;
+package org.ashtonestates.model.forms;
 
 import org.apache.commons.lang3.text.WordUtils;
 

@@ -1,7 +1,9 @@
 /*
- *
+ * TestJpaConfig.java
+ * Copyright (c) 2016, clearAvenue, LLC. jbsadatabase
+ * All rights reserved.
  */
-package org.ashtonestates;
+package org.ashtonestates.testconfig;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,15 +25,22 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * The Class TestJpaConfig.
+ */
 @Configuration
-@ComponentScan("org.ashtonestates.user.model")
-@EnableJpaRepositories(basePackages = { "org.ashtonestates.user.repository" })
+@ComponentScan("org.ashtonestates.model")
+@EnableJpaRepositories(basePackages = { "org.ashtonestates.repository" })
 @EnableTransactionManagement
 public class TestJpaConfig {
 
+	/**
+	 * Password encoder.
+	 *
+	 * @return the b crypt password encoder
+	 */
 	@Bean(name = "passwordEncoder")
 	public BCryptPasswordEncoder passwordEncoder() {
-		System.out.println("*************** creating passwordEncoder");
 		return new BCryptPasswordEncoder();
 	}
 
@@ -48,8 +57,7 @@ public class TestJpaConfig {
 	/**
 	 * Transaction manager.
 	 *
-	 * @param entityManagerFactory
-	 *            the entity manager factory
+	 * @param entityManagerFactory the entity manager factory
 	 * @return the jpa transaction manager
 	 */
 	@Bean(name = "transactionManager")
@@ -75,7 +83,7 @@ public class TestJpaConfig {
 	private DataSource getHsqlDataSource() {
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(org.hsqldb.jdbcDriver.class.getName());
-		ds.setUrl("jdbc:hsqldb:mem:ashton");
+		ds.setUrl("jdbc:hsqldb:mem:hoa");
 		ds.setUsername("sa");
 		ds.setPassword("");
 		return ds;
@@ -91,18 +99,16 @@ public class TestJpaConfig {
 	}
 
 	/**
-	 * Creates the entity manager factory bean and sets the model classes to persist
+	 * Creates the entity manager factory bean.
 	 *
-	 * @param dataSource
-	 *            the data source
-	 * @param dialectClassName
-	 *            the dialect class name
+	 * @param dataSource the data source
+	 * @param dialectClassName the dialect class name
 	 * @return the local container entity manager factory bean
 	 */
 	protected LocalContainerEntityManagerFactoryBean createEntityManagerFactoryBean(final DataSource dataSource, final String dialectClassName) {
 		final Map<String, String> properties = new HashMap<>();
 		properties.put(org.hibernate.cfg.Environment.DIALECT, dialectClassName);
-		properties.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
+		properties.put(org.hibernate.cfg.Environment.SHOW_SQL, "false");
 		properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create-drop");
 
 		final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
@@ -110,7 +116,7 @@ public class TestJpaConfig {
 		final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 
 		em.setDataSource(dataSource);
-		em.setPackagesToScan(new String[] { "org.ashtonestates.user.model" });
+		em.setPackagesToScan(new String[] { "org.ashtonestates.model" });
 		em.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		em.setJpaPropertyMap(properties);
 		em.setJpaVendorAdapter(jpaVendorAdapter);

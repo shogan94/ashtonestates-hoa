@@ -67,8 +67,8 @@ public class JpaConfig {
 	private DataSource getMysqlDataSource() {
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
-		ds.setUrl("jdbc:mysql://localhost:3306/ashton?useSSL=false");
-		ds.setUsername("ashton");
+		ds.setUrl("jdbc:mysql://ashtonestates.org:3306/ashtones_hoa?useSSL=false");
+		ds.setUsername("ashtones_hoaUser");
 		ds.setPassword("Ashton3states!");
 		return ds;
 	}

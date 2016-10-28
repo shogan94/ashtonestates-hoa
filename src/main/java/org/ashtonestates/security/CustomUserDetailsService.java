@@ -3,9 +3,9 @@ package org.ashtonestates.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ashtonestates.user.model.State;
-import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.UserRepository;
+import org.ashtonestates.model.State;
+import org.ashtonestates.model.User;
+import org.ashtonestates.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	private List<GrantedAuthority> getGrantedAuthorities(final User user) {
 		final List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getType()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
 		return authorities;
 	}
 

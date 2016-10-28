@@ -2,30 +2,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ashtonestates</groupId>
-	<artifactId>ashtonestates-hoa</artifactId>
+	<artifactId>hoa</artifactId>
 	<packaging>war</packaging>
+	
 	<version>1.0</version>
-	<name>ashtonestates-hoa</name>
+	
+	<name>hoa</name>
+	<url>http://www.ashtonestates.org</url>
+	<description>Ashton Estates Home Owners Association Website</description>
+	<inceptionYear>2016</inceptionYear>
+	<organization>
+		<name>Ashton Estates HOA</name>
+		<url>http://www.ashtonestates.org</url>
+	</organization>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.3.1.RELEASE</spring.version>
-		<springsecurity.version>4.1.1.RELEASE</springsecurity.version>
-		<slf4j.version>1.7.21</slf4j.version>
+		<hibernate.version>5.1.0.Final</hibernate.version>
 		<java.version>1.8</java.version>
 		<junit.version>4.12</junit.version>
-		<hibernate.version>5.1.0.Final</hibernate.version>
-		<hsqldb.version>2.3.4</hsqldb.version>
 		<mysql.version>5.1.38</mysql.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4j.version>1.7.21</slf4j.version>
+		<spring.version>4.3.1.RELEASE</spring.version>
+		<springsecurity.version>4.1.1.RELEASE</springsecurity.version>
+		<hsqldb.version>2.3.4</hsqldb.version>
 	</properties>
 
 	<dependencies>
 
 		<!-- utils -->
 		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.5.5</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -79,7 +88,6 @@
 			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -145,7 +153,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.9.2.RELEASE</version>
+			<version>1.10.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -173,18 +181,23 @@
 			<version>${mysql.version}</version>
 		</dependency>
 
-		<!-- JSP View Dependencies -->
+		<!-- Servlet+JSP+JSTL -->
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>jstl</groupId>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.taglibs</groupId>
@@ -192,19 +205,13 @@
 			<version>1.2.5</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- testing -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.4</version>
-			<scope>compile</scope>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -228,6 +235,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>${springsecurity.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

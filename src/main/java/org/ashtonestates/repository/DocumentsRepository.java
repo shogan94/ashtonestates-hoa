@@ -1,9 +1,9 @@
-package org.ashtonestates.user.repository;
+package org.ashtonestates.repository;
 
 import java.util.List;
 
-import org.ashtonestates.user.model.DocumentType;
-import org.ashtonestates.user.model.Documents;
+import org.ashtonestates.model.DocumentType;
+import org.ashtonestates.model.Documents;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

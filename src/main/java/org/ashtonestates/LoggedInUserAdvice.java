@@ -2,8 +2,8 @@ package org.ashtonestates;
 
 import java.security.Principal;
 
-import org.ashtonestates.user.model.User;
-import org.ashtonestates.user.repository.UserRepository;
+import org.ashtonestates.model.User;
+import org.ashtonestates.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;

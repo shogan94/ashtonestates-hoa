@@ -8,8 +8,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ashtonestates.user.model.UpcomingEvents;
-import org.ashtonestates.user.model.forms.EventForm;
+import org.ashtonestates.model.UpcomingEvents;
+import org.ashtonestates.model.forms.EventForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;

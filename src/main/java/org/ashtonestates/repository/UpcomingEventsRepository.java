@@ -1,9 +1,9 @@
 /*
  *
  */
-package org.ashtonestates.user.repository;
+package org.ashtonestates.repository;
 
-import org.ashtonestates.user.model.UpcomingEvents;
+import org.ashtonestates.model.UpcomingEvents;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

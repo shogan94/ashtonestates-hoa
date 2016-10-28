@@ -1,7 +1,7 @@
 /*
  *
  */
-package org.ashtonestates.user.model;
+package org.ashtonestates.model;
 
 import java.io.Serializable;
 

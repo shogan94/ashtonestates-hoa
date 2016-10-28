@@ -1,4 +1,4 @@
-package org.ashtonestates.user.model;
+package org.ashtonestates.model;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.PrePersist;
