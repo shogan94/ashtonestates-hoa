@@ -13,6 +13,7 @@ import org.hibernate.dialect.MySQL5InnoDBDialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -22,9 +23,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableJpaRepositories(basePackages = { "org.ashtonestates.repository" })
 @EnableTransactionManagement
+@Slf4j
 public class JpaConfig {
 
 	@Bean(name = "passwordEncoder")
@@ -38,8 +42,8 @@ public class JpaConfig {
 	 * @return the local container entity manager factory bean
 	 */
 	@Bean(name = "entityManagerFactory")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		return createEntityManagerFactoryBean(getDataSource(), getHibernateDialect());
+	public LocalContainerEntityManagerFactoryBean getProdEntityManagerFactory(final DataSource dataSource) {
+		return createEntityManagerFactoryBean(dataSource, getHibernateDialect());
 	}
 
 	/**
@@ -54,20 +58,24 @@ public class JpaConfig {
 		return new JpaTransactionManager(entityManagerFactory);
 	}
 
-	/**
-	 * Gets the data source.
-	 *
-	 * @return the data source
-	 */
-	@Bean
-	protected DataSource getDataSource() {
-		return getMysqlDataSource();
-	}
-
-	private DataSource getMysqlDataSource() {
+	@Bean(name = "dataSource")
+	@Profile("development")
+	public DataSource getDevDataSource() {
+		log.info("*** Using development datasource");
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
-		// ds.setUrl("jdbc:mysql://localhost:3306/ashtones_hoa?useSSL=false");
+		ds.setUrl("jdbc:mysql://localhost:3306/ashtones_hoa?useSSL=false");
+		ds.setUsername("ashtones_hoaUser");
+		ds.setPassword("Ashton3states!");
+		return ds;
+	}
+
+	@Bean(name = "dataSource")
+	@Profile("production")
+	public DataSource getProdDataSource() {
+		log.info("*** Using production datasource");
+		final DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
 		ds.setUrl("jdbc:mysql://ashtonestates.org:3306/ashtones_hoa?useSSL=false");
 		ds.setUsername("ashtones_hoaUser");
 		ds.setPassword("Ashton3states!");
