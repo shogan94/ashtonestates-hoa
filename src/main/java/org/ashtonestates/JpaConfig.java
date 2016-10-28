@@ -61,7 +61,7 @@ public class JpaConfig {
 	@Bean(name = "dataSource")
 	@Profile("development")
 	public DataSource getDevDataSource() {
-		log.info("*** Using development datasource");
+		log.debug("*** Using development datasource");
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
 		ds.setUrl("jdbc:mysql://localhost:3306/ashtones_hoa?useSSL=false");
@@ -73,7 +73,7 @@ public class JpaConfig {
 	@Bean(name = "dataSource")
 	@Profile("production")
 	public DataSource getProdDataSource() {
-		log.info("*** Using production datasource");
+		log.debug("*** Using production datasource");
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
 		ds.setUrl("jdbc:mysql://ashtonestates.org:3306/ashtones_hoa?useSSL=false");
