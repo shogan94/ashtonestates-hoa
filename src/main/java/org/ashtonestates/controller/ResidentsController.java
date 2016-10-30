@@ -106,6 +106,16 @@ public class ResidentsController extends BaseController {
 		return "residentsDocuments";
 	}
 
+	@GetMapping("/residents/boardMembers")
+	public String boardMembers() {
+		return "residentsBoardMembers";
+	}
+
+	@GetMapping("/residents/feedback")
+	public String feedback() {
+		return "residentsFeedback";
+	}
+
 	private List<User> getAllUsers() {
 		final List<User> users = userRepo.findByState(State.APPROVED);
 		return users;

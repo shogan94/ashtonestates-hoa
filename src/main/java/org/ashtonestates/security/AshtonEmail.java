@@ -36,18 +36,12 @@ public class AshtonEmail {
 	}
 
 	public Email getSimpleEmail() throws EmailException {
-		if (emailInstance == null) {
-			synchronized (Email.class) {
-				if (emailInstance == null) {
-					emailInstance = new SimpleEmail();
-					emailInstance.setHostName("jdz5.dailyrazor.com");
-					emailInstance.setSmtpPort(465);
-					emailInstance.setAuthenticator(new DefaultAuthenticator("webmaster@ashtonestates.org", "AssSnakeHat#1"));
-					emailInstance.setSSLOnConnect(true);
-					emailInstance.setFrom("webmaster@ashtonestates.org");
-				}
-			}
-		}
+		emailInstance = new SimpleEmail();
+		emailInstance.setHostName("jdz5.dailyrazor.com");
+		emailInstance.setSmtpPort(465);
+		emailInstance.setAuthenticator(new DefaultAuthenticator("webmaster@ashtonestates.org", "AssSnakeHat#1"));
+		emailInstance.setSSLOnConnect(true);
+		emailInstance.setFrom("webmaster@ashtonestates.org");
 		return emailInstance;
 	}
 

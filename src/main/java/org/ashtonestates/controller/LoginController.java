@@ -5,12 +5,16 @@ package org.ashtonestates.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -175,6 +179,7 @@ public class LoginController extends BaseController {
 
 					try {
 						sendRegisterEmail(resident);
+						sendAdminEmail(resident);
 					} catch (final EmailException e) {
 						log.error("Unable to send register email: {}", e.getMessage());
 					}
@@ -210,12 +215,30 @@ public class LoginController extends BaseController {
 		final String message = String.format(
 				"Dear %s %s, \n\nThank you for registering on the Ashton Estates web site.\nYour registration is pending approval by an admin.\n"
 						+ "You will receive another email when your registration has been approved.\n"
-						+ "If you have not received approval within 3 days, please contact a board member for assistance.\n\n" + "Thank you,\nAshton Estates Webmaster\n%s",
+						+ "If you have not received approval within 3 days, please contact a board member for assistance at boardmembers@ashtonestates.org.\n\n"
+						+ "Thank you,\nAshton Estates Webmaster\n%s",
 				StringUtils.capitalize(resident.getFirstName()), StringUtils.capitalize(resident.getLastName()), new Date().toString());
 
 		final Email email = AshtonEmail.getInstance().getSimpleEmail();
 		email.addTo(resident.getEmail());
 		email.setSubject("Ashton Estates Website Registration Submitted");
+		email.setMsg(message);
+		email.send();
+	}
+
+	private void sendAdminEmail(final User resident) throws EmailException {
+		final String message = String.format(
+				"Dear Ashton Estate Admins, \n\nA new user has registered for access on the Ashton Estates web site.\n"
+						+ "Please login and accept/reject the pending registration for the following user:\n" + "Name: %s %s\n" + "Address: %s\n\n"
+						+ "Thank you,\nAshton Estates Webmaster\n%s",
+				StringUtils.capitalize(resident.getFirstName()), StringUtils.capitalize(resident.getLastName()), resident.getAddress(), new Date().toString());
+
+		final List<User> admins = userRepo.findByRole(Role.ADMIN);
+		final Collection<String> adminEmails = CollectionUtils.collect(admins, (Transformer<User, String>) input -> input.getEmail());
+
+		final Email email = AshtonEmail.getInstance().getSimpleEmail();
+		email.addTo(adminEmails.toArray(new String[] {}));
+		email.setSubject("Ashton Estates Website Registration Pending Alert");
 		email.setMsg(message);
 		email.send();
 	}

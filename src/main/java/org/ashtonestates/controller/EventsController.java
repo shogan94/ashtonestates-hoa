@@ -25,19 +25,19 @@ public class EventsController extends BaseController {
 	public String editEvents(final ModelMap model) {
 		final List<UpcomingEvents> events = eventsRepo.findAll();
 		model.addAttribute("events", events);
-		return "admin/editEvents";
+		return "adminEditEvents";
 	}
 
 	@GetMapping("/admin/addEvent")
 	public String addEvent(final ModelMap model) {
-		return "admin/eventForm";
+		return "adminEventForm";
 	}
 
 	@GetMapping("/admin/editEvent/{id}")
 	public String editEvent(@PathVariable final String id, final ModelMap model) {
 		final UpcomingEvents modifyEvent = eventsRepo.findOne(Long.parseLong(id));
 		model.addAttribute("modifyEvent", modifyEvent);
-		return "admin/eventForm";
+		return addEvent(model);
 	}
 
 	@GetMapping("/admin/removeEvent/{id}")

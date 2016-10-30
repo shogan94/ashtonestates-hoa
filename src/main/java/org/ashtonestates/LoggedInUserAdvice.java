@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.ashtonestates.model.User;
 import org.ashtonestates.repository.UserRepository;
+import org.ashtonestates.security.VersionUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,4 +31,10 @@ public class LoggedInUserAdvice {
 
 		return result;
 	}
+
+	@ModelAttribute("websiteVersion")
+	public String websiteVersion() {
+		return VersionUtility.getInstance().getVersion();
+	}
+
 }

@@ -20,6 +20,7 @@
 <link href="${resources}/css/style.css" rel="stylesheet" />
 <link href="${resources}/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="${resources}/css/dropzone.min.css" rel="stylesheet" />
+<link href="${resources}/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
 <!--[if lt IE 9]>
     <script src="${resources}/js/html5shiv.min.js"></script>
@@ -53,6 +54,8 @@
 	<script src="${resources}/js/bootstrap.min.js"></script>
 	<script src="${resources}/js/jquery.dataTables.min.js"></script>
 	<script src="${resources}/js/dropzone.min.js"></script>
+	<script src="${resources}/js/moment.js"></script>
+	<script src="${resources}/js/bootstrap-datetimepicker.min.js"></script>
 
 	<tiles:insertAttribute name="bodyScripts" />
 

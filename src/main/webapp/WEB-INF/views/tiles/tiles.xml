@@ -35,78 +35,166 @@
 		<put-attribute name="title" value="Ashton Estates FAQ" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/faq.jsp" />
 	</definition>
-	
+
 	<!-- upcomingEvents -->
 	<definition name="upcomingEvents" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Upcoming Events" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/upcomingEvents.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/upcomingEventsScripts.jsp" />
 	</definition>
-	
+
 	<!-- pendingApproval -->
 	<definition name="pendingApproval" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates pendingApproval" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/pendingApproval.jsp" />
 	</definition>
-	
+
 	<!-- publicDocs -->
 	<definition name="publicDocuments" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Public Documents" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/publicDocuments.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/publicDocumentsScripts.jsp" />
 	</definition>
-	
+
 	<!-- residentsHome -->
 	<definition name="residentsHome" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Residents" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentsHome.jsp" />
 	</definition>
-	
+
+	<!-- residentsBoardMembers -->
+	<definition name="residentsBoardMembers" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Board Members" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/boardMembers.jsp" />
+	</definition>
+
+	<!-- residentsFeedback -->
+	<definition name="residentsFeedback" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Feedback/Comments" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/feedback.jsp" />
+	</definition>
+
 	<!-- residentsDirectory -->
 	<definition name="residentsDirectory" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Resident Directory" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentsDirectory.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/residentsDirectoryScripts.jsp" />
 	</definition>
-	
+
 	<!-- residentsDocuments -->
 	<definition name="residentsDocuments" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Resident Documents" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentsDocuments.jsp" />
-		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/residentsDocumentsScripts.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/residents/residentDocuments.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/residentDocumentsScripts.jsp" />
 	</definition>
-	
+
 	<!-- residentsUpdateInfo -->
 	<definition name="residentsUpdateInfo" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Resident Update Info" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/residents/updateInfo.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/updateInfoScripts.jsp" />
 	</definition>
-	
+
 	<!-- residentsChangePwd -->
 	<definition name="residentsChangePwd" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Resident Change Password" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/residents/changePwd.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/changePwdScripts.jsp" />
 	</definition>
-	
+
 	<!-- adminHome -->
 	<definition name="adminHome" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Administration" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/admin/adminHome.jsp" />
 	</definition>
-	
+
 	<!-- adminEditDocs -->
 	<definition name="adminEditDocs" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Admin Edit Documents" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editDocs.jsp" />
 	</definition>
-	
+
 	<!-- adminEditHomeDocs -->
 	<definition name="adminEditHomeDocs" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Admin Edit Home Documents" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editHomeDocs.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editHomeDocsScripts.jsp" />
+	</definition>
+
+	<!-- adminEditTownhomeDocs -->
+	<definition name="adminEditTownhomeDocs" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit Townhome Documents" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editTownhomeDocs.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editTownhomeDocsScripts.jsp" />
+	</definition>
+
+	<!-- adminApprovePending -->
+	<definition name="adminApprovePending" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Approve Pending Users" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/approvePending.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/approvePendingScripts.jsp" />
+	</definition>
+
+	<!-- adminEditUsers -->
+	<definition name="adminEditUsers" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit Users" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editUsers.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editUsersScripts.jsp" />
+	</definition>
+
+	<!-- adminEditUser -->
+	<definition name="adminEditUser" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit User" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editUser.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editUserScripts.jsp" />
+	</definition>
+
+	<!-- adminChangePwd -->
+	<definition name="adminChangePwd" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Change Password" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/changePwd.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/changePwdScripts.jsp" />
+	</definition>
+
+	<!-- adminEditEvents -->
+	<definition name="adminEditEvents" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit Events" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editEvents.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editEventsScripts.jsp" />
+	</definition>
+
+	<!-- adminEventForm -->
+	<definition name="adminEventForm" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Event" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/eventForm.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/eventFormScripts.jsp" />
+	</definition>
+
+	<!-- forgotPwd -->
+	<definition name="forgotPwd" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Forgot Password" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/forgotPwd.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/forgotPwdScripts.jsp" />
+	</definition>
+
+	<!-- forgotPwdComplete -->
+	<definition name="forgotPwdComplete" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Forgot Password" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/forgotPwdComplete.jsp" />
+	</definition>
+
+	<!-- resetPwd -->
+	<definition name="resetPwd" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Reset Password" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/resetPwd.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/resetPwdScripts.jsp" />
+	</definition>
+	
+	<!-- register -->
+	<definition name="register" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Registration" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/register.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/registerScripts.jsp" />
 	</definition>
 
 </tiles-definitions>

@@ -63,7 +63,7 @@ public class AdminController extends BaseController {
 	public String editTownhomeDocs(final ModelMap model) {
 		model.addAttribute("townhomePublicFiles", docRepo.findByDocumentType(DocumentType.PUBLIC_TOWNHOME));
 		model.addAttribute("townhomeResidentFiles", docRepo.findByDocumentType(DocumentType.RESIDENT_TOWNHOME));
-		return "admin/editTownhomeDocs";
+		return "adminEditTownhomeDocs";
 	}
 
 	@GetMapping("/admin/deleteTownhomeDoc/{id}")
@@ -76,7 +76,7 @@ public class AdminController extends BaseController {
 	public String approvePending(final ModelMap model) {
 		final List<User> pendingUsers = userRepo.findByState(State.PENDING);
 		model.addAttribute("pendingUsers", pendingUsers);
-		return "admin/approvePending";
+		return "adminApprovePending";
 	}
 
 	@GetMapping("/admin/approve/{userId}")
@@ -114,7 +114,7 @@ public class AdminController extends BaseController {
 	public String editUsers(final ModelMap model) {
 		final List<User> users = userRepo.findByState(State.APPROVED);
 		model.addAttribute("users", users);
-		return "admin/editUsers";
+		return "adminEditUsers";
 	}
 
 	@GetMapping("/admin/removeUser/{userId}")
@@ -135,9 +135,10 @@ public class AdminController extends BaseController {
 		form.setEmail(changeUser.getEmail());
 		form.setFirstName(changeUser.getFirstName());
 		form.setLastName(changeUser.getLastName());
+		form.setRole(changeUser.getRole());
 		model.addAttribute("residentInfoForm", form);
 
-		return "admin/editUser";
+		return "adminEditUser";
 	}
 
 	@PostMapping("/admin/processUpdateInfo")
@@ -153,6 +154,7 @@ public class AdminController extends BaseController {
 				user.setAddress(form.getAddress());
 				user.setFirstName(form.getFirstName());
 				user.setLastName(form.getLastName());
+				user.setRole(form.getRole());
 				userRepo.save(user);
 			} else {
 				model.addAttribute("errorMessage", "This email already exists in the system");
@@ -172,7 +174,7 @@ public class AdminController extends BaseController {
 		final User changeUser = userRepo.findOne(Long.parseLong(userId));
 		model.addAttribute("userFN", changeUser.getFirstName());
 		model.addAttribute("userLN", changeUser.getLastName());
-		return "admin/changePwd";
+		return "adminChangePwd";
 	}
 
 	@PostMapping("/admin/processChangePwd")
