@@ -201,7 +201,7 @@ public class LoginController extends BaseController {
 				"Dear %s, \n\nYou recently requested to reset your password for your Ashton Estates Website account. Click the link below to reset it.\n\n"
 						+ "http://localhost:8080/ashtonestates/reset/%s\n\n"
 						+ "If you did not request a password reset, please ignore this email or reply to let us know. This password reset is only valid for the next 30 minutes.\n\n"
-						+ "Thank you,\nAshton Estates Webmaster\n%s",
+						+ "Thank you,\nAshton Estates Webmaster\nwebmaster@ashtonestates.org\n%s",
 				StringUtils.capitalize(request.getUser().getFirstName()), request.getRequestId(), request.getRequestId(), new Date().toString());
 
 		final Email email = AshtonEmail.getInstance().getSimpleEmail();
@@ -216,7 +216,7 @@ public class LoginController extends BaseController {
 				"Dear %s %s, \n\nThank you for registering on the Ashton Estates web site.\nYour registration is pending approval by an admin.\n"
 						+ "You will receive another email when your registration has been approved.\n"
 						+ "If you have not received approval within 3 days, please contact a board member for assistance at boardmembers@ashtonestates.org.\n\n"
-						+ "Thank you,\nAshton Estates Webmaster\n%s",
+						+ "Thank you,\nAshton Estates Webmaster\nwebmaster@ashtonestates.org\n%s",
 				StringUtils.capitalize(resident.getFirstName()), StringUtils.capitalize(resident.getLastName()), new Date().toString());
 
 		final Email email = AshtonEmail.getInstance().getSimpleEmail();
@@ -230,7 +230,7 @@ public class LoginController extends BaseController {
 		final String message = String.format(
 				"Dear Ashton Estate Admins, \n\nA new user has registered for access on the Ashton Estates web site.\n"
 						+ "Please login and accept/reject the pending registration for the following user:\n" + "Name: %s %s\n" + "Address: %s\n\n"
-						+ "Thank you,\nAshton Estates Webmaster\n%s",
+						+ "Thank you,\nAshton Estates Webmaster\nwebmaster@ashtonestates.org\n%s",
 				StringUtils.capitalize(resident.getFirstName()), StringUtils.capitalize(resident.getLastName()), resident.getAddress(), new Date().toString());
 
 		final List<User> admins = userRepo.findByRole(Role.ADMIN);

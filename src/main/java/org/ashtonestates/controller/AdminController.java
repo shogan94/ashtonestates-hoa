@@ -223,7 +223,7 @@ public class AdminController extends BaseController {
 	private void sendApprovedMessage(final User user) throws EmailException {
 		final String message = String.format(
 				"Dear %s %s, \n\nYour registering on the Ashton Estates web site has been approved by an admin.\nYou may now access the 'Residents' section of the website.\n\n"
-						+ "Thank you,\nAshton Estates Webmaster\n%s",
+						+ "Thank you,\nAshton Estates Webmaster\nwebmaster@ashtonestates.org\n%s",
 				StringUtils.capitalize(user.getFirstName()), StringUtils.capitalize(user.getLastName()), new Date().toString());
 
 		final Email email = AshtonEmail.getInstance().getSimpleEmail();
@@ -237,7 +237,7 @@ public class AdminController extends BaseController {
 		final String message = String.format(
 				"Dear %s %s, \n\nYour password on the Ashton Estates web site has been changed by an admin.\nYou should login with the following information.\n"
 						+ "Email: %s\nPassword: %s\n\n" + "After you login, you can access the 'Residents' section and click on 'Change Password' to change it.\n\n"
-						+ "Thank you,\nAshton Estates Webmaster\n\n%s",
+						+ "Thank you,\nAshton Estates Webmaster\nwebmaster@ashtonestates.org\n%s",
 				StringUtils.capitalize(user.getFirstName()), StringUtils.capitalize(user.getLastName()), user.getEmail(), pwd, new Date().toString());
 
 		final Email email = AshtonEmail.getInstance().getSimpleEmail();
