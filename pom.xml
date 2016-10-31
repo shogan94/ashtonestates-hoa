@@ -322,7 +322,7 @@
 
 
 	<build>
-		<finalName>ashtonestates</finalName>
+		<finalName>ROOT</finalName>
 
 		<plugins>
 

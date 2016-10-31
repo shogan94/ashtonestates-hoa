@@ -1,15 +1,13 @@
 <link href="http://img.weather.weatherbug.com/Style/stickers/v2/Stickers_300x250.css" rel="stylesheet">
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
 <script>
-	var map;
-	function initialize() {
-		map = new google.maps.Map(document.getElementById('map-canvas'), {
+	function initMap() {
+		var map = new google.maps.Map(document.getElementById('map-canvas'), {
 			zoom : 15,
 			center : {
 				lat : 39.584666,
-				lng : -79.9835
+				lng : -79.9853
 			}
-
 		});
 
 		var ashtonCoords = [ new google.maps.LatLng(39.584507, -79.979610), new google.maps.LatLng(39.586128, -79.980297), new google.maps.LatLng(39.586178, -79.982936),
@@ -23,11 +21,10 @@
 			strokeOpacity : 0.5,
 			strokeWeight : 2,
 			fillColor : 'blue',
-			fillOpacity : 0.15
+			fillOpacity : 0.05
 		});
 
 		ashton.setMap(map);
 	}
-
-	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnxZVlW4FBhB0Eg3A_UiD-Twxvfpz1tY0&callback=initMap" type="text/javascript"></script>
