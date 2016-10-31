@@ -4,9 +4,9 @@
 	<groupId>org.ashtonestates</groupId>
 	<artifactId>hoa</artifactId>
 	<packaging>war</packaging>
-	
+
 	<version>1.0</version>
-	
+
 	<name>hoa</name>
 	<url>http://www.ashtonestates.org</url>
 	<description>Ashton Estates Home Owners Association Website</description>
@@ -62,7 +62,7 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.10</version>
 		</dependency>
-		
+
 		<!-- Apache Tiles -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -323,6 +323,13 @@
 
 	<build>
 		<finalName>ROOT</finalName>
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 
 		<plugins>
 

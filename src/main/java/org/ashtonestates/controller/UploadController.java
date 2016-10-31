@@ -13,6 +13,7 @@ import org.ashtonestates.model.Documents;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +48,7 @@ public class UploadController extends BaseController {
 					file.transferTo(uploadedFile);
 					final Documents doc = new Documents();
 					doc.setName(file.getOriginalFilename());
-					doc.setPath(uploadedFile.getPath());
+					doc.setPath(StringUtils.delete(uploadedFile.getPath(), "/home/ashtones"));
 					doc.setSize(file.getSize());
 					doc.setUploadedDate(new Date().toString());
 					doc.setDocumentType(DocumentType.PUBLIC_HOMES);
@@ -78,7 +79,7 @@ public class UploadController extends BaseController {
 					file.transferTo(uploadedFile);
 					final Documents doc = new Documents();
 					doc.setName(file.getOriginalFilename());
-					doc.setPath(uploadedFile.getPath());
+					doc.setPath(StringUtils.delete(uploadedFile.getPath(), "/home/ashtones"));
 					doc.setSize(file.getSize());
 					doc.setUploadedDate(new Date().toString());
 					doc.setDocumentType(DocumentType.RESIDENT_HOMES);
@@ -111,7 +112,7 @@ public class UploadController extends BaseController {
 					file.transferTo(uploadedFile);
 					final Documents doc = new Documents();
 					doc.setName(file.getOriginalFilename());
-					doc.setPath(uploadedFile.getPath());
+					doc.setPath(StringUtils.delete(uploadedFile.getPath(), "/home/ashtones"));
 					doc.setSize(file.getSize());
 					doc.setUploadedDate(new Date().toString());
 					doc.setDocumentType(DocumentType.PUBLIC_TOWNHOME);
@@ -143,7 +144,7 @@ public class UploadController extends BaseController {
 					file.transferTo(uploadedFile);
 					final Documents doc = new Documents();
 					doc.setName(file.getOriginalFilename());
-					doc.setPath(uploadedFile.getPath());
+					doc.setPath(StringUtils.delete(uploadedFile.getPath(), "/home/ashtones"));
 					doc.setSize(file.getSize());
 					doc.setUploadedDate(new Date().toString());
 					doc.setDocumentType(DocumentType.RESIDENT_TOWNHOME);
