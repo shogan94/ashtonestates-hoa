@@ -64,6 +64,11 @@ public class User {
 	@Getter
 	private String address;
 
+	@Column(name = "PHONE", nullable = true)
+	@Setter
+	@Getter
+	private String phone;
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "STATE", nullable = false)
 	@Getter
@@ -80,17 +85,19 @@ public class User {
 	@Setter
 	private Role role;
 
-	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final State inState) {
+	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final String inPhone, final State inState) {
 		firstName = inFirstname;
 		lastName = inLastname;
 		password = inPwd;
 		address = inAddress;
 		email = inEmail;
+		phone = inPhone;
 		state = inState;
 	}
 
-	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final State inState, final Role inRole) {
-		this(inFirstname, inLastname, inPwd, inAddress, inEmail, inState);
+	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final String inPhone, final State inState,
+			final Role inRole) {
+		this(inFirstname, inLastname, inPwd, inAddress, inEmail, inPhone, inState);
 		role = inRole;
 	}
 

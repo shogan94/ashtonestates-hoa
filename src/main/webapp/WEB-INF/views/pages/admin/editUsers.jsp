@@ -12,6 +12,7 @@
 						<th>Last name</th>
 						<th>Address</th>
 						<th>Email</th>
+						<th>Phone</th>
 						<th>ApprovedBy</th>
 						<th>Role</th>
 					</tr>
@@ -37,6 +38,7 @@
 						<td>${user.getLastName()}</td>
 						<td>${user.getAddress()}</td>
 						<td>${user.getEmail()}</td>
+						<td>${user.getPhone()}</td>
 						<td>${user.getApprovedBy()}</td>
 						<td>${user.getRole()}</td>
 					</tr>

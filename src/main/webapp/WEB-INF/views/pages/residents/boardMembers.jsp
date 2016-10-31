@@ -15,6 +15,8 @@
 								Hawkins</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:Stacie.redelman@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Treasurer -
 								Stacie Redelman</li>
+							<li class="list-group-item"><span class="badge"><a href="mailto:bjurick1@comcast.net"><span class="glyphicon glyphicon-envelope"></span></a></span>Betty Jurick</li>
+							<li class="list-group-item"><span class="badge"><a href="mailto:agguy13@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Alex Guy</li>
 						</ul>
 					</div>
 				</div>
@@ -26,7 +28,7 @@
 							<li class="list-group-item"><span class="badge"><a href="mailto:bjurick1@comcast.net"><span class="glyphicon glyphicon-envelope"></span></a></span>Betty Jurick</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:morgantown255@hotmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Michael Kief</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:Hrmanager1278@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Dave Marino</li>
-							<li class="list-group-item"><span class="badge"><a href="mailto:"><span class="glyphicon glyphicon-envelope"></span></a></span>John Vidovich</li>
+							<li class="list-group-item"><span class="badge"><a href="mailto:5vidoes@comcast.net"><span class="glyphicon glyphicon-envelope"></span></a></span>John Vidovich</li>
 						</ul>
 					</div>
 				</div>
@@ -36,10 +38,11 @@
 					<div class="contactInfo">
 						<h3>Townhome Owners Board Members</h3>
 						<ul class="list-group">
-							<li class="list-group-item"><span class="badge"><a href="mailto:"><span class="glyphicon glyphicon-envelope"></span></a></span>Alex Guy</li>
+							<li class="list-group-item"><span class="badge"><a href="mailto:agguy13@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Alex Guy</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:hawk1218@yahoo.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Brenda Hawkins</li>
-							<li class="list-group-item"><span class="badge"><a href="mailto:"><span class="glyphicon glyphicon-envelope"></span></a></span>Stephanie Mazzei</li>
+							<li class="list-group-item"><span class="badge"><a href="mailto:barbie566@yahoo.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Stephanie Mazzei</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:Snyderrev.de@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>DeAnna Snyder</li>
+							<li class="list-group-item"><span class="badge"><a href="mailto:tetris@cmachurch.net"><span class="glyphicon glyphicon-envelope"></span></a></span>Toni Etris</li>
 						</ul>
 					</div>
 				</div>

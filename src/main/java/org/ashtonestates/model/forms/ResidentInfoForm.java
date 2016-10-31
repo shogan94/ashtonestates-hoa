@@ -21,6 +21,10 @@ public class ResidentInfoForm {
 
 	@Getter
 	@Setter
+	private String phone;
+
+	@Getter
+	@Setter
 	private Role role;
 
 	@Getter

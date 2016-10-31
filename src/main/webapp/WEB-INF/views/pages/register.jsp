@@ -29,6 +29,9 @@
 				<div class="form-group">
 					<input type="text" name="address" required class="form-control" placeholder="Street Address" value="${registerForm.address}" />
 				</div>
+				<div class="form-group">
+					<input type="text" name="phone" class="form-control" placeholder="Phone" value="${registerForm.phone}" />
+				</div>
 
 				<button type="submit" name="go" class="btn btn-primary loginBtn">Submit Registration</button>
 				<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>

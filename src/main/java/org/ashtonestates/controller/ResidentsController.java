@@ -56,6 +56,7 @@ public class ResidentsController extends BaseController {
 		form.setEmail(residentUser.getEmail());
 		form.setFirstName(residentUser.getFirstName());
 		form.setLastName(residentUser.getLastName());
+		form.setPhone(residentUser.getPhone());
 
 		model.addAttribute("residentInfoForm", form);
 		return "residentsUpdateInfo";
@@ -74,6 +75,7 @@ public class ResidentsController extends BaseController {
 				residentUser.setAddress(form.getAddress());
 				residentUser.setFirstName(form.getFirstName());
 				residentUser.setLastName(form.getLastName());
+				residentUser.setPhone(form.getPhone());
 				userRepo.save(residentUser);
 			} else {
 				model.addAttribute("errorMessage", "This email already exists in the system");

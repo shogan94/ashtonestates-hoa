@@ -13,26 +13,35 @@ public class RegisterForm {
 	@Getter
 	@Setter
 	private String email;
+
+	@Getter
+	@Setter
+	private String phone;
+
 	@Getter
 	@Setter
 	private String password;
+
 	@Getter
 	@Setter
 	private String confirmPassword;
+
 	@Getter
 	private String firstName;
-	@Getter
-	private String lastName;
-	@Getter
-	private String address;
 
 	public void setFirstName(final String val) {
 		firstName = StringUtils.capitalize(val);
 	}
 
+	@Getter
+	private String lastName;
+
 	public void setLastName(final String val) {
 		lastName = StringUtils.capitalize(val);
 	}
+
+	@Getter
+	private String address;
 
 	public void setAddress(final String val) {
 		address = WordUtils.capitalizeFully(val);

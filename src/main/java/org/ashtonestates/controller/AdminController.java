@@ -135,6 +135,7 @@ public class AdminController extends BaseController {
 		form.setEmail(changeUser.getEmail());
 		form.setFirstName(changeUser.getFirstName());
 		form.setLastName(changeUser.getLastName());
+		form.setPhone(changeUser.getPhone());
 		form.setRole(changeUser.getRole());
 		model.addAttribute("residentInfoForm", form);
 
@@ -154,6 +155,7 @@ public class AdminController extends BaseController {
 				user.setAddress(form.getAddress());
 				user.setFirstName(form.getFirstName());
 				user.setLastName(form.getLastName());
+				user.setPhone(form.getPhone());
 				user.setRole(form.getRole());
 				userRepo.save(user);
 			} else {

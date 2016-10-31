@@ -7,6 +7,7 @@
 				<th>FirstName</th>
 				<th>LastName</th>
 				<th>Street</th>
+				<th>Phone</th>
 				<th>Email</th>
 			</tr>
 		</thead>
@@ -16,6 +17,7 @@
 					<td><c:out value="${u.firstName}" /></td>
 					<td><c:out value="${u.lastName}" /></td>
 					<td><c:out value="${u.address}" /></td>
+					<td><c:out value="${u.phone}" /></td>
 					<td><a href="mailto:${u.email}" class="btn btn-email" role="button"><c:out value="${u.email}" /></a></td>
 				</tr>
 			</c:forEach>

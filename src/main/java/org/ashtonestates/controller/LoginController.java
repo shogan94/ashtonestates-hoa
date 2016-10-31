@@ -175,6 +175,7 @@ public class LoginController extends BaseController {
 					resident.setRole(Role.USER);
 					resident.setState(State.PENDING);
 					resident.setAddress(form.getAddress());
+					resident.setPhone(form.getPhone());
 					userRepo.save(resident);
 
 					try {

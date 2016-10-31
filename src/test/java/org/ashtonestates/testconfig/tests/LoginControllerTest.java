@@ -58,9 +58,9 @@ public class LoginControllerTest {
 	/** The mock mvc. */
 	protected MockMvc mockMvc;
 
-	final User user1 = new User("Bill", "Hunt", "password1", "1416 Bradford Ln", "william.l.hunt@gmail.com", State.APPROVED, Role.ADMIN);
-	final User user2 = new User("Bill", "Walker", "password2", "1 Main Street", "bwalker@gmail.com", State.PENDING, Role.USER);
-	final User user3 = new User("Stacy", "Layton", "password3", "1408 Bradford Ln", "s_layton@facebook.com", State.APPROVED, Role.USER);
+	final User user1 = new User("Bill", "Hunt", "password1", "1416 Bradford Ln", "william.l.hunt@gmail.com", "304-680-4301", State.APPROVED, Role.ADMIN);
+	final User user2 = new User("Bill", "Walker", "password2", "1 Main Street", "bwalker@gmail.com", null, State.PENDING, Role.USER);
+	final User user3 = new User("Stacy", "Layton", "password3", "1408 Bradford Ln", "s_layton@facebook.com", null, State.APPROVED, Role.USER);
 
 	/**
 	 * Setup.

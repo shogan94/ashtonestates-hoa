@@ -36,11 +36,11 @@ public class UserRepoTest {
 
 	@Before
 	public void loadDB() {
-		final User user1 = new User("Bill", "Hunt", "password1", "1416 Bradford Ln", "william.l.hunt@gmail.com", State.APPROVED, Role.ADMIN);
-		final User user2 = new User("Bill", "Walker", "password2", "1 Main Street", "bwalker@gmail.com", State.PENDING, Role.USER);
-		final User user3 = new User("Stacy", "Layton", "password3", "1408 Bradford Ln", "s_layton@facebook.com", State.APPROVED, Role.USER);
-		final User user4 = new User("Maria", "Smith", "password4", "1410 Bradford Ln", "msmith12@gmail.com", State.PENDING, Role.USER);
-		final User user5 = new User("Tammi", "Hunt", "password5", "1416 Bradford Ln", "tammi.hunt@gmail.com", State.APPROVED, Role.USER);
+		final User user1 = new User("Bill", "Hunt", "password1", "1416 Bradford Ln", "william.l.hunt@gmail.com", "304-680-4301", State.APPROVED, Role.ADMIN);
+		final User user2 = new User("Bill", "Walker", "password2", "1 Main Street", "bwalker@gmail.com", null, State.PENDING, Role.USER);
+		final User user3 = new User("Stacy", "Layton", "password3", "1408 Bradford Ln", "s_layton@facebook.com", null, State.APPROVED, Role.USER);
+		final User user4 = new User("Maria", "Smith", "password4", "1410 Bradford Ln", "msmith12@gmail.com", null, State.PENDING, Role.USER);
+		final User user5 = new User("Tammi", "Hunt", "password5", "1416 Bradford Ln", "tammi.hunt@gmail.com", null, State.APPROVED, Role.USER);
 
 		userRepo.save(user1);
 		userRepo.save(user2);
