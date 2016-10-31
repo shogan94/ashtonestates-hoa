@@ -25,10 +25,10 @@ import net.minidev.json.JSONObject;
 @Slf4j
 public class UploadController extends BaseController {
 
-	private static final String PUBLIC_HOME_DIRECTORY = "c:/Temp/ashton-documents/home-public-docs";
-	private static final String RESIDENT_HOME_DIRECTORY = "c:/Temp/ashton-documents/home-resident-docs";
-	private static final String PUBLIC_TOWNHOME_DIRECTORY = "c:/Temp/ashton-documents/townhome-public-docs";
-	private static final String RESIDENT_TOWNHOME_DIRECTORY = "c:/Temp/ashton-documents/townhome-resident-docs";
+	private static final String PUBLIC_HOME_DIRECTORY = "/home/ashtones/documents/home-public-docs";
+	private static final String RESIDENT_HOME_DIRECTORY = "/home/ashtones/documents/home-resident-docs";
+	private static final String PUBLIC_TOWNHOME_DIRECTORY = "/home/ashtones/documents/townhome-public-docs";
+	private static final String RESIDENT_TOWNHOME_DIRECTORY = "/home/ashtones/documents/townhome-resident-docs";
 
 	@PostMapping(value = "/admin/uploadPublicHome", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<String> uploadPublicHome(@RequestParam final CommonsMultipartFile file) {
