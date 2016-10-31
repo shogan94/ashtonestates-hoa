@@ -29,7 +29,7 @@
 					<input type="text" name="address" required class="form-control" placeholder="Street Address" value="${residentInfoForm.address}" />
 				</div>
 				<div class="form-group">
-					<input type="text" name="phone" required class="form-control" placeholder="Phone" value="${residentInfoForm.phone}" />
+					<input type="text" name="phone" class="form-control" placeholder="Phone" value="${residentInfoForm.phone}" />
 				</div>
 				<div class="form-group">
 					<input type="text" name="role" required class="form-control" placeholder="Role" value="${residentInfoForm.role}" />

@@ -22,6 +22,16 @@
 				</div>
 				<div class="col-md-6 text-center center-block">
 					<div class="contactInfo">
+						<h3>Building Committee Chair</h3>
+						<ul class="list-group">
+							<li class="list-group-item"><span class="badge"><a href="mailto:Jacki.marino@ gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Jacki Marino</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 text-center center-block">
+					<div class="contactInfo">
 						<h3>Home Owners Board Members</h3>
 						<ul class="list-group">
 							<li class="list-group-item"><span class="badge"><a href="mailto:jeffreywayne3@yahoo.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Jeff Dalrymple</li>
@@ -32,10 +42,8 @@
 						</ul>
 					</div>
 				</div>
-			</div>
-			<div class="row">
 				<div class="col-md-6 text-center center-block">
-					<div class="contactInfo">
+				<div class="contactInfo">
 						<h3>Townhome Owners Board Members</h3>
 						<ul class="list-group">
 							<li class="list-group-item"><span class="badge"><a href="mailto:agguy13@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Alex Guy</li>
@@ -43,14 +51,6 @@
 							<li class="list-group-item"><span class="badge"><a href="mailto:barbie566@yahoo.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Stephanie Mazzei</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:Snyderrev.de@gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>DeAnna Snyder</li>
 							<li class="list-group-item"><span class="badge"><a href="mailto:tetris@cmachurch.net"><span class="glyphicon glyphicon-envelope"></span></a></span>Toni Etris</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-6 text-center center-block">
-					<div class="contactInfo">
-						<h3>Building Committee Chair</h3>
-						<ul class="list-group">
-							<li class="list-group-item"><span class="badge"><a href="mailto:Jacki.marino@ gmail.com"><span class="glyphicon glyphicon-envelope"></span></a></span>Jacki Marino</li>
 						</ul>
 					</div>
 				</div>
