@@ -5,37 +5,93 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="content">
-			<h2>Residents Registration</h2>
-
+		<div class="formcontent">
 			<div class="marginbottom20 bg-danger">${errorMessage}</div>
-			<form:form method="post" action="${processRegistration}" modelAttribute="registerForm">
 
-				<div class="form-group">
-					<input type="email" name="email" required class="form-control" placeholder="Email" value="${registerForm.email}" />
-				</div>
-				<div class="form-group">
-					<input type="password" name="password" required class="form-control" placeholder="Password" />
-				</div>
-				<div class="form-group">
-					<input type="password" name="confirmPassword" required class="form-control" placeholder="Confirm Password" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="firstName" required class="form-control" placeholder="First name" value="${registerForm.firstName}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="lastName" required class="form-control" placeholder="Last name" value="${registerForm.lastName}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="address" required class="form-control" placeholder="Street Address" value="${registerForm.address}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="phone" class="form-control" placeholder="Phone" value="${registerForm.phone}" />
-				</div>
+			<div class="forminput">
 
-				<button type="submit" name="go" class="btn btn-primary loginBtn">Submit Registration</button>
-				<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
-			</form:form>
+				<form:form id="regForm" method="post" action="${processRegistration}" modelAttribute="registerForm" data-toggle="validator">
+					<h2>Resident registration</h2>
+
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-envelope"></span>
+							</div>
+							<input type="email" name="email" placeholder="Email address" required class="form-control" value="${registerForm.email}" data-error="Enter a correctly formatted email" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-lock"></span>
+							</div>
+							<input type="password" name="password" id="password" placeholder="Password" required class="form-control" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-lock"></span>
+							</div>
+							<input type="password" name="confirmPassword" placeholder="Confirm Password" required class="form-control" data-match="#password" data-match-error="Passwords do not match" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-user"></span>
+							</div>
+							<input type="text" name="firstName" placeholder="First name" required class="form-control" value="${registerForm.firstName}" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-user"></span>
+							</div>
+							<input type="text" name="lastName" placeholder="Last name" required class="form-control" value="${registerForm.lastName}" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-home"></span>
+							</div>
+							<input type="text" name="address" placeholder="Street Address" required class="form-control" value="${registerForm.address}" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-phone-alt"></span>
+							</div>
+							<input type="text" name="phone" placeholder="Phone" class="form-control" value="${registerForm.phone}" pattern="^(\d{3})[.-]?)(\d{3})([.-]?\d{4})$" data-error="Format: ###-###-#### or ###.###.#### or ##########" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div id="showSpinner" class="spinner">Submitting Registration...</div>
+					<button type="submit" id="submitButton" name="submit" class="btn btn-primary loginBtn">Submit Registration</button>
+					<button type="button" name="cancel" class="btn loginBtn" id="cancelButton">Cancel</button>
+				</form:form>
+			</div>
 		</div>
 	</div>
 </div>

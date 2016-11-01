@@ -7,8 +7,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="content">
-			<h2>Residents Login</h2>
+		<div class="formcontent">
 
 			<div class="marginbottom20 bg-danger">
 				<c:if test="${param.error != null}">
@@ -49,25 +48,30 @@
 
 			<div class="marginbottom20 bg-danger">${errorMessage}</div>
 
-			<form:form method="post" action="${login}" modelAttribute="loginForm">
-
-				<div class="form-group">
-					<input type="email" name="email" required class="form-control" placeholder="Email address" />
-				</div>
-
-				<div class="input-group">
-					<input type="password" name="password" required class="form-control" placeholder="Password" /> <span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="forgotBtn" data-toggle="tooltip" data-placement="top" title="Forgot password ?">
-							<span class="glyphicon glyphicon-question-sign text-danger" aria-hidden="true"></span>
-						</button>
-					</span>
-				</div>
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-				<button type="submit" name="go" class="btn btn-primary loginBtn">Login Now</button>
-			</form:form>
-			<div class="margintop20">
-				Not yet an Ashton member ? <a href="${register}">Register Now</a>
+			<div class="forminput">
+				<form:form method="post" action="${login}" modelAttribute="loginForm" data-toggle="validator">
+					<h2>Please sign in</h2>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-envelope"></span>
+							</div>
+							<input type="email" name="email" placeholder="Email address" required class="form-control" data-error="Enter a correctly formatted email" />
+						</div>
+						<div class="help-block with-errors"></div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-lock"></span>
+							</div>
+							<input type="password" name="password" placeholder="Password" required class="form-control" />
+						</div>
+					</div>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<button type="submit" name="go" class="btn btn-block btn-success">Sign in</button>
+					<a href="${forgotPwd}" class="btn btn-block btn-default">Forgot password?</a> <a href="${register}" class="btn btn-block btn-default">Need an account?</a>
+				</form:form>
 			</div>
 		</div>
 	</div>

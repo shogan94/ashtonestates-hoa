@@ -56,6 +56,7 @@
 	<script src="${resources}/js/dropzone.min.js"></script>
 	<script src="${resources}/js/moment.js"></script>
 	<script src="${resources}/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
 
 	<tiles:insertAttribute name="bodyScripts" />
 

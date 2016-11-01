@@ -29,7 +29,7 @@
 
 				<dt>How do I pay my assessments?</dt>
 				<dd>
-					HOA dues are due the March 1st. For 2016, dues are $850/year. Please contact the <span style="color: #333333;"><strong><a style="color: #333333;"
+					HOA dues are due the March 1st. For 2016, dues are $875/year. Please contact the <span style="color: #333333;"><strong><a style="color: #333333;"
 							title="Treasurer Email" href="mailto:treasurer@ashtonestates.org">Treasurer</a></strong></span> for more information.
 				</dd>
 

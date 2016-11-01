@@ -5,20 +5,26 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="content">
-			<h3>Forgot Password</h3>
-
+		<div class="formcontent">
 			<div class="marginbottom20 bg-danger">${errorMessage}</div>
 
-			<form:form method="post" action="${requestReset}">
+			<div class="forminput">
+				<form:form method="post" action="${requestReset}" data-toggle="validator">
+					<h2>Forgot password?</h2>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-envelope"></span>
+							</div>
+							<input type="email" name="email" placeholder="Email address" required class="form-control" data-error="Enter a correctly formatted email" />
+						</div>
+						<div class="help-block with-errors"></div>
+					</div>
 
-				<div class="form-group">
-					<input type="email" name="email" required class="form-control" placeholder="Email address" />
-				</div>
-
-				<button type="submit" name="go" class="btn btn-primary loginBtn">Request Password</button>
-				<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
-			</form:form>
+					<button type="submit" name="go" class="btn btn-primary loginBtn">Request Password</button>
+					<button type="button" name="cancel" class="btn loginBtn" id="cancelButton">Cancel</button>
+				</form:form>
+			</div>
 		</div>
 	</div>
 </div>

@@ -5,30 +5,71 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="content">
-			<h2>Update Information for: ${loggedInUserName}</h2>
-
+		<div class="formcontent">
 			<div class="marginbottom20 bg-danger">${errorMessage}</div>
-			<form:form method="post" action="${processUpdateInfo}" modelAttribute="residentInfoForm">
-				<div class="form-group">
-					<input type="email" name="email" required class="form-control" placeholder="Email" value="${residentInfoForm.email}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="firstName" required class="form-control" placeholder="First name" value="${residentInfoForm.firstName}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="lastName" required class="form-control" placeholder="Last name" value="${residentInfoForm.lastName}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="address" required class="form-control" placeholder="Street Address" value="${residentInfoForm.address}" />
-				</div>
-				<div class="form-group">
-					<input type="text" name="phone" class="form-control" placeholder="Phone" value="${residentInfoForm.phone}" />
-				</div>
 
-				<button type="submit" name="go" class="btn btn-primary loginBtn">Update Information</button>
-				<button type="button" name="cancel" class="btn btn-primary loginBtn" id="cancelButton">Cancel</button>
-			</form:form>
+			<div class="forminput">
+				<form:form method="post" action="${processUpdateInfo}" modelAttribute="residentInfoForm" data-toggle="validator">
+					<h2>Update information for: ${loggedInUserName}</h2>
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-envelope"></span>
+							</div>
+							<input type="email" name="email" placeholder="Email address" required class="form-control" value="${residentInfoForm.email}" data-error="Enter a correctly formatted email" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-home"></span>
+							</div>
+							<input type="text" name="firstName" placeholder="First name" required class="form-control" value="${residentInfoForm.firstName}" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-home"></span>
+							</div>
+							<input type="text" name="lastName" placeholder="Last name" required class="form-control" value="${residentInfoForm.lastName}" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-home"></span>
+							</div>
+							<input type="text" name="address" placeholder="Street Address" required class="form-control" value="${residentInfoForm.address}" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="text-primary glyphicon glyphicon-phone-alt"></span>
+							</div>
+							<input type="text" name="phone" placeholder="Phone" class="form-control" value="${residentInfoForm.phone}" pattern="^(\d{3})[.-]?)(\d{3})([.-]?\d{4})$" data-error="Format: ###-###-#### or ###.###.#### or ##########" />
+						</div>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+
+					<button type="submit" name="go" class="btn btn-primary loginBtn">Update Information</button>
+					<button type="button" name="cancel" class="btn loginBtn" id="cancelButton">Cancel</button>
+				</form:form>
+			</div>
 		</div>
 	</div>
 </div>
