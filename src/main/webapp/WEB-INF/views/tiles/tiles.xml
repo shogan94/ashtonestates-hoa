@@ -196,5 +196,33 @@
 		<put-attribute name="body" value="/WEB-INF/views/pages/register.jsp" />
 		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/registerScripts.jsp" />
 	</definition>
+	
+	<!-- adminEditBoardMembers -->
+	<definition name="adminEditBoardMembers" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Edit Board Members" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/editBoardMembers.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/editBoardMembersScripts.jsp" />
+	</definition>
+
+	<!-- adminMasterMemberForm -->
+	<definition name="adminMasterMemberForm" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Master Member" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/masterMemberForm.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/masterMemberFormScripts.jsp" />
+	</definition>
+	
+	<!-- adminHomeMemberForm -->
+	<definition name="adminHomeMemberForm" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Home Owner Member" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/homeMemberForm.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/homeMemberFormScripts.jsp" />
+	</definition>
+	
+	<!-- adminTownhomeMemberForm -->
+	<definition name="adminTownhomeMemberForm" extends="base-definition">
+		<put-attribute name="title" value="Ashton Estates Admin Townhome Member" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/admin/townhomeMemberForm.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/admin/townhomeMemberFormScripts.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -5,6 +5,8 @@ package org.ashtonestates.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,10 +58,21 @@ public class MasterBoardMember {
 		lastName = StringUtils.capitalize(val);
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "MEMBERROLE", nullable = true)
+	@Getter
+	@Setter
+	private MemberRole memberRole;
+
 	public MasterBoardMember(final String inFirstname, final String inLastname, final String inEmail) {
 		firstName = inFirstname;
 		lastName = inLastname;
 		email = inEmail;
+		memberRole = MemberRole.MEMBER;
 	}
 
+	public MasterBoardMember(final String inFirstname, final String inLastname, final String inEmail, final MemberRole inRole) {
+		this(inFirstname, inLastname, inEmail);
+		memberRole = MemberRole.MEMBER;
+	}
 }

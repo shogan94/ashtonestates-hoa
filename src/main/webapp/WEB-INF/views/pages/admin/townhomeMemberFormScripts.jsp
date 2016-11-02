@@ -1,13 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:url value="/admin/editEvents/" var="editEvents" />
+<c:url value="/admin/editBoardMembers" var="editBoardMembers" />
 
 <script>
 	$(document).ready(function() {
-		$('#datetimepicker1').datetimepicker();
-
 		$("#cancelButton").click(function() {
-			window.location.href = "${editEvents}"
+			window.location.href = "${editBoardMembers}"
 		});
 	});
 </script>

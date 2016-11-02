@@ -9,58 +9,58 @@
 		<div class="content">
 
 			<form:form id="regForm" method="post" action="${processFeedback}" modelAttribute="feedbackForm" data-toggle="validator">
-			
+
 				<h2>Feedback / Comments / Thoughts / Issues</h2>
-
 				<div class="form-group has-feedback">
-						<div class="input-group">
-							<textarea required class="form-control textarea" rows="4" style="width:100%;"></textarea>
-						</div>
+					<div class="input-group">
+						<textarea required id="feedback" name="feedback" class="form-control textarea" rows="4" style="width: 100%;"></textarea>
 					</div>
+				</div>
 
+				<hr />
+				<div>
+					<h4>Send this feedback to one or more of the following:</h4>
+				</div>
 
 				<div class="form-group">
 					<div class="input-group">
 						<div class="checkbox">
-							<label> <input type="checkbox" id="checkboxAllMaster" value="all_master" checked="checked">Master Association Members
-							</label>
+							<form:checkbox path="masterboard" checked="true"/>Master Association Board Members
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<div class="checkbox">
-							<label> <input type="checkbox" id="checkboxAllHome" value="all_home">All Home Owner Board Members
-							</label>
+							<form:checkbox path="homeboard" />Home Owner Board Members
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<div class="checkbox">
-							<label> <input type="checkbox" id="checkboxAllTownhome" value="all_tomehome">All Townhome Ownder Board Members
-							</label>
+							<form:checkbox path="townboard" />Townhome Owner Board Members
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<div class="checkbox">
-							<label> <input type="checkbox" id="checkboxPresident" value="president">President</label>
+							<form:checkbox path="president" />President
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<div class="checkbox">
-							<label> <input type="checkbox" id="checkboxSecretary" value="secretary">Secretary</label>
+							<form:checkbox path="secretary" />Secretary
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<div class="checkbox">
-							<label> <input type="checkbox" id="checkboxTreasurer" value="treasurer">Treasurer</label>
+							<form:checkbox path="treasurer" />Treasurer
 						</div>
 					</div>
 				</div>

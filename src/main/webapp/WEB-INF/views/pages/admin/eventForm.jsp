@@ -7,7 +7,7 @@
 	<div class="col-md-12">
 		<div class="content">
 			<div class="marginbottom20 bg-danger">${errorMessage}</div>
-			<form:form method="post" action="${processEvent}" modelAttribute="eventForm">
+			<form:form method="post" action="${processEvent}" modelAttribute="eventForm" data-toggle="validator">
 				<fieldset>
 					<legend>Upcoming Event</legend>
 					
@@ -18,7 +18,7 @@
 					
 					<div class="form-group">
 						<div class='input-group date' id='datetimepicker1'>
-							<input type="text" name="eventDate" id="eventDate" class="form-control" placeholder="Event Date/Time" value="${modifyEvent.eventDate}" /> <span class="input-group-addon">
+							<input type="text" name="eventDate" id="eventDate" class="form-control" placeholder="Event Date/Time" value="${modifyEvent.eventDate}" required /> <span class="input-group-addon">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</span>
 						</div>

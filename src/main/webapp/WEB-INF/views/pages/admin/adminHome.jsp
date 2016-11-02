@@ -4,6 +4,7 @@
 <c:url value="/admin/editUsers" var="editUsers" />
 <c:url value="/admin/editEvents" var="editEvents" />
 <c:url value="/admin/editDocs" var="editDocs" />
+<c:url value="/admin/editBoardMembers" var="editBoard" />
 
 <div class="row">
 	<div class="content">
@@ -15,6 +16,9 @@
 			<tr>
 				<td class="col-md-6"><a href="${approvePending}" class="btn btn-block btn-lg btn-admin">Accept/Reject Registrations <span class="badge">${numberPending} pending</span></a></td>
 				<td class="col-md-6"><a href="${editEvents}" class="btn btn-block btn-lg btn-admin">Edit Upcoming Events</a></td>
+			</tr>
+			<tr>
+				<td class="col-md-6"><a href="${editBoard}" class="btn btn-block btn-lg btn-admin">Edit Board Members</a></td>
 			</tr>
 		</table>
 	</div>

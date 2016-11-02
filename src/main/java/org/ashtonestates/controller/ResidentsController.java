@@ -12,6 +12,7 @@ import org.ashtonestates.model.DocumentType;
 import org.ashtonestates.model.State;
 import org.ashtonestates.model.User;
 import org.ashtonestates.model.forms.ChangePwdForm;
+import org.ashtonestates.model.forms.FeedbackForm;
 import org.ashtonestates.model.forms.ResidentInfoForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -109,12 +110,16 @@ public class ResidentsController extends BaseController {
 	}
 
 	@GetMapping("/residents/boardMembers")
-	public String boardMembers() {
+	public String boardMembers(final ModelMap model) {
+		model.addAttribute("masterMembers", masterBoardRepo.findAll());
+		model.addAttribute("homeMembers", homeownerBoardRepo.findAll());
+		model.addAttribute("townhomeMembers", townhomeBoardRepo.findAll());
 		return "residentsBoardMembers";
 	}
 
 	@GetMapping("/residents/feedback")
-	public String feedback() {
+	public String feedback(final ModelMap model) {
+		model.addAttribute("feedbackForm", new FeedbackForm());
 		return "residentsFeedback";
 	}
 

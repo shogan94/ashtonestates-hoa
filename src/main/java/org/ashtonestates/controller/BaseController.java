@@ -3,7 +3,10 @@ package org.ashtonestates.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.ashtonestates.model.User;
 import org.ashtonestates.repository.DocumentsRepository;
+import org.ashtonestates.repository.HomeOwnerBoardRepository;
+import org.ashtonestates.repository.MasterBoardRepository;
 import org.ashtonestates.repository.ResetRequestRepository;
+import org.ashtonestates.repository.TownhomeBoardRepository;
 import org.ashtonestates.repository.UpcomingEventsRepository;
 import org.ashtonestates.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,15 @@ public class BaseController {
 
 	@Autowired
 	ResetRequestRepository resetRepo;
+
+	@Autowired
+	HomeOwnerBoardRepository homeownerBoardRepo;
+
+	@Autowired
+	TownhomeBoardRepository townhomeBoardRepo;
+
+	@Autowired
+	MasterBoardRepository masterBoardRepo;
 
 	protected String getPrincipal() {
 		String userName = StringUtils.EMPTY;

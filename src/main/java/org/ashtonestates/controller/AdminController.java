@@ -16,8 +16,12 @@ import org.apache.commons.mail.EmailException;
 import org.ashtonestates.AshtonEmail;
 import org.ashtonestates.model.DocumentType;
 import org.ashtonestates.model.Documents;
+import org.ashtonestates.model.HomeOwnerBoardMember;
+import org.ashtonestates.model.MasterBoardMember;
 import org.ashtonestates.model.State;
+import org.ashtonestates.model.TownhomeBoardMember;
 import org.ashtonestates.model.User;
+import org.ashtonestates.model.forms.BoardMemberForm;
 import org.ashtonestates.model.forms.ChangePwdForm;
 import org.ashtonestates.model.forms.ResidentInfoForm;
 import org.springframework.stereotype.Controller;
@@ -207,6 +211,117 @@ public class AdminController extends BaseController {
 		}
 
 		return editUsers(model);
+	}
+
+	@GetMapping("/admin/editBoardMembers")
+	public String editBoardMembers(final ModelMap model) {
+		model.addAttribute("masterMembers", masterBoardRepo.findAll());
+		model.addAttribute("homeMembers", homeownerBoardRepo.findAll());
+		model.addAttribute("townhomeMembers", townhomeBoardRepo.findAll());
+		return "adminEditBoardMembers";
+	}
+
+	@GetMapping("/admin/addMasterMember")
+	public String addMasterMember(final ModelMap model) {
+		return "adminMasterMemberForm";
+	}
+
+	@GetMapping("/admin/editMasterMember/{id}")
+	public String editMasterMember(@PathVariable final String id, final ModelMap model) {
+		final MasterBoardMember member = masterBoardRepo.findOne(Long.parseLong(id));
+		model.addAttribute("member", member);
+		return addMasterMember(model);
+	}
+
+	@GetMapping("/admin/removeMasterMember/{id}")
+	public String removeMasterMember(@PathVariable final String id, final ModelMap model) {
+		masterBoardRepo.delete(Long.parseLong(id));
+		return editBoardMembers(model);
+	}
+
+	@PostMapping("/admin/processMasterMember")
+	public String processMasterMember(@Valid @ModelAttribute("memberForm") final BoardMemberForm form, final BindingResult result, final ModelMap model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("errorMessage", result.getAllErrors().toString());
+		} else {
+			final MasterBoardMember member = StringUtils.isNotBlank(form.getId()) ? masterBoardRepo.findOne(Long.valueOf(form.getId())) : new MasterBoardMember();
+			member.setFirstName(form.getFirstName());
+			member.setLastName(form.getLastName());
+			member.setEmail(form.getEmail());
+			member.setMemberRole(form.getMemberRole());
+			masterBoardRepo.save(member);
+		}
+
+		return editBoardMembers(model);
+	}
+
+	@GetMapping("/admin/addHomeMember")
+	public String addHomeMember(final ModelMap model) {
+		return "adminHomeMemberForm";
+	}
+
+	@GetMapping("/admin/editHomeMember/{id}")
+	public String editHomeMember(@PathVariable final String id, final ModelMap model) {
+		final HomeOwnerBoardMember member = homeownerBoardRepo.findOne(Long.parseLong(id));
+		model.addAttribute("member", member);
+		return addHomeMember(model);
+	}
+
+	@GetMapping("/admin/removeHomeMember/{id}")
+	public String removeHomeMember(@PathVariable final String id, final ModelMap model) {
+		homeownerBoardRepo.delete(Long.parseLong(id));
+		return editBoardMembers(model);
+	}
+
+	@PostMapping("/admin/processHomeMember")
+	public String processHomeMember(@Valid @ModelAttribute("memberForm") final BoardMemberForm form, final BindingResult result, final ModelMap model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("errorMessage", result.getAllErrors().toString());
+		} else {
+			final HomeOwnerBoardMember member = StringUtils.isNotBlank(form.getId()) ? homeownerBoardRepo.findOne(Long.valueOf(form.getId())) : new HomeOwnerBoardMember();
+			member.setFirstName(form.getFirstName());
+			member.setLastName(form.getLastName());
+			member.setEmail(form.getEmail());
+			homeownerBoardRepo.save(member);
+		}
+
+		return editBoardMembers(model);
+	}
+
+	@GetMapping("/admin/addTownhomeMember")
+	public String addTownhomeMember(final ModelMap model) {
+		return "adminTownhomeMemberForm";
+	}
+
+	@GetMapping("/admin/editTownhomeMember/{id}")
+	public String editTownhomeMember(@PathVariable final String id, final ModelMap model) {
+		final TownhomeBoardMember member = townhomeBoardRepo.findOne(Long.parseLong(id));
+		model.addAttribute("member", member);
+		return addTownhomeMember(model);
+	}
+
+	@GetMapping("/admin/removeTownhomeMember/{id}")
+	public String removeTownhomeMember(@PathVariable final String id, final ModelMap model) {
+		homeownerBoardRepo.delete(Long.parseLong(id));
+		return editBoardMembers(model);
+	}
+
+	@PostMapping("/admin/processTownhomeMember")
+	public String processTownhomeMember(@Valid @ModelAttribute("memberForm") final BoardMemberForm form, final BindingResult result, final ModelMap model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("errorMessage", result.getAllErrors().toString());
+		} else {
+			final TownhomeBoardMember member = StringUtils.isNotBlank(form.getId()) ? townhomeBoardRepo.findOne(Long.valueOf(form.getId())) : new TownhomeBoardMember();
+			member.setFirstName(form.getFirstName());
+			member.setLastName(form.getLastName());
+			member.setEmail(form.getEmail());
+			townhomeBoardRepo.save(member);
+		}
+
+		return editBoardMembers(model);
 	}
 
 	private void sendRejectMessage(final User user) throws EmailException {
