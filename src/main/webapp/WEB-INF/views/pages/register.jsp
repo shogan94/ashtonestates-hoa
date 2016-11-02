@@ -87,7 +87,7 @@
 						<div class="help-block with-errors"></div>
 					</div>
 					
-					<div id="showSpinner" class="spinner">Submitting Registration...</div>
+					<div id="showSpinner" class="spinner"></div>
 					<button type="submit" id="submitButton" name="submit" class="btn btn-primary loginBtn">Submit Registration</button>
 					<button type="button" name="cancel" class="btn loginBtn" id="cancelButton">Cancel</button>
 				</form:form>
