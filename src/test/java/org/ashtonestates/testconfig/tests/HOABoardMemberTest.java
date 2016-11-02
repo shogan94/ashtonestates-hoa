@@ -68,6 +68,8 @@ public class HOABoardMemberTest {
 	@After
 	public void cleanDB() {
 		hobRepo.deleteAll();
+		tobRepo.deleteAll();
+		masterRepo.deleteAll();
 
 	}
 

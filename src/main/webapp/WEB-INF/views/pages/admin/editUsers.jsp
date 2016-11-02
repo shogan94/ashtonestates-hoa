@@ -8,12 +8,11 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>First name</th>
-						<th>Last name</th>
+						<th>Firstname</th>
+						<th>Lastname</th>
 						<th>Address</th>
 						<th>Email</th>
 						<th>Phone</th>
-						<th>ApprovedBy</th>
 						<th>Role</th>
 					</tr>
 				</thead>
@@ -32,6 +31,10 @@
 								<button class="btn btn-warning btn-xs" onclick="changePwd(${user.getId()})" id="pwdTooltip" data-toggle="tooltip" data-placement="top" title="Change User Pwd">
 									<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 								</button>
+								&nbsp;
+								<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" data-userid="${user.getId()}" id="infoTooltip" data-toggle="tooltip" data-placement="top" title="View More Info">
+									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+								</button>
 							</div>
 						</td>
 						<td>${user.getFirstName()}</td>
@@ -39,11 +42,30 @@
 						<td>${user.getAddress()}</td>
 						<td>${user.getEmail()}</td>
 						<td>${user.getPhone()}</td>
-						<td>${user.getApprovedBy()}</td>
 						<td>${user.getRole()}</td>
 					</tr>
 				</c:forEach>
 			</table>
 		</div>
 	</div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">User Details</h4>
+      </div>
+      <div class="modal-body replace-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>

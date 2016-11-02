@@ -72,6 +72,7 @@
 	<definition name="residentsFeedback" extends="base-definition">
 		<put-attribute name="title" value="Ashton Estates Feedback/Comments" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/residents/feedback.jsp" />
+		<put-attribute name="bodyScripts" value="/WEB-INF/views/pages/residents/feedbackScripts.jsp" />
 	</definition>
 
 	<!-- residentsDirectory -->

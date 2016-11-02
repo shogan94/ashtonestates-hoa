@@ -1,5 +1,7 @@
 package org.ashtonestates.model;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.PrePersist;
 
@@ -37,5 +39,8 @@ public class DatabaseListener {
 		final String pass = user.getPassword();
 		final String encoded = passwordEncoder.encode(pass);
 		user.setPassword(encoded);
+
+		final LocalDateTime currentTime = LocalDateTime.now();
+		user.setCreated(currentTime.toString());
 	}
 }

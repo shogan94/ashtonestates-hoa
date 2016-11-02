@@ -60,7 +60,7 @@
 							<div class="input-group-addon">
 								<span class="text-primary glyphicon glyphicon-phone-alt"></span>
 							</div>
-							<input type="text" name="phone" placeholder="Phone" class="form-control" value="${residentInfoForm.phone}" pattern="^(\d{3})[.-]?)(\d{3})([.-]?\d{4})$" data-error="Format: ###-###-#### or ###.###.#### or ##########" />
+							<input type="text" name="phone" placeholder="Phone" class="form-control" value="${residentInfoForm.phone}" pattern="^(\d{10})|(\d{3}-\d{3}-\d{4})|(\d{3}.\d{3}.\d{4})$" data-error="Format: 304-555-1212 or 304.555.1212 or 3045551212" />
 						</div>
 						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 						<div class="help-block with-errors"></div>

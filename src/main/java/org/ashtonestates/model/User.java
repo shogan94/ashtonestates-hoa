@@ -75,7 +75,7 @@ public class User {
 	@Setter
 	private State state = State.PENDING;
 
-	@Column(name = "APPROVED_BY")
+	@Column(name = "APPROVED_BY", nullable = true)
 	@Getter
 	private String approvedBy;
 
@@ -84,6 +84,16 @@ public class User {
 	@Getter
 	@Setter
 	private Role role;
+
+	@Column(name = "CREATED", nullable = false)
+	@Setter
+	@Getter
+	private String created;
+
+	@Column(name = "APPROVED_ON", nullable = true)
+	@Setter
+	@Getter
+	private String approvedOn;
 
 	public User(final String inFirstname, final String inLastname, final String inPwd, final String inAddress, final String inEmail, final String inPhone, final State inState) {
 		firstName = inFirstname;

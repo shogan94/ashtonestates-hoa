@@ -5,22 +5,23 @@
  */
 package org.ashtonestates.controller;
 
+import org.ashtonestates.model.User;
 import org.ashtonestates.security.VersionUtility;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class VersionController.
  */
 @RestController
-public class VersionController {
-
-	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger(VersionController.class);
+@Slf4j
+public class VersionController extends BaseController {
 
 	/**
 	 * Gets the jbsadatabase web app version.
@@ -30,7 +31,13 @@ public class VersionController {
 	@GetMapping("/version")
 	public ResponseEntity<String> getVersion() {
 		final String version = VersionUtility.getInstance().getVersion();
-		LOGGER.debug("Version = {}", version);
+		log.debug("Version = {}", version);
 		return new ResponseEntity<>(version, HttpStatus.OK);
+	}
+
+	@GetMapping("/residents/getUser/{id}")
+	public ResponseEntity<User> getUser(@PathVariable final String id, final ModelMap model) {
+		return new ResponseEntity<>(userRepo.findOne(Long.parseLong(id)), HttpStatus.OK);
+
 	}
 }

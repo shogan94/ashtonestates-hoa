@@ -4,6 +4,7 @@
 package org.ashtonestates.controller;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +91,7 @@ public class AdminController extends BaseController {
 		final User user = userRepo.findOne(Long.parseLong(userId));
 		user.setState(State.APPROVED);
 		user.setApprovedBy(approver);
+		user.setApprovedOn(LocalDateTime.now().toString());
 		userRepo.save(user);
 
 		try {

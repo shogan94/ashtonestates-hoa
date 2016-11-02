@@ -2,7 +2,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:url value="/processFeedback" var="processFeedback" />
-<c:url value="/residents" var="cancel" />
 
 <div class="row">
 	<div class="col-md-12">
